@@ -115,46 +115,51 @@ class MasterKaryawan extends Auth
     echo json_encode($data);
   }
   function createpost(){
-    $id = $this->input->post('id');
-    $nl = $this->input->post('nl');
-    $tl = $this->input->post('tl');
-    $jk = $this->input->post('jk');
-    $email = $this->input->post('email');
-    $password = $this->input->post('password');
-    $prov = $this->input->post('prov_name');
-    $kab = $this->input->post('kab_name');
-    $kec = $this->input->post('kec_name');
-    $kode = $this->input->post('kode_pos');
-    $alamat = $this->input->post('alamat');
-    $wa = $this->input->post('wa');
-    $jabatan = $this->input->post('jabatan');
-    $role = $this->input->post('role');
-    $gaji = str_replace('.', '', $this->input->post('gaji'));
-    $cv = "";
-        
-    $file_path = realpath(APPPATH . '../assets/dhdokumen/karyawan');
-    $config['upload_path'] = $file_path;
-    $config['allowed_types'] = 'pdf';
-    $config['overwrite'] = true;
-    $config['file_name'] = $_FILES['cv']['name'];
-    $config['max_size'] = 10048;
-        
-    $this->load->library('upload', $config);
-        
-    if (!empty($_FILES['cv']['name'])) {
-        if ($this->upload->do_upload('cv')) {
-            $data1 = $this->upload->data();
-            $cv = $data1['file_name'];
+    if ($this->input->is_ajax_request()) {
+      $this->load->library('upload');
+      $data = [
+        'id_karyawan'      => $this->input->post('id_karyawan'),
+        'nama_karyawan'      => $this->input->post('nama_karyawan'),
+        'tanggal_lahir'      => $this->input->post('tanggal_lahir'),
+        'jen_kel'      => $this->input->post('jen_kel'),
+        'email'      => $this->input->post('email'),
+        'password'      => $this->input->post('password'),
+        'provinsi'      => $this->input->post('provinsi'),
+        'kabupaten'      => $this->input->post('kabupaten'),
+        'kecamatan'      => $this->input->post('kecamatan'),
+        'kode_pos'      => $this->input->post('kode_pos'),
+        'alamat'      => $this->input->post('alamat'),
+        'no_wa'      => $this->input->post('no_wa'),
+        'role_user'      => $this->input->post('role_user'),
+        'tipe_gaji'      => $this->input->post('tipe_gaji'),
+        'bank_acc'      => $this->input->post('bank_acc'),
+        'norek'      => $this->input->post('norek'),
+        'gaji'      => $this->input->post('gaji'),
+        'status'      => '1'
+      ];
+      if (!empty($_FILES['file_cv']['name'])) {
+        $file_path = realpath(APPPATH . '../assets/pdf/cvkaryawan');
+        $config['upload_path'] = $file_path;
+        $config['allowed_types'] = 'pdf';
+        $config['overwrite'] = true;
+        $config['file_name'] = $this->input->post('id_karyawan') . '_' . $_FILES['file_cv']['name'];
+        $config['max_size'] = 10048;
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('file_cv')) {
+            $upload_data = $this->upload->data();
+            $data['file_cv'] = $upload_data['file_name'];
         } else {
-            $error = $this->upload->display_errors();
-            echo "Upload failed: $error";
+            echo json_encode(['status' => 'error', 'message' => $this->upload->display_errors()]);
+            return;
         }
+      }
+      $this->Mkaryawan_model->create($data);
+      echo json_encode(['status' => 'success']);
     } else {
-        echo "No file selected for upload.";
+      redirect('master-karyawan');
     }
-		
-		$this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji);
-    redirect('master-karyawan');
   }
   public function updatepost(){
     if ($this->input->is_ajax_request()) {
@@ -211,14 +216,14 @@ class MasterKaryawan extends Auth
     // realpath(APPPATH . '../assets/dhdokumen/karyawan');
     foreach ($image as $i) {
 			if ($result) {
-				unlink(realpath(APPPATH . '../assets/dhdokumen/karyawan/') . '/' . $i['file_cv']);
+				unlink(realpath(APPPATH . '../assets/pdf/cvkaryawan') . '/' . $i['file_cv']);
 			}
 		}
     echo json_encode($result);
   }  
   public function jsonkar(){
     $this->load->library('datatables');
-    $this->datatables->select('id_karyawan, nama_karyawan, role_user, tipe_gaji, gaji, file_cv, no_wa, email, password, status');
+    $this->datatables->select('id_karyawan, nama_karyawan, jen_kel, role_user, tipe_gaji, gaji, file_cv, no_wa, email, password, status');
     $this->datatables->from('tb_karyawan');
     return print_r($this->datatables->generate());
   }

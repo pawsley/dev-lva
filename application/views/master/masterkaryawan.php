@@ -27,7 +27,7 @@
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-body">
-                    <form id="formkar" action="<?=base_url()?>master-karyawan/simpan-data" method="POST" class="row g-3 needs-validation custom-input" novalidate="" enctype="multipart/form-data">
+                    <form id="formkar" class="row g-3 needs-validation custom-input" novalidate="">
                       <!-- ID Karyawan -->
                       <div class="col-md-6 position-relative">
                         <label class="form-label" for="id">ID Karyawan</label>
@@ -70,6 +70,7 @@
                             <div class="input-group-append" style="position: absolute; right: 0.75rem;top: 50%; transform: translateY(-50%); cursor: pointer;">
                                 <i class="fa fa-eye" id="togglePassword"></i>
                             </div>
+                            <div class="invalid-tooltip">Form password tidak boleh kosong</div>
                         </div>
                         <div class="invalid-tooltip">Form password tidak boleh kosong</div>
                       </div>
@@ -82,7 +83,7 @@
                       <!-- Provinsi -->
                       <div class="col-md-6 position-relative">
                         <label class="form-label" for="province">Provinsi </label>
-                        <select class="form-select" id="province" name="prov" required>
+                        <select class="form-select" id="province" name="prov">
                             <option selected="" disabled="" value="">Pilih Provinsi ...</option>
                         </select>
                         <input class="form-control" type="hidden" name="prov_name" id="prov_name">
@@ -91,7 +92,7 @@
                       <!-- Kabupaten / Kota -->
                       <div class="col-md-6 position-relative">
                         <label class="form-label" for="kabupaten">Kota / Kabupaten</label>
-                        <select class="form-select" id="kabupaten" name="kab" required>
+                        <select class="form-select" id="kabupaten" name="kab">
                             <option selected="" disabled="" value="">Pilih Kota / Kab ...</option>
                         </select>
                         <input class="form-control" type="hidden" name="kab_name" id="kab_name">
@@ -100,7 +101,7 @@
                       <!-- Kecamatan -->
                       <div class="col-md-6 position-relative">
                         <label class="form-label" for="kecamatan">Kecamatan</label>
-                        <select class="form-select" id="kecamatan" name="kec" required>
+                        <select class="form-select" id="kecamatan" name="kec">
                             <option selected="" disabled="" value="">Pilih Kecamatan ...</option>
                         </select>
                         <input class="form-control" type="hidden" name="kec_name" id="kec_name">
@@ -110,13 +111,11 @@
                       <div class="col-md-6 position-relative">
                         <label class="form-label" for="kode_pos">Kode Pos </label>
                         <input class="form-control" id="kode_pos" name="kode_pos" type="number" placeholder="contoh: 60293">
-                        <div class="invalid-tooltip">Isi Kode Pos</div>
                       </div>
                       <!-- Detai Alamat -->
                       <div class="col-md-12 position-relative">
                         <label class="form-label" for="alamat">Detail Alamat</label>
-                        <input class="form-control" id="alamat" name="alamat" type="text" placeholder="contoh: Jl. Tamtama No 19" required>
-                        <div class="valid-tooltip">Looks good!</div>
+                        <input class="form-control" id="alamat" name="alamat" type="text" placeholder="contoh: Jl. Tamtama No 19">
                       </div>
                       <div class="card-header">
                         <h4>Informasi Lanjutan</h4>
@@ -128,14 +127,13 @@
                       <div class="col-md-6 position-relative">
                         <label class="form-label" for="wa">Nomor Whatsapp</label>
                         <div class="input-group has-validation">
-                            <input class="form-control" id="wa" name="wa" type="text" oninput="formatPhoneNumber(this)" placeholder="contoh: +6281220812206" required>
+                            <input class="form-control" id="wa" name="wa" type="text" oninput="formatPhoneNumber(this)" placeholder="contoh: +6281220812206">
                         </div>
                       </div>
                       <!-- Upload CV -->
                       <div class="col-md-6 position-relative"> 
                         <label class="form-label" for="file">Upload Curiculum Vitae</label>
                         <input class="form-control" id="file" type="file" name="cv" accept=".pdf">
-                        <div class="valid-tooltip">Max ukuran 10Mb</div>
                       </div>
                       <!-- Pilih Role -->
                       <div class="col-md-4 position-relative">
@@ -156,17 +154,16 @@
                       <!-- Pilih Jenis Gaji -->
                       <div class="col-md-6 position-relative">
                         <label class="form-label" for="tg">Jenis Gaji</label>
-                        <select class="form-select" id="tg" name="tg" required="">
+                        <select class="form-select" id="tg" name="tg">
                           <option selected="" disabled="" value="">Pilih Jenis Gaji Karyawan ...</option>
                           <option value="BULANAN">BULANAN (Gaji Dibayar Dalam Tempo Bulanan)</option>
                           <option value="BORONGAN">BORONGAN (Gaji Dibayar Per Project Selesai)</option>
                         </select>
-                        <div class="invalid-tooltip">Sialhkan Pilih Jenis Gaji.</div>
                       </div>
                       <!-- BANK AKUN -->
                       <div class="col-4 position-relative"> 
                           <label class="form-label" for="bank">Akun Bank</label>
-                          <select class="form-select" id="bank" name="bank" required="">
+                          <select class="form-select" id="bank" name="bank">
                               <option selected="" disabled="" value="">Pilih Bank Akun</option>
                           </select>
                       </div>
@@ -180,12 +177,12 @@
                         <label class="form-label" for="gaji">Gaji Karyawan</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">Rp</span>
-                            <input class="form-control" id="gaji" name="gaji" type="text" placeholder="Input Gaji Karyawan" onkeyup="formatRupiah(this)" required>
+                            <input class="form-control" id="gaji" name="gaji" type="text" placeholder="Input Gaji Karyawan" onkeyup="formatRupiah(this)">
                         </div>
                       </div>
                       <!-- Button Tambah Karyawan Baru -->
                       <div class="col-12 position-relative mt-4">
-                      <button class="btn btn-primary" type="submit" id="addkar">Tambah Karyawan</button>
+                      <button class="btn btn-primary" type="button" id="addkar">Tambah Karyawan</button>
                       </div>
                     </form>
                   </div>

@@ -59,26 +59,8 @@ class Mkaryawan_model extends CI_Model {
     return $query->result_array();
   }
 
-  public function create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji)
+  public function create($data)
   {
-    $data = array(
-      'id_karyawan' => $id,
-      'nama_karyawan' => $nl,
-      'tanggal_lahir' => $tl,
-      'jen_kel' => $jk,
-      'email'=> $email,
-      'password'=> $password,
-      'provinsi'=> $prov,
-      'kabupaten'=> $kab,
-      'kecamatan'=> $kec,
-      'kode_pos'=> $kode,
-      'alamat' => $alamat,
-      'no_wa' => $wa,
-      'file_cv' => $cv,
-      'role_user' => $role,
-      'gaji' => $gaji,
-      'status' => '1'
-    );  
     $this->db->insert('tb_karyawan',$data);
   }
 
@@ -96,7 +78,7 @@ class Mkaryawan_model extends CI_Model {
 
   public function getWhere($id)
   {   
-    $query = $this->db->get_where('tb_user', array('id_user' => $id));
+    $query = $this->db->get_where('tb_karyawan', array('id_karyawan' => $id));
     return $query->result_array();
   }
 

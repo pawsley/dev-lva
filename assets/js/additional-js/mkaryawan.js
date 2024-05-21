@@ -5,6 +5,7 @@ $(document).ready(function() {
     rolejab();
     addroljab();
     deletedata();
+    createdata();
     show_hide();
     getbank();
 });
@@ -247,6 +248,94 @@ function getid() {
             }
         });
         updatedata();
+    });
+}
+function createdata() {
+    $("#addkar").on("click", function () {
+        var requiredFields = ['id', 'nl', 'tl', 'jk', 'email', 'password', 'role'];
+        for (var i = 0; i < requiredFields.length; i++) {
+            var fieldId = requiredFields[i];
+            var fieldValue = $("#" + fieldId).val().trim();
+            if (fieldValue === "") {
+                swal("Gagal menambahkan data karyawan", "Harap lengkapi semua kolom yang diperlukan", {
+                    icon: "error",
+                }).then(function() {
+                    // Focus on the first empty required field
+                    $("#" + fieldId).focus();
+                });
+                return; // Exit the function if a required field is empty
+            }
+        }
+        // var idk = $("#id").val();
+        // var nl = $("#nl").val();
+        // var tl = $("#tl").val();
+        // var jk = $("#jk").val();
+        // var email = $("#email").val();
+        // var password = $("#password").val();
+        // var prov = $("#prov_name").val();
+        // var kab = $("#kab_name").val();
+        // var kec = $("#kec_name").val();
+        // var kode_pos = $("#kode_pos").val();
+        // var alamat = $("#alamat").val();
+        // var wa = $("#wa").val();
+        // var file = $("#file")[0].files[0];
+        // var role = $("#role").val();
+        // var tg = $("#tg").val();
+        // var bank = $("#bank").val();
+        // var norek = $("#norek").val();
+        // var gajir = $("#gaji").val();
+        // var gaji = parseFloat(gajir.replace(/\D/g, ''));
+
+        var formData = new FormData();
+        formData.append('id_karyawan', $("#id").val());
+        formData.append('nama_karyawan', $("#nl").val());
+        formData.append('tanggal_lahir', $("#tl").val());
+        formData.append('jen_kel', $("#jk").val());
+        formData.append('email', $("#email").val());
+        formData.append('password', $("#password").val());
+        formData.append('provinsi', $("#prov_name").val());
+        formData.append('kabupaten', $("#kab_name").val());
+        formData.append('kecamatan', $("#kec_name").val());
+        formData.append('kode_pos', $("#kode_pos").val());
+        formData.append('alamat', $("#alamat").val());
+        formData.append('no_wa', $("#wa").val());
+        formData.append('file_cv', $("#file")[0].files[0]);
+        formData.append('role_user', $("#role").val());
+        formData.append('tipe_gaji', $("#tg").val());
+        formData.append('bank_acc', $("#bank").val());
+        formData.append('norek', $("#norek").val());
+        formData.append('gaji', parseFloat($("#gaji").val().replace(/\D/g, '')));
+        $.ajax({
+            type: "POST",
+            url: base_url+"master-karyawan/simpan-data",
+            data: formData,
+            processData: false, 
+            contentType: false,
+            dataType: "json", 
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("Data karyawan berhasil ditambahkan", {
+                        icon: "success",
+                    }).then(function() {
+                        // Perform your action here after the user clicks OK on the success message
+                        // For example, you can make an AJAX request or navigate to another page
+                        // Example:
+                         window.location.href = base_url+"master-karyawan";
+                    });
+                    reload();
+                }  else {
+                    swal("Gagal menambahkan data karyawan, " + response.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function (error) {
+                console.log(error); // Log the error to debug
+                swal("Gagal terdaftar: " + error.status, {
+                    icon: "error",
+                });
+            }
+        });
     });
 }
 function updatedata() {

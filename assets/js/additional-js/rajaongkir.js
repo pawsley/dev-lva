@@ -78,9 +78,6 @@ $(document).ready(function() {
 
     $("#kecamatan").change(function() {
         var kecamatan = $(this).val();
-        $('#kecamatan').select2({
-            language: 'id',
-        });
         $("#kec_name").val($(this).find(":selected").text());
     });
 });
