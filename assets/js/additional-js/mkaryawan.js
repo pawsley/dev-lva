@@ -8,6 +8,7 @@ $(document).ready(function() {
     createdata();
     show_hide();
     getbank();
+    loadrolekat();
 });
 function getbank() {
     $('#bank').select2({
@@ -567,6 +568,44 @@ function reload() {
         });
     });  
 }
+function loadrolekat() {
+    $('#DaftarSubKategoriItem').on('show.bs.modal', function (event) {
+        // Unbind the event handler to prevent multiple bindings
+        // $(this).off('show.bs.modal');
+    
+        // Empty the roles container before re-fetching data
+        $('#roles-container').empty();
+    
+        // Fetch roles data from the server
+        $.ajax({
+            type: 'GET',
+            url: base_url+'master-karyawan/role-kar',
+            dataType: 'json',
+            success: function(response) {
+                // Loop through each role in the response
+                $.each(response, function(index, role) {
+                    // Create HTML elements for each role
+                    var roleContainer = $('<div class="row mb-2 role-item">');
+                    var inputField = $('<input class="form-control role-name" type="text">')
+                                        .attr('id', 'role-' + role.id_role)
+                                        .val(role.nama_role);
+                    var deleteButton = $('<button class="btn btn-danger delrole" type="button"><i class="fa fa-trash"></i></button>');
+    
+                    // Append input field and delete button to role container
+                    roleContainer.append($('<div class="col-9">').append(inputField));
+                    roleContainer.append($('<div class="col-3">').append(deleteButton));
+    
+                    // Append role container to roles container
+                    $('#roles-container').append(roleContainer);
+                });
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+            }
+        }); 
+    });
+}    
 function show_hide() {
     $('#togglePassword').on('click', function() {
         var $password = $('#password');

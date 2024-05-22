@@ -148,7 +148,7 @@
                         <label class="form-label">Add New</label>
                         <div class="button">
                             <a class="btn badge-light-primary f-w-500" type="button" data-bs-toggle="modal" data-bs-target="#TambahRoleBaru" onclick="changeInputName('SubKategoriItem', 'newrole')"><i class="fa fa-plus"></i></a>
-                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem"><i class="fa fa-bars"></i></a>
+                            <a class="btn badge-light-primary" id="drk" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem"><i class="fa fa-bars"></i></a>
                         </div>
                       </div>
                       <!-- Pilih Jenis Gaji -->
@@ -228,23 +228,14 @@
                   </div>
                   <div class="modal-body custom-input">
                       <form>
-                        <div class="row g-3">
-                            <!-- Kategori 1 -->
-                            <div class="col-9">
-                              <input class="form-control" id="merek" name="merek" type="text" placeholder="Merek">
-                            </div>
-                            <!-- Hapus -->
-                            <div class="col-3">
-                              <div class="btn-group">
-                                  <button class="btn btn-danger add_merk" type="button" id="add_merk"><i class="fa fa-trash"></i></button>
-                              </div>
-                            </div>
+                        <div class="row g-3" id="roles-container">
+                            
                         </div>
                       </form>
                   </div>
                   <div class="modal-footer">
                       <button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button>
-                      <button class="btn btn-primary" type="button">Simpan</button>
+                      <button class="btn btn-primary" type="button" id="editrole">Simpan</button>
                   </div>
                 </div>
               </div>

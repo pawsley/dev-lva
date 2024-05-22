@@ -6,6 +6,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 // master karyawan
 $route['master-karyawan']='MasterKaryawan';
+$route['master-karyawan/role-kar']='MasterKaryawan/loadrole';
 $route['master-karyawan/simpan-data']='MasterKaryawan/createpost';
 $route['master-karyawan/jsonkar']='MasterKaryawan/jsonkar';
 $route['master-karyawan/edit/(:any)']='MasterKaryawan/edit/$1';
@@ -39,3 +40,17 @@ $route['master-diskon/jsondis']='MasterDiskon/jsondis';
 $route['master-diskon/edit/(:any)']='MasterDiskon/edit/$1';
 $route['master-diskon/update-data']='MasterDiskon/updatepost';
 $route['master-diskon/hapus/(:any)'] = 'MasterDiskon/deletepost/$1';
+// master material
+$route['master-material']='MasterMaterial';
+$route['master-material/simpan-data']='MasterMaterial/createpost';
+$route['master-material/jsondis']='MasterMaterial/jsondis';
+$route['master-material/edit/(:any)']='MasterMaterial/edit/$1';
+$route['master-material/update-data']='MasterMaterial/updatepost';
+$route['master-material/hapus/(:any)'] = 'MasterMaterial/deletepost/$1';
+// master produk
+$route['master-produk']='MasterProduk';
+$route['master-produk/simpan-data']='MasterProduk/createpost';
+$route['master-produk/jsondis']='MasterProduk/jsondis';
+$route['master-produk/edit/(:any)']='MasterProduk/edit/$1';
+$route['master-produk/update-data']='MasterProduk/updatepost';
+$route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
