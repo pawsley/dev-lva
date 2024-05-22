@@ -63,6 +63,32 @@ $(document).ready(function () {
             $(".sidebar-list.katalog .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.katalog ul.sidebar-submenu").slideDown('normal');
         }
+    }else if (segment1 == "customer"){
+        if (segment2 == "buat-baru") {
+            $(".customer").addClass("active");
+            $(".cbb").addClass("active");
+            $(".sidebar-list.customer").addClass('active');
+            $(".sidebar-list.customer .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.customer ul.sidebar-submenu").slideDown('normal'); 
+        }else if(segment2 == "daftar-customer") {
+            $(".customer").addClass("active");
+            $(".cdac").addClass("active");
+            $(".sidebar-list.customer").addClass('active');
+            $(".sidebar-list.customer .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.customer ul.sidebar-submenu").slideDown('normal');
+        }else if(segment2 == "depo-customer") {
+            $(".customer").addClass("active");
+            $(".cdec").addClass("active");
+            $(".sidebar-list.customer").addClass('active');
+            $(".sidebar-list.customer .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.customer ul.sidebar-submenu").slideDown('normal');
+        }else if(segment2 == "tran-customer") {
+            $(".customer").addClass("active");
+            $(".ctra").addClass("active");
+            $(".sidebar-list.customer").addClass('active');
+            $(".sidebar-list.customer .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.customer ul.sidebar-submenu").slideDown('normal');
+        }
     }
     $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();

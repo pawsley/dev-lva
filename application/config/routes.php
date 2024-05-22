@@ -58,3 +58,8 @@ $route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
 $route['katalog/daftar']='MasterKatalog';
 $route['katalog/buat-baru']='MasterKatalog/buatbaru';
 $route['katalog/condiments']='MasterKatalog/condiments';
+// master customer
+$route['customer/daftar-customer']='MasterCustomer';
+$route['customer/buat-baru']='MasterCustomer/buatbaru';
+$route['customer/depo-customer']='MasterCustomer/depocust';
+$route['customer/tran-customer']='MasterCustomer/trancust';

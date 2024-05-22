@@ -117,12 +117,12 @@
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="media profile-media">
                     <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
-                  <div class="media-body"><span>Mr. Deha</span>
-                    <p class="mb-0">Principle <i class="middle fa fa-angle-down"></i></p>
+                  <div class="media-body"><span>Ms. Elva</span>
+                    <p class="mb-0">Superadmin <i class="middle fa fa-angle-down"></i></p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
-                  <li><a href="#"><i data-feather="settings"></i><span>Pengaturan</span></a></li>
+                  <!-- <li><a href="#"><i data-feather="settings"></i><span>Pengaturan</span></a></li> -->
                   <li><a href="#"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
                 </ul>
               </li>
@@ -195,19 +195,34 @@
                     </ul>
                   </li>            
                   <li class="sidebar-list katalog"><i class="fa fa-thumb-tack"></i>
-                      <a class="sidebar-link sidebar-title katalog" href="#">
-                      <svg class="stroke-icon">
-                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-gallery"></use>
-                      </svg>
-                      <svg class="fill-icon">
-                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-gallery"></use>
-                      </svg><span>Katalog</span></a>
+                    <a class="sidebar-link sidebar-title katalog" href="#">
+                    <svg class="stroke-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-gallery"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-gallery"></use>
+                    </svg><span>Katalog</span></a>
                     <ul class="sidebar-submenu">
                       <li class="kbb"><a class="kbb" href="<?=base_url()?>katalog/buat-baru">Buat Baru</a></li>
                       <li class="kcon"><a class="kcon" href="<?=base_url()?>katalog/condiments">Condiments</a></li>
                       <li class="klva"><a class="klva" href="<?=base_url()?>katalog/daftar">Katalog LVA</a></li>
                     </ul>
-                  </li>            
+                  </li>
+                  <li class="sidebar-list customer"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title customer" href="#">
+                    <svg class="stroke-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-user"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-user"></use>
+                    </svg><span>Customer</span></a>
+                    <ul class="sidebar-submenu">
+                      <li class="cbb"><a class="cbb" href="<?=base_url()?>customer/buat-baru">Buat Baru</a></li>
+                      <li class="cdac"><a class="cdac" href="<?=base_url()?>customer/daftar-customer">Daftar Customer</a></li>
+                      <li class="cdec"><a class="cdec" href="<?=base_url()?>customer/depo-customer">Deposit Customer</a></li>
+                      <li class="ctra"><a class="ctra" href="<?=base_url()?>customer/tran-customer">Transaksi Customer</a></li>
+                    </ul>
+                  </li>
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
                     <div>
