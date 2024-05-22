@@ -54,3 +54,7 @@ $route['master-produk/jsondis']='MasterProduk/jsondis';
 $route['master-produk/edit/(:any)']='MasterProduk/edit/$1';
 $route['master-produk/update-data']='MasterProduk/updatepost';
 $route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
+// master katalog
+$route['katalog/daftar']='MasterKatalog';
+$route['katalog/buat-baru']='MasterKatalog/buatbaru';
+$route['katalog/condiments']='MasterKatalog/condiments';

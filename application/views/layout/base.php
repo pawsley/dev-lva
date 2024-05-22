@@ -192,10 +192,20 @@
                       <li class="mtrl"><a class="mtrl" href="<?=base_url()?>master-material">Master Material</a></li>
                       <li class="mprd"><a class="mprd" href="<?=base_url()?>master-produk">Master Produk</a></li>
                       <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
-                      <!-- <li class="mcab"><a class="mcab" href="<?=base_url()?>master-cabang">Master Cabang</a></li> -->
-                      <!-- <li class="mkus"><a class="mkus" href="<?=base_url()?>master-kustomer">Master Kustomer</a></li>
-                      <li class="mkat"><a class="mkat" href="<?=base_url()?>master-kategori">Master Kategori</a></li>
-                      <li class="mbrg"><a class="mbrg" href="<?=base_url()?>master-barang">Master Barang</a></li> -->
+                    </ul>
+                  </li>            
+                  <li class="sidebar-list katalog"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title katalog" href="#">
+                      <svg class="stroke-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-gallery"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-gallery"></use>
+                      </svg><span>Katalog</span></a>
+                    <ul class="sidebar-submenu">
+                      <li class="kbb"><a class="kbb" href="<?=base_url()?>katalog/buat-baru">Buat Baru</a></li>
+                      <li class="kcon"><a class="kcon" href="<?=base_url()?>katalog/condiments">Condiments</a></li>
+                      <li class="klva"><a class="klva" href="<?=base_url()?>katalog/daftar">Katalog LVA</a></li>
                     </ul>
                   </li>            
                   <!-- Menu Aplikasi-->
