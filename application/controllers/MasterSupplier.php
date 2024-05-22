@@ -15,9 +15,9 @@ class MasterSupplier extends Auth
     if (!empty($data['lastID'])) {
       $numericPart = isset($data['lastID'][0]['id_supplier']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['id_supplier']) : '';
       $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-      $data['newID'] = 'DHSUPP-' . $incrementedNumericPart;
+      $data['newID'] = 'LVASUPP-' . $incrementedNumericPart;
     }else {
-      $data['newID'] = 'DHSUPP-0001';
+      $data['newID'] = 'LVASUPP-0001';
     }
     return $data;
   }
