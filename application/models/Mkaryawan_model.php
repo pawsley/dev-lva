@@ -70,10 +70,20 @@ class Mkaryawan_model extends CI_Model {
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
   }
+  public function deleterole($id)
+  {
+    $success = $this->db->delete('tb_role', array("id_role" => $id));
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
+  }
 
   public function update($id,$data){
     $this->db->where('id_karyawan', $id);
     $this->db->update('tb_karyawan', $data);
+  }
+  public function updaterole($id,$data){
+    $this->db->where('id_role', $id);
+    $this->db->update('tb_role', $data);
   }
 
   public function getWhere($id)

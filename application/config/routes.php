@@ -11,7 +11,7 @@ $route['master-karyawan/simpan-data']='MasterKaryawan/createpost';
 $route['master-karyawan/jsonkar']='MasterKaryawan/jsonkar';
 $route['master-karyawan/edit/(:any)']='MasterKaryawan/edit/$1';
 $route['master-karyawan/update-data']='MasterKaryawan/updatepost';
-$route['master-karyawan/hapus/(:any)'] = 'MasterKaryawan/deletepost/$1';
+$route['master-karyawan/hapus'] = 'MasterKaryawan/deletepost';
 // master supplier
 $route['master-supplier']='MasterSupplier';
 $route['master-supplier/simpan-data']='MasterSupplier/createpost';
@@ -63,3 +63,9 @@ $route['customer/daftar-customer']='MasterCustomer';
 $route['customer/buat-baru']='MasterCustomer/buatbaru';
 $route['customer/depo-customer']='MasterCustomer/depocust';
 $route['customer/tran-customer']='MasterCustomer/trancust';
+// Penjualan Data Customer
+$route['penjualan/data-customer']='PenDataCustomer';
+$route['penjualan/kasir']='PenKasir';
+$route['penjualan/pengiriman']='PenKirim';
+$route['penjualan/riwayat']='PenRiwayat';
+$route['penjualan/transaksi']='PenTrans';

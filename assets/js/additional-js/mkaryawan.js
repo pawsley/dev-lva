@@ -167,33 +167,8 @@ function addroljab(){
 }
 function getid() {
     $('#EditMasterKaryawan').on('show.bs.modal', function (event) {
-        $('#e_jabatan').select2({
-            // dropdownParent: $("#EditMasterKaryawan"),
-            language: 'id',
-            ajax: {
-                url: base_url + 'MasterKaryawan/loadjab',
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        q: params.term, // Add the search term to your AJAX request
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {
-                                id: item.nama_jab,
-                                text: item.nama_jab,
-                            };
-                        }),
-                    };
-                },
-                cache: false,
-            },
-        });
         $('#e_role').select2({
-            // dropdownParent: $("#EditMasterKaryawan"),
+            dropdownParent: $("#EditMasterKaryawan"),
             language: 'id',
             ajax: {
                 url: base_url + 'MasterKaryawan/loadrole',
@@ -261,31 +236,11 @@ function createdata() {
                 swal("Gagal menambahkan data karyawan", "Harap lengkapi semua kolom yang diperlukan", {
                     icon: "error",
                 }).then(function() {
-                    // Focus on the first empty required field
                     $("#" + fieldId).focus();
                 });
-                return; // Exit the function if a required field is empty
+                return;
             }
         }
-        // var idk = $("#id").val();
-        // var nl = $("#nl").val();
-        // var tl = $("#tl").val();
-        // var jk = $("#jk").val();
-        // var email = $("#email").val();
-        // var password = $("#password").val();
-        // var prov = $("#prov_name").val();
-        // var kab = $("#kab_name").val();
-        // var kec = $("#kec_name").val();
-        // var kode_pos = $("#kode_pos").val();
-        // var alamat = $("#alamat").val();
-        // var wa = $("#wa").val();
-        // var file = $("#file")[0].files[0];
-        // var role = $("#role").val();
-        // var tg = $("#tg").val();
-        // var bank = $("#bank").val();
-        // var norek = $("#norek").val();
-        // var gajir = $("#gaji").val();
-        // var gaji = parseFloat(gajir.replace(/\D/g, ''));
 
         var formData = new FormData();
         formData.append('id_karyawan', $("#id").val());
@@ -318,12 +273,9 @@ function createdata() {
                     swal("Data karyawan berhasil ditambahkan", {
                         icon: "success",
                     }).then(function() {
-                        // Perform your action here after the user clicks OK on the success message
-                        // For example, you can make an AJAX request or navigate to another page
-                        // Example:
                          window.location.href = base_url+"master-karyawan";
+                         reload();
                     });
-                    reload();
                 }  else {
                     swal("Gagal menambahkan data karyawan, " + response.message, {
                         icon: "error",
@@ -438,17 +390,23 @@ function deletedata() {
             }
         }).then((willDelete) => {
             if (willDelete) {
+                var formData = new FormData();
+                formData.append('idk', id);
                 $.ajax({
                     type: 'POST',
-                    url: base_url + 'master-karyawan/hapus/' + id,
+                    url: base_url + 'master-karyawan/hapus',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     dataType: 'json',
                     success: function (response) {
-                        console.log(response);
                         if (response.result && response.result.success) {
-                            swal('Deleted!', response.result.message, 'success');
-                            reload();
-                        } else {
-                            swal('Error!', 'An error occurred while deleting the data.', 'error');
+                            swal("Data karyawan berhasil dihapus", {
+                                icon: "success",
+                            }).then(function() {
+                                 window.location.href = base_url+"master-karyawan";
+                                 reload();
+                            });
                         }
                     },
                     error: function (error) {
@@ -519,9 +477,17 @@ function reload() {
                             return `
                                 <ul class="action" style="justify-content: center;">
                                     <div class="btn-group">
-                                    <button title="edit data" class="btn btn-success" id="edit-btn" type="button" data-id="${data}" data-bs-toggle="modal" data-bs-target="#EditMasterKaryawan"><i class="icon-pencil"></i></button>
+                                        <button title="edit data" class="btn btn-success" id="edit-btn" type="button" 
+                                            data-id="${data}" data-nk="${full.nama_karyawan}" data-tl="${full.tanggal_lahir}"
+                                            data-jk="${full.jen_kel}" data-em="${full.email}" data-ps="${full.password}" data-prov="${full.provinsi}"
+                                            data-kab="${full.kabupaten}" data-kec="${full.kecamatan}" data-kp="${full.kode_pos}" data-al="${full.alamat}"
+                                            data-wa="${full.no_wa}" data-file="${full.file_cv}" data-role="${full.role_user}" data-tg="${full.tipe_gaji}"
+                                            data-ba="${full.bank_acc}" data-nr="${full.norek}" data-gaji="${full.gaji}" data-stat="${full.status}"
+                                            data-bs-toggle="modal" data-bs-target="#EditMasterKaryawan">
+                                            <i class="icon-pencil"></i>
+                                        </button>
                                         <button title="info data" class="btn btn-primary" id="info-btn" target="_blank" type="button" data-id="${data}"><i class="fa fa-external-link-square"></i></button>
-                                        <button title="edit data" class="btn btn-secondary" id="delete-btn" type="button" data-id="${data}"><i class="icon-trash"></i></button>
+                                        <button title="delete data" class="btn btn-secondary" id="delete-btn" type="button" data-id="${data}"><i class="icon-trash"></i></button>
                                     </div>
                                 </ul>
                             `;
@@ -568,44 +534,125 @@ function reload() {
         });
     });  
 }
+function fetchrolemodal() {
+    $('#roles-container').empty();
+    
+    // Fetch roles data from the server
+    $.ajax({
+        type: 'GET',
+        url: base_url+'master-karyawan/role-kar',
+        dataType: 'json',
+        success: function(response) {
+            $.each(response, function(index, role) {
+                var roleContainer = $('<div class="row mb-2 role-item">');
+                var inputField = $('<input class="form-control role-name" data-id="'+role.id_role+'" type="text">')
+                                    .val(role.nama_role);
+                var deleteButton = $('<button class="btn btn-danger delrole" data-id="'+role.id_role+'" type="button"><i class="fa fa-trash"></i></button>');
+
+                roleContainer.append($('<div class="col-9">').append(inputField));
+                roleContainer.append($('<div class="col-3">').append(deleteButton));
+
+                $('#roles-container').append(roleContainer);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    }); 
+}
 function loadrolekat() {
     $('#DaftarSubKategoriItem').on('show.bs.modal', function (event) {
-        // Unbind the event handler to prevent multiple bindings
-        // $(this).off('show.bs.modal');
-    
-        // Empty the roles container before re-fetching data
-        $('#roles-container').empty();
-    
-        // Fetch roles data from the server
+        fetchrolemodal();
+        deleterole();
+        updaterole();
+    });
+}
+function updaterole() {
+    $('#editrole').on('click', function(e) {
+        e.preventDefault();
+        var rolesData = [];
+        $('#roles-container .role-item').each(function() {
+            var roleId = $(this).find('.role-name').data('id');
+            var roleName = $(this).find('.role-name').val();
+
+            rolesData.push({
+                id: roleId,
+                name: roleName
+            });
+        });
+        var jsonData = JSON.stringify(rolesData);
         $.ajax({
-            type: 'GET',
-            url: base_url+'master-karyawan/role-kar',
-            dataType: 'json',
+            type: 'POST',
+            url: base_url + 'MasterKaryawan/updaterole', // Replace with your server endpoint
+            contentType: 'application/json',
+            data: jsonData,
             success: function(response) {
-                // Loop through each role in the response
-                $.each(response, function(index, role) {
-                    // Create HTML elements for each role
-                    var roleContainer = $('<div class="row mb-2 role-item">');
-                    var inputField = $('<input class="form-control role-name" type="text">')
-                                        .attr('id', 'role-' + role.id_role)
-                                        .val(role.nama_role);
-                    var deleteButton = $('<button class="btn btn-danger delrole" type="button"><i class="fa fa-trash"></i></button>');
-    
-                    // Append input field and delete button to role container
-                    roleContainer.append($('<div class="col-9">').append(inputField));
-                    roleContainer.append($('<div class="col-3">').append(deleteButton));
-    
-                    // Append role container to roles container
-                    $('#roles-container').append(roleContainer);
+                swal("Updated!", {
+                    icon: "success",
+                }).then(function() {
+                    fetchrolemodal();
                 });
             },
             error: function(xhr, status, error) {
                 // Handle error response
                 console.error(xhr.responseText);
+                alert('An error occurred while updating the roles.');
             }
-        }); 
+        });
     });
-}    
+}
+function deleterole() {
+    $(document).on('click', '.delrole', function(e) {
+        e.preventDefault();
+        // Get the data-id of the button clicked
+        var roleId = $(this).data('id');
+
+        swal({
+            title: 'Apa anda yakin?',
+            text: 'Data yang sudah terhapus hilang permanen!',
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Delete',
+                    value: true,
+                    visible: true,
+                    className: 'btn-danger',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                // User clicked 'Delete', proceed with the deletion
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'MasterKaryawan/deleterole/' + roleId,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Deleted!", {
+                                icon: "success",
+                            }).then(function() {
+                                fetchrolemodal();
+                            });
+                        } else {
+                            swal('Error!', response.message, 'error');
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });
+    });
+}
 function show_hide() {
     $('#togglePassword').on('click', function() {
         var $password = $('#password');

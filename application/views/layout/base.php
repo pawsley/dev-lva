@@ -229,6 +229,39 @@
                         <h6 class="lan-8">Applications</h6>
                     </div>
                   </li>
+                  <!-- Status Order -->
+                  <li class="sidebar-list">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="index.html">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-task"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-task"></use>
+                        </svg>
+                        <span>Status Order</span>
+                    </a>
+                  </li>
+                  <!-- Menu Penjualan -->
+                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                    <label class="badge badge-light-primary"></label>
+                    <a class="sidebar-link sidebar-title" href="#">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                        </svg>
+                        <span>Penjualan</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="<?=base_url()?>penjualan/data-customer">Data Customer</a></li>
+                      <li><a href="<?=base_url()?>penjualan/kasir">Kasir Penjualan</a></li>
+                      <li><a href="<?=base_url()?>penjualan/pengiriman">Pengiriman</a></li>
+                      <li><a href="<?=base_url()?>penjualan/riwayat">Riwayat Penjualan</a></li>
+                      <li><a href="<?=base_url()?>penjualan/transaksi">Transaksi Customer</a></li>
+                    </ul>
+                  </li>                  
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

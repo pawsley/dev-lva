@@ -210,20 +210,64 @@ class MasterKaryawan extends Auth
       redirect('master-karyawan');
     }
   }
-  public function deletepost($id) {
-    $image = $this->Mkaryawan_model->getWhere($id);
-    $result = $this->Mkaryawan_model->delete($id);
-    // realpath(APPPATH . '../assets/dhdokumen/karyawan');
-    foreach ($image as $i) {
-			if ($result) {
-				unlink(realpath(APPPATH . '../assets/pdf/cvkaryawan') . '/' . $i['file_cv']);
-			}
-		}
+  public function deletepost() {
+    if ($this->input->is_ajax_request()) {
+      // Retrieve the ID from the request
+      $id = $this->input->post('idk');
+
+      $images = $this->Mkaryawan_model->getWhere($id);
+      $result = $this->Mkaryawan_model->delete($id);
+
+      $response = array();
+      
+      if ($result) {
+          foreach ($images as $i) {
+              if (!empty($i['file_cv'])) {
+                  $filePath = realpath(APPPATH . '../assets/pdf/cvkaryawan/') . '/' . $i['file_cv'];
+                  if (file_exists($filePath)) {
+                      unlink($filePath);
+                  }
+              }
+          }
+          // Set the response for a successful delete
+          $response['result'] = array('success' => true, 'message' => 'Data deleted successfully.');
+      } else {
+          // Set the response for a failed delete
+          $response['result'] = array('success' => false, 'message' => 'Failed to delete data.');
+      }
+
+      echo json_encode($response);
+    }
+  }
+  public function deleterole($id) {
+    $result = $this->Mkaryawan_model->deleterole($id);
     echo json_encode($result);
-  }  
+  }
+  public function updaterole(){
+    if ($this->input->is_ajax_request()) {
+      $json_data = $this->input->raw_input_stream;
+      $rolesData = json_decode($json_data, true);
+      if (!empty($rolesData)) {
+          foreach ($rolesData as $data) {
+              $idr = $data['id'];
+              $nmr = $data['name'];
+
+              $this->Mkaryawan_model->updaterole($idr, [
+                  'nama_role' => $nmr
+              ]);
+          }
+          echo json_encode(['status' => 'success']);
+      } else {
+          echo json_encode(['status' => 'error', 'message' => 'No data received']);
+      }
+    } else {
+      redirect('master-karyawan');
+    }
+  }
   public function jsonkar(){
     $this->load->library('datatables');
-    $this->datatables->select('id_karyawan, nama_karyawan, jen_kel, role_user, tipe_gaji, gaji, file_cv, no_wa, email, password, status');
+    $this->datatables->select('id_karyawan, nama_karyawan, jen_kel, tanggal_lahir, email, password, provinsi, kabupaten, kecamatan,
+    kode_pos, alamat, no_wa, file_cv, role_user, tipe_gaji, bank_acc, norek, gaji, status');
     $this->datatables->from('tb_karyawan');
     return print_r($this->datatables->generate());
   }
