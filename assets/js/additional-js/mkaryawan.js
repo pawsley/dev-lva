@@ -423,7 +423,7 @@ function reload() {
         currency: 'IDR',
         minimumFractionDigits: 0 // Set the number of decimal places to 0 for whole numbers
     });
-    $.getJSON('//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json', function(json) {
+    $.getJSON(base_url+'assets/json/datatable-id.json', function(json) {
         json.processing = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Sedang memproses...</span></div></div>';
         if ($.fn.DataTable.isDataTable('#table-karyawan')) {
             tkar.destroy();

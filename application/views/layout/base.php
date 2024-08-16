@@ -190,7 +190,7 @@
                       <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li>
                       <li class="mkar"><a class="mkar" href="<?=base_url()?>master-karyawan">Master Karyawan</a></li>
                       <li class="mtrl"><a class="mtrl" href="<?=base_url()?>master-material">Master Material</a></li>
-                      <li class="mprd"><a class="mprd" href="<?=base_url()?>master-produk">Master Produk</a></li>
+                      <!-- <li class="mprd"><a class="mprd" href="<?=base_url()?>master-produk">Master Produk</a></li> -->
                       <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
                     </ul>
                   </li>            
@@ -219,8 +219,8 @@
                     <ul class="sidebar-submenu">
                       <li class="cbb"><a class="cbb" href="<?=base_url()?>customer/buat-baru">Buat Baru</a></li>
                       <li class="cdac"><a class="cdac" href="<?=base_url()?>customer/daftar-customer">Daftar Customer</a></li>
-                      <li class="cdec"><a class="cdec" href="<?=base_url()?>customer/depo-customer">Deposit Customer</a></li>
-                      <li class="ctra"><a class="ctra" href="<?=base_url()?>customer/tran-customer">Transaksi Customer</a></li>
+                      <!-- <li class="cdec"><a class="cdec" href="<?=base_url()?>customer/depo-customer">Deposit Customer</a></li>
+                      <li class="ctra"><a class="ctra" href="<?=base_url()?>customer/tran-customer">Transaksi Customer</a></li> -->
                     </ul>
                   </li>
                   <!-- Menu Aplikasi-->

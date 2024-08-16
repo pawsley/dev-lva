@@ -42,8 +42,9 @@ $route['master-diskon/update-data']='MasterDiskon/updatepost';
 $route['master-diskon/hapus/(:any)'] = 'MasterDiskon/deletepost/$1';
 // master material
 $route['master-material']='MasterMaterial';
+$route['master-material/newsb']='MasterMaterial/createsbmat';
 $route['master-material/simpan-data']='MasterMaterial/createpost';
-$route['master-material/jsondis']='MasterMaterial/jsondis';
+$route['master-material/list-material']='MasterMaterial/tablematerial';
 $route['master-material/edit/(:any)']='MasterMaterial/edit/$1';
 $route['master-material/update-data']='MasterMaterial/updatepost';
 $route['master-material/hapus/(:any)'] = 'MasterMaterial/deletepost/$1';
@@ -59,10 +60,15 @@ $route['katalog/daftar']='MasterKatalog';
 $route['katalog/buat-baru']='MasterKatalog/buatbaru';
 $route['katalog/condiments']='MasterKatalog/condiments';
 // master customer
-$route['customer/daftar-customer']='MasterCustomer';
 $route['customer/buat-baru']='MasterCustomer/buatbaru';
-$route['customer/depo-customer']='MasterCustomer/depocust';
-$route['customer/tran-customer']='MasterCustomer/trancust';
+$route['customer/newsb']='MasterCustomer/createsbmat';
+$route['customer/daftar-customer']='MasterCustomer';
+$route['customer/input-data']='MasterCustomer/createdata';
+$route['customer/update-data']='MasterCustomer/updatedata';
+$route['customer/delete-data/(:any)'] = 'MasterCustomer/deletedata/$1';
+$route['customer/list-customer']='MasterCustomer/tablecst';
+// $route['customer/depo-customer']='MasterCustomer/depocust';
+// $route['customer/tran-customer']='MasterCustomer/trancust';
 // Penjualan Data Customer
 $route['penjualan/data-customer']='PenDataCustomer';
 $route['penjualan/kasir']='PenKasir';

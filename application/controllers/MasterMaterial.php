@@ -7,8 +7,16 @@ class MasterMaterial extends Auth
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('Mmaterial_model');
   }
-
+  function generateid(){
+    $data['lastID'] = $this->Mmaterial_model->getLastKode();
+    $numericPart = isset($data['lastID'][0]['kode_material']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['kode_material']) : '';
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    $data['newID'] = 'ELVM-' . $incrementedNumericPart;
+    $data['defID'] = 'ELVM-0001';
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+  }
   public function index(){
     $data['content'] = $this->load->view('master/mastermaterial', '', true);
     $data['modal'] = '';
@@ -32,6 +40,35 @@ class MasterMaterial extends Auth
       .select2-container{
         margin-bottom :-2%;
       }
+      .upload-btn {
+          width: 200px;  /* Set the width as needed */
+          height: 200px; /* Set the height as needed */
+          border: 3px dotted #007bff; /* Dotted border with a blue color */
+          background-size: 100% 100%;
+          // background-repeat: no-repeat;
+          background-position: center;
+          border-radius: 5px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          background-color: #f9f9f9; /* Optional: background color */
+      }
+      .upload-btn:hover {
+          opacity: 0.8;
+      }
+      .upload-btn::after {
+          content: "Upload Gambar";
+          position: absolute;
+          color: #007bff;
+          font-size: 16px;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.8);
+          padding: 10px;
+          border-radius: 5px;
+      }
+ 
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
@@ -39,31 +76,181 @@ class MasterMaterial extends Auth
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
-    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
-    <script src="' . base_url('assets/js/flat-pickr/custom-flatpickr.js') . '"></script>
-    <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/custom-flatpickr.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
+    <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     ';
     $this->load->view('layout/base', $data); 
   }
+  public function loadkat($kode){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mmaterial_model->getDataKategori($kode,$searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  public function createsbmat(){
+    if ($this->input->is_ajax_request()) {
+      $kode = $this->input->post('kodekat');
+      $nk = $this->input->post('namakat');
 
+      $this->Mmaterial_model->addsbmat($kode, $nk);
+
+      echo json_encode(['status' => 'success']);
+    } else {
+        redirect('master-material');
+    }
+  }
+  public function deletedaf($id) {
+    $result = $this->Mmaterial_model->deletedaf($id);
+    echo json_encode($result);
+  }
+  public function updatedaf(){
+    if ($this->input->is_ajax_request()) {
+      $json_data = $this->input->raw_input_stream;
+      $dafData = json_decode($json_data, true);
+      if (!empty($dafData)) {
+          foreach ($dafData as $data) {
+              $idr = $data['id'];
+              $nmr = $data['name'];
+
+              $this->Mmaterial_model->updatedaf($idr, [
+                  'nama' => $nmr
+              ]);
+          }
+          echo json_encode(['status' => 'success']);
+      } else {
+          echo json_encode(['status' => 'error', 'message' => 'No data received']);
+      }
+    } else {
+      redirect('master-material');
+    }
+  }
+  public function compress_image($source_path, $destination_path, $quality) {
+    $info = getimagesize($source_path);
+    
+    if ($info['mime'] == 'image/jpeg') {
+        $image = imagecreatefromjpeg($source_path);
+        imagejpeg($image, $destination_path, $quality);
+    } elseif ($info['mime'] == 'image/png') {
+        $image = imagecreatefrompng($source_path);
+        imagepng($image, $destination_path, round(9 * $quality / 100));
+    }
+    
+    imagedestroy($image);
+  }
+  private function resize_image($source_url, $destination_url, $max_width, $max_height) {
+    // Get image dimensions
+    list($width, $height, $type) = getimagesize($source_url);
+
+    // Calculate aspect ratio
+    $aspect_ratio = $width / $height;
+
+    // Determine new dimensions to fit within max width and height
+    if ($width > $max_width || $height > $max_height) {
+        if ($width / $max_width > $height / $max_height) {
+            $new_width = $max_width;
+            $new_height = floor($max_width / $aspect_ratio);
+        } else {
+            $new_height = $max_height;
+            $new_width = floor($max_height * $aspect_ratio);
+        }
+    } else {
+        $new_width = $width;
+        $new_height = $height;
+    }
+
+    // Create a new image resource with desired dimensions
+    $image_p = imagecreatetruecolor($new_width, $new_height);
+
+    // Handle transparency for PNG images if needed
+    if ($type == IMAGETYPE_PNG) {
+        imagealphablending($image_p, false);
+        imagesavealpha($image_p, true);
+        $transparent = imagecolorallocatealpha($image_p, 255, 255, 255, 127);
+        imagefilledrectangle($image_p, 0, 0, $new_width, $new_height, $transparent);
+    }
+
+    // Create the resized image
+    $image = imagecreatefromjpeg($source_url); // Assuming source is JPEG
+
+    // Resize the image
+    imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+    // Save the resized image
+    imagejpeg($image_p, $destination_url, 100); // Adjust quality (100 is highest) for JPEG
+
+    // Free up memory
+    imagedestroy($image_p);
+    imagedestroy($image);
+
+    return $destination_url;
+  }
+  public function tablematerial()  {
+    $this->load->library('datatables');
+    $this->datatables->select('kode_material, nama_material, kat_material, merk_material, warna_material, sat_material, img_material, status');
+    $this->datatables->from('tb_material');
+    return print_r($this->datatables->generate());
+  }
+  public function createpost(){
+    if ($this->input->is_ajax_request()) {
+      $this->load->library('upload');
+      $data = [
+        'kode_material'      => $this->input->post('kode'),
+        'nama_material'      => $this->input->post('nama'),
+        'kat_material'      => $this->input->post('kat'),
+        'merk_material'      => $this->input->post('merk'),
+        'warna_material'      => $this->input->post('warna'),
+        'sat_material'      => $this->input->post('sat'),
+      ];
+      if (!empty($_FILES['img_material']['name'])) {
+        $file_path = realpath(APPPATH . '../assets/lvaimages/material');
+        $config['upload_path'] = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['overwrite'] = true;
+        $config['file_name'] = $this->input->post('kode') . '_' .$_FILES['img_material']['name'];
+        $config['max_size'] = 10048;
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('img_material')) {
+          $upload_data = $this->upload->data();
+          $data['img_material'] = $upload_data['file_name'];
+        } else {
+          echo json_encode(['status' => 'error', 'message' => $this->upload->display_errors()]);
+          return;
+        }
+      }
+      
+      $this->Mmaterial_model->create($data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('master-material');
+    }
+  }
+  public function deletepost($id) {
+    $result = $this->Mbank_model->delete($id);
+    echo json_encode($result);
+  }
+  public function updatepost(){
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('data_id');
+      $data = [
+        'no_rek' => $this->input->post('e_no_rek'),
+        'nama_bank'      => $this->input->post('e_nama_bank'),
+        'nama_rek'      => $this->input->post('e_nama_rek')
+      ];
+      
+      $this->Mbank_model->update($id, $data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('master-bank');
+    }
+  }
 }
 
 
