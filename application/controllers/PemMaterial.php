@@ -132,6 +132,7 @@ class PemMaterial extends CI_Controller
                 'total_pb_dtl'  => $item['total']
             ];
             $this->PemMaterial_model->createpmbdtl($data_detail);
+            $this->PemMaterial_model->statmastermtr($item['kode']);
         }
 
         echo json_encode(['status' => 'success']);
@@ -173,6 +174,15 @@ class PemMaterial extends CI_Controller
     if ($this->input->is_ajax_request()) {
       $id = $this->input->post('invoice');
       $result = $this->PemMaterial_model->approvedpmb($id);
+      echo json_encode($result);
+    }else{
+      show_404();
+    }
+  }
+  public function approvegd() {
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('invoice');
+      $result = $this->PemMaterial_model->approvedgd($id);
       echo json_encode($result);
     }else{
       show_404();

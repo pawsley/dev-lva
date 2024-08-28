@@ -49,6 +49,23 @@ class PemMaterial_model extends CI_Model {
     $insert = $this->db->insert('tb_pembelian_dtl', $data);
     return $insert;
   }
+  public function statmastermtr($id) {
+    $this->db->where('kode_material', $id);
+    $this->db->set('status', '1');
+    $success = $this->db->update('tb_material');
+    
+    if ($success) {
+        return array(
+            'status' => 'success',
+            'message' => 'Material used'
+        );
+    } else {
+        return array(
+            'status' => 'failed',
+            'message' => 'Gagal used'
+        );
+    }
+  }
   public function deletepmb($id){
     // NB: wajib cek id digunakan di table relation
     $success = $this->db->delete('tb_pembelian', array("id_pembelian" => $id));
@@ -74,6 +91,23 @@ class PemMaterial_model extends CI_Model {
         return array(
             'status' => 'failed',
             'message' => 'Gagal approve'
+        );
+    }
+  }
+  public function approvedgd($id) {
+    $this->db->where('id_pembelian', $id);
+    $this->db->set('status', 'Barang Diterima Gudang');
+    $success = $this->db->update('tb_pembelian');
+    
+    if ($success) {
+        return array(
+            'status' => 'success',
+            'message' => 'Transaksi Diterima Gudang'
+        );
+    } else {
+        return array(
+            'status' => 'failed',
+            'message' => 'Gagal Diterima Gudang'
         );
     }
   }

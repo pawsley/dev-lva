@@ -78,5 +78,6 @@ $route['pembelian/pembelian-material']='PemMaterial';
 $route['pembelian/input-data']='PemMaterial/createdata';
 $route['pembelian/delete-data']='PemMaterial/deletedata';
 $route['pembelian/approve-data']='PemMaterial/approvepmb';
+$route['pembelian/terima-data']='PemMaterial/approvegd';
 $route['pembelian/list-pembelian']='PemMaterial/tablepmbmtr';
 $route['pembelian/list-pembelian-detail']='PemMaterial/tablepmbdtl';

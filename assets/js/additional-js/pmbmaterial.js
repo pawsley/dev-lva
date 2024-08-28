@@ -19,6 +19,7 @@ $(document).ready(function () {
     tabpmb();
     deletepmbm();
     approvedpmb();
+    approvedgd();
 });
 function selectTipe() {
     $('#seltipe').select2({
@@ -366,6 +367,71 @@ function approvedpmb() {
                 $.ajax({
                     type: 'POST',
                     url: base_url + 'pembelian/approve-data/',
+                    dataType: "json", 
+                    data: {
+                        invoice: invoice_id,
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {                            
+                            swal(response.message, {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1500
+                            }).then(function() {
+                                tablePMBMat.ajax.reload();
+                            });
+                        } else {
+                            swal(response.message, {
+                                icon: "error",
+                                buttons: false,
+                                timer: 1000
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });
+    });
+}
+function approvedgd() {
+    $(document).on('click', '#terimapmb', function (e) {
+        e.preventDefault();
+    
+        var invoice_id = $(this).data('invoice');
+    
+        swal({
+            title: 'Konfirmasi Persetujuan',
+            content: {
+                element: 'span',
+                attributes: {
+                    innerHTML: 'Terima material dengan nomor invoice <strong>' + invoice_id + '</strong>.'
+                }
+            },
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Terima',
+                    value: true,
+                    visible: true,
+                    className: 'btn-success',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'pembelian/terima-data/',
                     dataType: "json", 
                     data: {
                         invoice: invoice_id,
