@@ -7,6 +7,8 @@ $(document).ready(function() {
     getselect2();
     createdata();
     tabmat();
+    editmtrl();
+    deletedata();
 });
 
 async function generateid() {
@@ -213,7 +215,35 @@ function imgpreview() {
             };
 
             reader.readAsDataURL(file);
-            console.log(file);
+        }
+    });
+}
+function clearImgPreview() {
+    // Reset the file input
+    $('#imgm').val('');
+
+    // Remove the background image from the preview button
+    $('#upload-btn').css('background-image', 'none');
+}
+function edimgpreview() {
+    $('#eupload-btn').on('click', function() {
+        $('#eimgm').click();
+    });
+
+    $('#eimgm').on('change', function(event) {
+        const file = event.target.files[0];
+        const $uploadBtn = $('#eupload-btn');
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                lastImageUrl = e.target.result;
+                $uploadBtn.css('background-image', 'url(' + e.target.result + ')');
+                
+            };
+
+            reader.readAsDataURL(file);
         }
     });
 }
@@ -327,72 +357,122 @@ function getselect2() {
         },
     });
 }
-function createdata() {
-    $("#addm").on("click", function () {
-        var requiredFields = ['idm', 'nmm', 'katm', 'mrkm', 'wrnm', 'satm'];
-        for (var i = 0; i < requiredFields.length; i++) {
-            var fieldId = requiredFields[i];
-            var fieldValue = $("#" + fieldId).val().trim();
-            if (fieldValue === "") {
-                swal("Gagal menambahkan data material", "Harap lengkapi semua kolom yang diperlukan", {
-                    icon: "error",
-                }).then(function() {
-                    $("#" + fieldId).focus();
-                });
-                return;
-            }
-        }
-        var fileInput = $("#imgm")[0];
-        console.log(fileInput);
-        if (fileInput.files.length === 0) {
-            swal("Gagal menambahkan data material", "Harap pilih gambar", {
-                icon: "error",
-            }).then(function() {
-                $("#imgm").focus();
-            });
-            return;
-        }
-
-        var formData = new FormData();
-        formData.append('kode', $("#idm").val());
-        formData.append('nama', $("#nmm").val());
-        formData.append('kat', $("#katm").val());
-        formData.append('merk', $("#mrkm").val());
-        formData.append('warna', $("#wrnm").val());
-        formData.append('sat', $("#satm").val());
-        formData.append('img_material', fileInput.files[0]);
-        $.ajax({
-            type: "POST",
-            url: base_url+"master-material/simpan-data",
-            data: formData,
-            processData: false, 
-            contentType: false,
-            dataType: "json", 
-            success: function (response) {
-                if (response.status === 'success') {
-                    swal("Data material berhasil ditambahkan", {
-                        icon: "success",
-                    }).then(function() {
-                         window.location.href = base_url+"master-material";
-                        //  reload();
-                    });
-                }  else {
-                    swal("Gagal menambahkan data material, " + response.message, {
-                        icon: "error",
-                    });
-                }
+function edgetselect2() {    
+    $('#ekatm').select2({
+        language: 'id',
+        dropdownParent: $("#EditMasterMaterial"),
+        ajax: {
+            url: function() {
+                let val = 'KAT';
+                return base_url + 'MasterMaterial/loadkat/' + val;
             },
-            error: function (error) {
-                console.log(error); // Log the error to debug
-                swal("Gagal!: " + error.status, {
-                    icon: "error",
-                });
-            }
-        });
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.nama,
+                            text: item.nama,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#emrkm').select2({
+        language: 'id',
+        dropdownParent: $("#EditMasterMaterial"),
+        ajax: {
+            url: function() {
+                let val = 'MRK';
+                return base_url + 'MasterMaterial/loadkat/' + val;
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.nama,
+                            text: item.nama,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#ewrnm').select2({
+        language: 'id',
+        dropdownParent: $("#EditMasterMaterial"),
+        ajax: {
+            url: function() {
+                let val = 'WRN';
+                return base_url + 'MasterMaterial/loadkat/' + val;
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.nama,
+                            text: item.nama,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#esatm').select2({
+        language: 'id',
+        dropdownParent: $("#EditMasterMaterial"),
+        ajax: {
+            url: function() {
+                let val = 'SAT';
+                return base_url + 'MasterMaterial/loadkat/' + val;
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.nama,
+                            text: item.nama,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
     });
 }
 function tabmat() {  
-    $.getJSON('//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json', function(json) {
+    $.getJSON(base_url + 'assets/json/datatable-id.json', function(json) {
         json.processing = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Sedang memproses...</span></div></div>';
         if ($.fn.DataTable.isDataTable('#table-material')) {
             tableMat.destroy();
@@ -439,10 +519,17 @@ function tabmat() {
                                 return `
                                     <ul class="action">
                                         <li class="edit">
-                                            <button class="btn" id="edit-btn" type="button" data-id="${data}" data-bs-toggle="modal" data-bs-target="#EditMasterMaterial"><i class="icon-pencil"></i></button>
+                                            <button class="btn" id="edit-btn" type="button" 
+                                                data-id="${data}" data-nm="${full.nama_material}" data-kt="${full.kat_material}"
+                                                data-mk="${full.merk_material}" data-wn="${full.warna_material}" data-st="${full.sat_material}" data-img="${full.img_material}"
+                                                data-bs-toggle="modal" data-bs-target="#EditMasterMaterial">
+                                                <i class="icon-pencil"></i>
+                                            </button>
                                         </li>
                                         <li class="delete">
-                                            <button class="btn" id="delete-btn" type="button" data-id="${data}"><i class="icon-trash"></i></button>
+                                            <button class="btn" id="delete-btn" type="button" data-id="${data}" data-img="${full.img_material}">
+                                                <i class="icon-trash"></i>
+                                            </button>
                                         </li>
                                     </ul>
                                 `;
@@ -450,10 +537,10 @@ function tabmat() {
                                 return `
                                     <ul class="action">
                                         <li class="edit">
-                                            <button class="btn" id="edit-btn" type="button" data-id="${data}" data-bs-toggle="modal" data-bs-target="#EditMasterMaterial"><i class="icon-pencil disabled"></i></button>
+                                            <button class="btn" id="edit-btn-disabled" type="button"><i class="icon-pencil disabled"></i></button>
                                         </li>
                                         <li class="delete">
-                                            <button class="btn" id="disabled-btn" type="button" data-id="${data}"><i class="icon-trash disabled"></i></button>
+                                            <button class="btn" id="delete-btn-disabled" type="button"><i class="icon-trash disabled"></i></button>
                                         </li>
                                     </ul>
                                 `;
@@ -486,4 +573,203 @@ function tabmat() {
             ]                                    
         });  
     }); 
+}
+function createdata() {
+    $("#addm").off('click').on("click", function () {
+        var requiredFields = ['idm', 'nmm', 'katm', 'mrkm', 'wrnm', 'satm'];
+        for (var i = 0; i < requiredFields.length; i++) {
+            var fieldId = requiredFields[i];
+            var fieldValue = $("#" + fieldId).val().trim();
+            if (fieldValue === "") {
+                swal("Gagal menambahkan data material", "Harap lengkapi semua kolom yang diperlukan", {
+                    icon: "error",
+                }).then(function() {
+                    $("#" + fieldId).focus();
+                });
+                return;
+            }
+        }
+        var fileInput = $("#imgm")[0];
+        if (fileInput.files.length === 0) {
+            swal("Gagal menambahkan data material", "Harap pilih gambar", {
+                icon: "error",
+            }).then(function() {
+                $("#imgm").focus();
+            });
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('kode', $("#idm").val());
+        formData.append('nama', $("#nmm").val());
+        formData.append('kat', $("#katm").val());
+        formData.append('merk', $("#mrkm").val());
+        formData.append('warna', $("#wrnm").val());
+        formData.append('sat', $("#satm").val());
+        formData.append('img_material', fileInput.files[0]);
+        $.ajax({
+            type: "POST",
+            url: base_url+"master-material/simpan-data",
+            data: formData,
+            processData: false, 
+            contentType: false,
+            dataType: "json", 
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("Data material berhasil ditambahkan", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    }).then(function() {
+                        //  window.location.href = base_url+"master-material";
+                        $('#form-crem').find('input').val('');
+                        $('#form-crem').find('select').val('0').trigger('change.select2');
+                        clearImgPreview();
+                        generateid();
+                        tableMat.ajax.reload();
+                    });
+                }  else {
+                    swal("Gagal menambahkan data material, " + response.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function (error) {
+                swal("Gagal!: " + error.status, {
+                    icon: "error",
+                });
+            }
+        });
+    });
+}
+function editmtrl() {
+    $('#EditMasterMaterial').on('shown.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        const $uploadBtn = $('#eupload-btn');
+        edgetselect2();
+    
+        $('#eidm').val(button.data('id'));
+        $('#enmm').val(button.data('nm'));
+        $("#ekatm").empty().append('<option value="' + button.data('kt') + '">' + button.data('kt') + '</option>').trigger('change.select2');
+        $("#emrkm").empty().append('<option value="' + button.data('mk') + '">' + button.data('mk') + '</option>').trigger('change.select2');
+        $("#ewrnm").empty().append('<option value="' + button.data('wn') + '">' + button.data('wn') + '</option>').trigger('change.select2');
+        $("#esatm").empty().append('<option value="' + button.data('st') + '">' + button.data('st') + '</option>').trigger('change.select2');
+        $uploadBtn.css('background-image', 'url(' +base_url+"/assets/lvaimages/material/"+ button.data('img') + ')');
+        $('#oldimg').val(button.data('img'));
+        edimgpreview();
+        updatedata();
+    });
+}
+function updatedata() {
+    $("#edmtr").off('click').on("click", function (e) {
+        e.preventDefault();
+    
+        var fileInput = $("#eimgm")[0];
+        var oldImage = $("#oldimg").val(); // Previous image URL
+        var formData = new FormData();
+        formData.append('oldimg', oldImage);
+        // Append the new file to formData if selected
+        if (fileInput.files.length > 0) {
+            formData.append('img_material', fileInput.files[0]);
+        }
+    
+        // Add other form data
+        formData.append('eidm', $('#eidm').val()); // Example of additional data
+        formData.append('enmm', $('#enmm').val());
+        formData.append('ekatm', $('#ekatm').val());
+        formData.append('emrkm', $('#emrkm').val());
+        formData.append('ewrnm', $('#ewrnm').val());
+        formData.append('esatm', $('#esatm').val());
+    
+        $.ajax({
+            url: base_url + 'master-material/update-data',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                swal("Data material berhasil diupdate", {
+                    icon: "success",
+                    buttons: false,
+                    timer: 1000
+                }).then(function() {
+                    $('#EditMasterMaterial').modal('hide');
+                    tableMat.ajax.reload();
+                });
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                swal("Error", "Failed to update data", "error");
+                console.error('Error:', status, error);
+            }
+        });
+    });
+}
+function deletedata() {
+    $(document).on('click', '#delete-btn', function (e) {
+        e.preventDefault();
+    
+        var idm = $(this).data('id');
+        var img = $(this).data('img');
+    
+        swal({
+            title: 'Apa anda yakin?',
+            content: {
+                element: 'span',
+                attributes: {
+                    innerHTML: 'Menghapus data material <strong>' + idm + '</strong>.'
+                }
+            },
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Delete',
+                    value: true,
+                    visible: true,
+                    className: 'btn-danger',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'master-material/hapus-data/',
+                    dataType: "json", 
+                    data: {
+                        idm: idm,
+                        img: img
+                    },
+                    success: function (response) {
+                        if (response.success) {                            
+                            swal(response.message, {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1500
+                            }).then(function() {
+                                tableMat.ajax.reload();
+                                generateid();
+                            });
+                        } else {
+                            swal(response.message, {
+                                icon: "error",
+                                buttons: false,
+                                timer: 1000
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });
+    });
 }

@@ -76,18 +76,20 @@ $(document).ready(function () {
             $(".sidebar-list.customer").addClass('active');
             $(".sidebar-list.customer .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.customer ul.sidebar-submenu").slideDown('normal');
-        }else if(segment2 == "depo-customer") {
-            $(".customer").addClass("active");
-            $(".cdec").addClass("active");
-            $(".sidebar-list.customer").addClass('active');
-            $(".sidebar-list.customer .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-            $(".sidebar-list.customer ul.sidebar-submenu").slideDown('normal');
-        }else if(segment2 == "tran-customer") {
-            $(".customer").addClass("active");
-            $(".ctra").addClass("active");
-            $(".sidebar-list.customer").addClass('active');
-            $(".sidebar-list.customer .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-            $(".sidebar-list.customer ul.sidebar-submenu").slideDown('normal');
+        }
+    }else if (segment1 == "pembelian"){
+        if (segment2 == "pembelian-material") {
+            $(".pembelian").addClass("active");
+            $(".pbm").addClass("active");
+            $(".sidebar-list.pembelian").addClass('active');
+            $(".sidebar-list.pembelian .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.pembelian ul.sidebar-submenu").slideDown('normal'); 
+        }else if(segment2 == "print-material") {
+            $(".pembelian").addClass("active");
+            $(".prm").addClass("active");
+            $(".sidebar-list.pembelian").addClass('active');
+            $(".sidebar-list.pembelian .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.pembelian ul.sidebar-submenu").slideDown('normal');
         }
     }
     $(document).on('select2:open', () => {

@@ -30,7 +30,7 @@
                                 <h4>Formulir Input Material</h4>
                             </div>
                             <div class="card-body custom-input">
-                                <form class="row g-3">
+                                <form class="row g-3" id="form-crem">
                                     <!-- ID Material -->
                                     <div class="col-3 position-relative"> 
                                         <label class="form-label" for="idm">ID MATERIAL</label>
@@ -45,7 +45,7 @@
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="katm">KATEGORI MATERIAL</label>
                                         <select class="form-select" id="katm" data-id="KAT" required="">
-                                            <option selected="" disabled="" value="">Pilih Kategori Material</option>
+                                            <option selected="" disabled="" value="0">Pilih Kategori Material</option>
                                         </select>
                                     </div>
                                     <!-- Button Tambah -->
@@ -60,7 +60,7 @@
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="mrkm">MEREK MATERIAL</label>
                                         <select class="form-select" id="mrkm" required="">
-                                            <option selected="" disabled="" value="">Pilih Merek</option>
+                                            <option selected="" disabled="" value="0">Pilih Merek</option>
                                         </select>
                                     </div>
                                     <!-- Button Tambah -->
@@ -75,7 +75,7 @@
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="wrnm">WARNA MATERIAL</label>
                                         <select class="form-select" id="wrnm" required="">
-                                            <option selected="" disabled="" value="">Pilih Variant Warna</option>
+                                            <option selected="" disabled="" value="0">Pilih Variant Warna</option>
                                         </select>
                                     </div>
                                     <!-- Button Tambah -->
@@ -90,7 +90,7 @@
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="satm">SATUAN MATERIAL</label>
                                         <select class="form-select" id="satm" required="">
-                                            <option selected="" disabled="" value="">Pilih Satuan Material</option>
+                                            <option selected="" disabled="" value="0">Pilih Satuan Material</option>
                                         </select>
                                     </div>
                                     <!-- Button Tambah -->
@@ -108,7 +108,7 @@
                                     </div>
                                     <!-- Submit Barang -->
                                     <div class="col-12 position-relative mb-3">
-                                        <button class="btn btn-primary" type="button" id="addm">TAMBAH MATERIAL</button>
+                                        <button class="btn btn-primary" type="button" id="addm">Tambah Material</button>
                                     </div>
                                 </form>
                             </div>
@@ -196,133 +196,65 @@
                     </div>
                 </div>
             </div>
-            <!-- Detail Produk -->
-            <div class="modal fade" id="DetailMaterial" tabindex="-1" role="dialog" aria-labelledby="DetailMaterial" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal fade bd-example-modal-xl" id="EditMasterMaterial" tabindex="-1" role="dialog" aria-labelledby="EditMasterMaterial" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                     <div class="modal-content dark-sign-up">
-                        <div class="modal-body social-profile text-start" style="border-radius:5%; max-height: 90vh; overflow-y: auto;">
-                        <div class="modal-toggle-wrapper">
-                          <div class="modal-header mb-4">
-                              <h3>Detail Info</h3>
-                              <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                            <ul class="list-group">
-                                <!-- Barcode Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>BARCODE</span>
-                                    <strong>
-                                        <div style="font-size:0;position:relative;width:90px;height:35px;">
-                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:0px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:3px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:6px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:11px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:4px;height:35px;position:absolute;left:13px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:19px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:22px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:27px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:30px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:33px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:4px;height:35px;position:absolute;left:35px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:41px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:44px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:49px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:52px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:55px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:57px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:63px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:66px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:70px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:75px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:77px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:3px;height:35px;position:absolute;left:82px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:86px;top:0">&nbsp;</div>
-                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:88px;top:0">&nbsp;</div>
-                                        </div>
-                                    </strong>
-                                </li>
-                                <!-- ID Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>ID PRODUK</span>
-                                    <strong>ELVP-0001</strong>
-                                </li>
-                                <!-- Suplier -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>ID SUPPLIER</span>
-                                    <strong>ELVSS-0001</strong>
-                                </li>
-                                <!-- No. Faktur -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>NO FAKTUR</span>
-                                    <strong>KP981920003931</strong>
-                                </li>
-                                <!-- Nama Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>NAMA PRODUK</span>
-                                    <strong>KAIN JCC-34-REVI</strong>
-                                </li>
-                                <!-- Merek Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>MEREK PRODUK</span>
-                                    <strong>ELVA BRANDS</strong>
-                                </li>
-                                <!-- Jenis Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>KATEGORI PRODUK</span>
-                                    <strong>KAIN PRINTING</strong>
-                                </li>
-                                <!-- Warna Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>WARNA PRODUK</span>
-                                    <strong>COKLAT MAROON</strong>
-                                </li>
-                                <!-- Size Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>SIZE PRODUK</span>
-                                    <strong>-</strong>
-                                </li>
-                                <!-- Panjang Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>UKURAN PANJANG</span>
-                                    <strong>-</strong>
-                                </li>
-                                <!-- Lebar Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>UKURAN LEBAR</span>
-                                    <strong>-</strong>
-                                </li>
-                                <!-- Satuan Produk -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>SATUAN PRODUK</span>
-                                    <strong>METER</strong>
-                                </li>
-                                <!-- Jumlah Stock -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>TOTAL STOCK</span>
-                                    <strong>250</strong>
-                                </li>
-                                <!-- Satuan Stock -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>SATUAN STOCK</span>
-                                    <strong>METER</strong>
-                                </li>
-                                <!-- Total Modal -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>TOTAL COGS</span>
-                                    <strong class="text-success">Rp68.750.000</strong>
-                                </li>
-                                <!-- Tanggal Registrasi -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>TANGGAL REGISTER</span>
-                                    <strong>23/01/2024</strong>
-                                </li>
-                                <!-- Waktu Register -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>WAKTU REGISTER</span>
-                                    <strong>18:39:59</strong>
-                                </li>
-                            </ul>
+                        <div class="modal-header social-profile text-start">
+                            <h3>Edit Master Data Material</h3>
+                            <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                      </div>
+                        <div class="modal-body social-profile text-start">
+                            <form class="row g-3" id="form-uptm"  enctype="multipart/form-data">
+                                <!-- ID Material -->
+                                <div class="col-3 position-relative"> 
+                                    <label class="form-label" for="eidm">ID MATERIAL</label>
+                                    <input class="form-control" id="eidm" name="eidm" type="text" placeholder="ID Otomatis" readonly>
+                                </div>
+                                <!-- Nama Material -->
+                                <div class="col-9 position-relative">
+                                    <label class="form-label" for="enmm">NAMA MATERIAL</label>
+                                    <input class="form-control" id="enmm" name="enmm" type="text" placeholder="Silahkan Masukkan Nama Material" required>
+                                </div>
+                                <!-- Kategori Material -->
+                                <div class="col-3 position-relative"> 
+                                    <label class="form-label" for="ekatm">KATEGORI MATERIAL</label>
+                                    <select class="form-select" id="ekatm" name="ekatm" required="">
+                                        <option selected="" disabled="" value="">Pilih Kategori Material</option>
+                                    </select>
+                                </div>
+                                <!-- Brand Product -->
+                                <div class="col-3 position-relative"> 
+                                    <label class="form-label" for="emrkm">MEREK MATERIAL</label>
+                                    <select class="form-select" id="emrkm" name="emrkm" required="">
+                                        <option selected="" disabled="" value="">Pilih Merek</option>
+                                    </select>
+                                </div>
+                                <!-- Variant Warna -->
+                                <div class="col-3 position-relative"> 
+                                    <label class="form-label" for="ewrnm">WARNA MATERIAL</label>
+                                    <select class="form-select" id="ewrnm" name="ewrnm" required="">
+                                        <option selected="" disabled="" value="">Pilih Variant Warna</option>
+                                    </select>
+                                </div>
+                                <!-- Satuan MAterial -->
+                                <div class="col-3 position-relative"> 
+                                    <label class="form-label" for="esatm">SATUAN MATERIAL</label>
+                                    <select class="form-select" id="esatm" name="esatm" required="">
+                                        <option selected="" disabled="" value="">Pilih Satuan Material</option>
+                                    </select>
+                                </div>
+                                <!-- Upload Gambar -->
+                                <div class="col-12 position-relative">
+                                    <input type="hidden" id="oldimg" name="oldimg">
+                                    <input class="form-control" id="eimgm" name="eimgm" type="file" accept=".png, .jpg, .jpeg" required style="display:none;">
+                                    <div id="eupload-btn" class="upload-btn"></div>
+                                </div>
+                                <!-- Submit Barang -->
+                                <div class="col-12 position-relative mb-3">
+                                    <button class="btn btn-primary" type="button" id="edmtr">Simpan Perubahan</button>
+                                </div>
+                            </form>                                
+                        </div>
                     </div>
                 </div>
             </div>

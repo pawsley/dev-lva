@@ -47,7 +47,7 @@ $route['master-material/simpan-data']='MasterMaterial/createpost';
 $route['master-material/list-material']='MasterMaterial/tablematerial';
 $route['master-material/edit/(:any)']='MasterMaterial/edit/$1';
 $route['master-material/update-data']='MasterMaterial/updatepost';
-$route['master-material/hapus/(:any)'] = 'MasterMaterial/deletepost/$1';
+$route['master-material/hapus-data'] = 'MasterMaterial/deletepost';
 // master produk
 $route['master-produk']='MasterProduk';
 $route['master-produk/simpan-data']='MasterProduk/createpost';
@@ -67,11 +67,16 @@ $route['customer/input-data']='MasterCustomer/createdata';
 $route['customer/update-data']='MasterCustomer/updatedata';
 $route['customer/delete-data/(:any)'] = 'MasterCustomer/deletedata/$1';
 $route['customer/list-customer']='MasterCustomer/tablecst';
-// $route['customer/depo-customer']='MasterCustomer/depocust';
-// $route['customer/tran-customer']='MasterCustomer/trancust';
 // Penjualan Data Customer
 $route['penjualan/data-customer']='PenDataCustomer';
 $route['penjualan/kasir']='PenKasir';
 $route['penjualan/pengiriman']='PenKirim';
 $route['penjualan/riwayat']='PenRiwayat';
 $route['penjualan/transaksi']='PenTrans';
+// Pembelian Material
+$route['pembelian/pembelian-material']='PemMaterial';
+$route['pembelian/input-data']='PemMaterial/createdata';
+$route['pembelian/delete-data']='PemMaterial/deletedata';
+$route['pembelian/approve-data']='PemMaterial/approvepmb';
+$route['pembelian/list-pembelian']='PemMaterial/tablepmbmtr';
+$route['pembelian/list-pembelian-detail']='PemMaterial/tablepmbdtl';

@@ -41,17 +41,29 @@
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
                     <!-- PIC Supplier -->
-                    <div class="col-md-6 position-relative">
+                    <div class="col-md-3 position-relative">
                         <label class="form-label" for="FormPICSupplier">PIC Supplier</label>
                         <input class="form-control" id="pic" name="pic" type="text" placeholder="Masukkan Nama PIC Supplier" required="">
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
                     <!-- Kontak Supplier -->
-                    <div class="col-md-6 position-relative">
+                    <div class="col-md-3 position-relative">
                         <label class="form-label" for="FormNomorSupplier">Kontak Supplier</label>
                         <input class="form-control" id="wa" name="wa" type="text" placeholder="ex: 081220812206" oninput="formatPhoneNumber(this)" required="">
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
+                    <!-- BANK AKUN -->
+                    <div class="col-md-3 position-relative"> 
+                        <label class="form-label" for="bank_acc">Akun Bank</label>
+                        <select class="form-select" id="bank_acc" name="bank_acc">
+                            <option selected="" disabled="" value="">Pilih Bank Akun</option>
+                        </select>
+                    </div>
+                    <!-- NOMOR REKENING -->
+                    <div class="col-md-3 position-relative"> 
+                        <label class="form-label" for="norek">Nomor Rekening</label>
+                        <input class="form-control" id="norek" name="norek" type="number" placeholder="Input Nomor Rekening" aria-label="NomorRekening">
+                    </div>                    
                     <!-- Provinsi Supplier -->
                     <div class="col-md-4 position-relative">
                     <label class="form-label" for="FormProvinsiSupplier">Provinsi Supplier</label>
@@ -156,6 +168,18 @@
                             <label class="form-label" for="FormNomorSupplier">Kontak Supplier</label>
                             <input class="form-control" id="ekontak" name="ekontak" type="text" placeholder="ex: 081220812206" oninput="formatPhoneNumber(this)" required="">
                         </div>
+                        <!-- BANK AKUN -->
+                        <div class="col-md-6 position-relative"> 
+                            <label class="form-label" for="ebank_acc">Akun Bank</label>
+                            <select class="form-select" id="ebank_acc" name="ebank_acc">
+                                <option selected="" disabled="" value="">Pilih Bank Akun</option>
+                            </select>
+                        </div>
+                        <!-- NOMOR REKENING -->
+                        <div class="col-md-6 position-relative"> 
+                            <label class="form-label" for="enorek">Nomor Rekening</label>
+                            <input class="form-control" id="enorek" name="enorek" type="number" placeholder="Input Nomor Rekening" aria-label="NomorRekening">
+                        </div>                            
                         <!-- Provinsi Supplier -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormProvinsiSupplier">Provinsi Supplier</label>

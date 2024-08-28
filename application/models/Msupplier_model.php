@@ -13,7 +13,7 @@ class Msupplier_model extends CI_Model {
     return $query->result_array();
   }
 
-  public function create($ids, $ns, $wa, $pic, $prov, $kab, $kec, $alamat)
+  public function create($ids, $ns, $wa, $pic, $prov, $kab, $kec, $alamat,$bank_acc, $norek)
   {
     $data = array(
       'id_supplier' => $ids,
@@ -24,6 +24,8 @@ class Msupplier_model extends CI_Model {
       'kabupaten'=> $kab,
       'kecamatan'=> $kec,
       'alamat'=> $alamat,
+      'bank_acc'=> $bank_acc,
+      'norek'=> $norek,
       'status'=> '1'
     );  
     $this->db->insert('tb_supplier',$data);

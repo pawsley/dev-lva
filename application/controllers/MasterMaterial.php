@@ -232,23 +232,71 @@ class MasterMaterial extends Auth
       redirect('master-material');
     }
   }
-  public function deletepost($id) {
-    $result = $this->Mbank_model->delete($id);
-    echo json_encode($result);
-  }
-  public function updatepost(){
+  public function deletepost() {
     if ($this->input->is_ajax_request()) {
-      $id = $this->input->post('data_id');
-      $data = [
-        'no_rek' => $this->input->post('e_no_rek'),
-        'nama_bank'      => $this->input->post('e_nama_bank'),
-        'nama_rek'      => $this->input->post('e_nama_rek')
-      ];
-      
-      $this->Mbank_model->update($id, $data);
-      echo json_encode(['status' => 'success']);
+      $id = $this->input->post('idm');
+      $img = $this->input->post('img');
+      $result = $this->Mmaterial_model->delete($id);
+      $imagePath = './assets/lvaimages/material/';
+      $fileName = $imagePath . $img;
+      if (file_exists($fileName)) {
+          unlink($fileName);
+      }
+      echo json_encode($result);
+    }else{
+      show_404();
+    }
+  }
+  public function updatepost() {
+    if ($this->input->is_ajax_request()) {
+        $this->load->library('upload');
+        $this->load->helper('file'); // Load file helper for unlinking files
+        
+        $id = $this->input->post('eidm');
+        $oldImage = $this->input->post('oldimg'); // Get the old image URL
+        $data = [
+            'nama_material' => $this->input->post('enmm'),
+            'kat_material' => $this->input->post('ekatm'),
+            'merk_material' => $this->input->post('emrkm'),
+            'warna_material' => $this->input->post('ewrnm'),
+            'sat_material' => $this->input->post('esatm'),
+            'img_material' => $oldImage // Default to old image
+        ];
+
+        // Check if a new file was uploaded
+        if (!empty($_FILES['img_material']['name'])) {
+            $file_path = realpath(APPPATH . '../assets/lvaimages/material');
+            $config['upload_path'] = $file_path;
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['overwrite'] = true;
+            $config['file_name'] = $id . '_' . $_FILES['img_material']['name'];
+            $config['max_size'] = 10048;
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('img_material')) {
+                $upload_data = $this->upload->data();
+                $newImage = $upload_data['file_name'];
+                $data['img_material'] = $newImage; // Update with new image
+                
+                // Remove the old image file if it exists
+                if ($oldImage!==$newImage) {
+                  $oldImagePath = $file_path . '/' . $oldImage;
+                  if ($oldImage && file_exists($oldImagePath)) {
+                      unlink($oldImagePath);
+                  }
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => $this->upload->display_errors()]);
+                return;
+            }
+        }
+
+        // Update the database with the data
+        $this->Mmaterial_model->update($id, $data);
+        echo json_encode(['status' => 'success']);
     } else {
-      redirect('master-bank');
+        redirect('master-material');
     }
   }
 }

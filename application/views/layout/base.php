@@ -219,8 +219,6 @@
                     <ul class="sidebar-submenu">
                       <li class="cbb"><a class="cbb" href="<?=base_url()?>customer/buat-baru">Buat Baru</a></li>
                       <li class="cdac"><a class="cdac" href="<?=base_url()?>customer/daftar-customer">Daftar Customer</a></li>
-                      <!-- <li class="cdec"><a class="cdec" href="<?=base_url()?>customer/depo-customer">Deposit Customer</a></li>
-                      <li class="ctra"><a class="ctra" href="<?=base_url()?>customer/tran-customer">Transaksi Customer</a></li> -->
                     </ul>
                   </li>
                   <!-- Menu Aplikasi-->
@@ -260,6 +258,23 @@
                       <li><a href="<?=base_url()?>penjualan/pengiriman">Pengiriman</a></li>
                       <li><a href="<?=base_url()?>penjualan/riwayat">Riwayat Penjualan</a></li>
                       <li><a href="<?=base_url()?>penjualan/transaksi">Transaksi Customer</a></li>
+                    </ul>
+                  </li>                  
+                  <!-- Menu Pembelian -->
+                  <li class="sidebar-list pembelian"><i class="fa fa-thumb-tack"></i>
+                    <label class="badge badge-light-primary"></label>
+                    <a class="sidebar-link sidebar-title pembelian" href="#">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-social"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-social"></use>
+                        </svg>
+                        <span>Pembelian</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li class="pbm"><a class="pbm" href="<?=base_url()?>pembelian/pembelian-material">Pembelian Material</a></li>
+                      <li class="prm"><a class="prm" href="<?=base_url()?>pembelian/print-material">Printing Material</a></li>
                     </ul>
                   </li>                  
                 </ul>

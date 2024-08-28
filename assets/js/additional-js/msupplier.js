@@ -2,6 +2,7 @@ var tsupp;
 $(document).ready(function () {
     reload();
     getid();
+    getbank();
     deletedata();
 });
 
@@ -71,34 +72,89 @@ function reload() {
           ],                        
     });    
 }
-
+function getbank() {
+    $('#bank_acc').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'MasterBank/bank_json',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // Add the search term to your AJAX request
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.name,
+                            text: item.code + ' | ' + item.name,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });
+}
+function getselect(){
+    $('#ebank_acc').select2({
+        dropdownParent: $("#EditMasterSupplierModal"),
+        language: 'id',
+        ajax: {
+            url: base_url + 'MasterBank/bank_json',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // Add the search term to your AJAX request
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.name,
+                            text: item.code + ' | ' + item.name,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });
+}
 function getid(){
   $('#EditMasterSupplierModal').on('show.bs.modal', function (e) {
-      $('#estatus').select2({
-          dropdownParent: $("#EditMasterSupplierModal"),
-          language: 'id',
-      });  
-      var button = $(e.relatedTarget);
-      var id_sup = button.data('id');
-      
-      $.ajax({
-          url: base_url + "master-supplier/edit/"+id_sup,
-          dataType: "json",
-          success: function(data) {
-              $.each(data.get_id, function(index, item) {
-                  $("#eid").val(item.id_supplier);
-                  $("#enama").val(item.nama_supplier);
-                  $("#epic").val(item.pic);
-                  $("#ekontak").val(item.kontak);
-                  $("#eprov").val(item.provinsi);
-                  $("#ekot").val(item.kabupaten);
-                  $("#ekec").val(item.kecamatan);
-                  $("#ealamat").val(item.alamat);
-                  $("#estatus").val(item.status).trigger('change');
-              });
-          }
-      });
-      updatedata();
+        getselect();    
+        $('#estatus').select2({
+            dropdownParent: $("#EditMasterSupplierModal"),
+            language: 'id',
+        });  
+        var button = $(e.relatedTarget);
+        var id_sup = button.data('id');
+        
+        $.ajax({
+            url: base_url + "master-supplier/edit/"+id_sup,
+            dataType: "json",
+            success: function(data) {
+                $.each(data.get_id, function(index, item) {
+                    $("#eid").val(item.id_supplier);
+                    $("#enama").val(item.nama_supplier);
+                    $("#epic").val(item.pic);
+                    $("#ekontak").val(item.kontak);
+                    $("#eprov").val(item.provinsi);
+                    $("#ekot").val(item.kabupaten);
+                    $("#ekec").val(item.kecamatan);
+                    $("#ealamat").val(item.alamat);
+                    $("#ebank_acc").empty().append('<option value="' + item.bank_acc + '">' + item.bank_acc + '</option>').trigger('change.select2');
+                    $("#enorek").val(item.norek);
+                    $("#estatus").val(item.status).trigger('change');
+                });
+            }
+        });
+        updatedata();
   });
 }
 function updatedata(){
@@ -111,6 +167,8 @@ function updatedata(){
       var kota = $("#ekot").val();
       var kec = $("#ekec").val();
       var alamat = $("#ealamat").val();
+      var bank_acc = $("#ebank_acc").val();
+      var norek = $("#enorek").val();
       var status = $("#estatus").val();
       if (!nama || !prov || !kota || !kec || !pic || !alamat || !kontak) {
           swal("Error", "Lengkapi form yang kosong", "error");
@@ -128,6 +186,8 @@ function updatedata(){
               ekot: kota,
               ekec: kec,
               ealamat: alamat,
+              ebank_acc: bank_acc,
+              enorek: norek,
               estatus: status,
           },
           dataType: "json", 

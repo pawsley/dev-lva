@@ -71,8 +71,10 @@ class MasterSupplier extends Auth
     $kab = $this->input->post('kab_name');
     $kec = $this->input->post('kec_name');
     $alamat = $this->input->post('alamat');
+    $bank_acc = $this->input->post('bank_acc');
+    $norek = $this->input->post('norek');
 		
-		$this->Msupplier_model->create($ids, $ns, $wa, $pic, $prov, $kab, $kec, $alamat);
+		$this->Msupplier_model->create($ids, $ns, $wa, $pic, $prov, $kab, $kec, $alamat, $bank_acc, $norek);
 
     redirect('master-supplier');
   }
@@ -93,6 +95,8 @@ class MasterSupplier extends Auth
         'kabupaten'   => $this->input->post('ekot'),
         'kecamatan'   => $this->input->post('ekec'),
         'alamat'      => $this->input->post('ealamat'),
+        'bank_acc'      => $this->input->post('ebank_acc'),
+        'norek'      => $this->input->post('enorek'),
         'status'      => $this->input->post('estatus'),
       ];
       
