@@ -132,7 +132,6 @@ class PemMaterial extends CI_Controller
                 'total_pb_dtl'  => $item['total']
             ];
             $this->PemMaterial_model->createpmbdtl($data_detail);
-            $this->PemMaterial_model->statmastermtr($item['kode']);
         }
 
         echo json_encode(['status' => 'success']);
