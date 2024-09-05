@@ -1,196 +1,172 @@
-<div class="page-body">
+        <div class="page-body">
             <div class="container-fluid">
-              <div class="page-title">
-                <div class="row">
-                  <div class="col-6">
-                    <h4>Buat Katalog</h4>
-                  </div>
-                  <div class="col-6">
-                    <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="<?=base_url()?>">                                       
-                          <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-gallery"></use>
-                          </svg></a></li>
-                      <li class="breadcrumb-item"> Home</li>
-                      <li class="breadcrumb-item"> Katalog</li>
-                      <li class="breadcrumb-item active"> Buat Katalog</li>
-                    </ol>
-                  </div>
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Buat Katalog</h4>
+                        </div>
+                        <div class="col-6">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="<?=base_url()?>">                                       
+                                        <svg class="stroke-icon">
+                                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item"> General</li>
+                                <li class="breadcrumb-item"> Katalog</li>
+                                <li class="breadcrumb-item active"> Buat Katalog</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
             <!-- Container-fluid starts-->
             <div class="container-fluid">
               <!-- Form Tambah Supplier -->
-              <div class="row">
-                  <!-- Form Produk -->
-                  <div class="col-12">
-                      <div class="card">
+                <div class="row">
+                    <!-- Form Produk -->
+                    <div class="col-12">
+                        <div class="card">
                           <div class="card-header">
                               <h4>Formulir Input Produk</h4>
                           </div>
                           <div class="card-body custom-input">
-                              <form class="row g-3">
+                                <form class="row g-3" id="form-log" enctype="multipart/form-data">
                                     <!-- ID Produk -->
                                     <div class="col-4 position-relative"> 
-                                        <label class="form-label" for="SKUKatalog">SKU KATALOG</label>
-                                        <input class="form-control" id="SKUKatalog" type="text" placeholder="Nomor SKU Katalog" aria-label="SKUKatalog">
+                                        <label class="form-label" for="sku">SKU KATALOG</label>
+                                        <input class="form-control" id="sku" name="sku" type="text" placeholder="Nomor SKU Katalog" aria-label="SKUKatalog" readonly>
                                     </div>
                                     <!-- Nama Produk -->
                                     <div class="col-8 position-relative">
-                                        <label class="form-label" for="NamaKatalog">NAMA KATALOG</label>
-                                        <input class="form-control" id="NamaKatalog" type="text" placeholder="Silahkan Masukkan Nama Katalog" required>
+                                        <label class="form-label" for="namakatalog">NAMA KATALOG</label>
+                                        <input class="form-control" id="namakatalog" name="namakatalog" type="text" placeholder="Silahkan Masukkan Nama Katalog" required>
                                     </div>
-                                    <!-- Kategori Produk -->
+                                    <!-- Tipe Produk -->
                                     <div class="col-2 position-relative"> 
-                                        <label class="form-label" for="KategoriProduk">KATEGORI</label>
-                                        <select class="form-select" id="KategoriProduk" required="">
-                                            <option selected="" disabled="" value="">Pilih Kategori Produk</option>
-                                            <option>Kain Cetak</option>
-                                            <option>Kain Krudung</option>
+                                        <label class="form-label" for="selkat">TIPE</label>
+                                        <select class="form-select" id="selkat" name="selkat" required="">
+                                            <!-- <option selected="" disabled="" value="0">Pilih Tipe</option> -->
                                         </select>
                                     </div>
                                     <!-- Button Tambah -->
                                     <div class="col-2 position-relative">
-                                        <label class="form-label" for="shortcuttambahdata">TOMBOL AKSI</label>
+                                        <label class="form-label">TOMBOL AKSI</label>
                                         <div class="text-center">
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem"><i class="fa fa-bars"></i></a>
+                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="TPE" data-title="Tambah Tipe Baru" data-label="Nama Tipe Baru"><i class="fa fa-plus"></i></a>
+                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="TPE" data-title="Daftar Tipe" data-label="Nama Tipe"><i class="fa fa-bars"></i></a>
                                         </div>
                                     </div>
                                     <!-- Brand Product -->
                                     <div class="col-2 position-relative"> 
-                                        <label class="form-label" for="MerekProduk">MEREK KATALOG</label>
-                                        <select class="form-select" id="MerekProduk" required="">
-                                            <option selected="" disabled="" value="">Pilih Merek</option>
-                                            <option>Merek 1</option>
-                                            <option>Merek 2</option>
+                                        <label class="form-label" for="selmrk">MERK</label>
+                                        <select class="form-select" id="selmrk" name="selmrk" required="">
+                                            <!-- <option selected="" disabled="" value="0">Pilih Merek</option> -->
                                         </select>
                                     </div>
                                     <!-- Button Tambah -->
                                     <div class="col-2 position-relative">
-                                        <label class="form-label" for="shortcuttambahdata">TOMBOL AKSI</label>
+                                        <label class="form-label">TOMBOL AKSI</label>
                                         <div class="text-center">
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem"><i class="fa fa-bars"></i></a>
+                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="MRK" data-title="Tambah Merk Baru" data-label="Nama Merk Baru"><i class="fa fa-plus"></i></a>
+                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="MRK" data-title="Daftar Merk" data-label="Nama Merk"><i class="fa fa-bars"></i></a>
                                         </div>
                                     </div>
                                     <!-- Variant Warna -->
                                     <div class="col-2 position-relative"> 
-                                        <label class="form-label" for="VarianWarnaProduk">WARNA KATALOG</label>
-                                        <select class="form-select" id="VarianWarnaProduk" required="">
-                                            <option selected="" disabled="" value="">Pilih Variant Warna</option>
-                                            <option>Merah</option>
-                                            <option>Biru</option>
+                                        <label class="form-label" for="selwrn">WARNA</label>
+                                        <select class="form-select" id="selwrn" name="selwrn" required="">
+                                            <!-- <option selected="" disabled="" value="0">Pilih Warna</option> -->
                                         </select>
                                     </div>
                                     <!-- Button Tambah -->
                                     <div class="col-2 position-relative">
-                                        <label class="form-label" for="shortcuttambahdata">TOMBOL AKSI</label>
+                                        <label class="form-label">TOMBOL AKSI</label>
                                         <div class="text-center">
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem"><i class="fa fa-bars"></i></a>
+                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="WRN" data-title="Tambah Warna Baru" data-label="Nama Warna Baru"><i class="fa fa-plus"></i></a>
+                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="WRN" data-title="Daftar Warna" data-label="Nama Warna"><i class="fa fa-bars"></i></a>
                                         </div>
                                     </div>
-                                    <!-- Ukuran / Size -->
-                                    <div class="col-4 position-relative">
-                                        <label class="form-label" for="UkuranProduk">SIZE KATALOG</label>
-                                        <select class="form-select" id="SatuanProduk" required="">
-                                            <option selected="" disabled="" value="">Pilih Satuan Produk</option>
-                                            <option>Small</option>
-                                            <option>Medium</option>
-                                            <option>Large</option>
-                                            <option>Xtra Large</option>
-                                            <option>Custom</option>
-                                        </select>
-                                    </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label" for="shortcuttambahdata">TOMBOL AKSI</label>
+                                    <div class="col-5 position-relative">
+                                        <label class="form-label" id="logdtl">DETAIL KATALOG</label>
                                         <div class="text-center">
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem"><i class="fa fa-bars"></i></a>
+                                            <a class="btn badge-light-primary" href="#!" id="add-row"><i class="icofont icofont-baby-cloth"></i></a>
+                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="SZ" data-title="Tambah Size Baru" data-label="Nama Size Baru">SZ</a>
+                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="SZ" data-title="Daftar Size" data-label="Nama Size"><i class="icofont icofont-settings"></i></a>
+                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="ST" data-title="Tambah Satuan Baru" data-label="Nama Satuan Baru">ST</a>
+                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="ST" data-title="Daftar Satuan" data-label="Nama Satuan"><i class="icofont icofont-settings"></i></a>
                                         </div>
                                     </div>
-                                    <!-- Satuan Produk -->
-                                    <div class="col-4 position-relative"> 
-                                        <label class="form-label" for="SatuanProduk">SATUAN KATALOG</label>
-                                        <select class="form-select" id="SatuanProduk" required="">
-                                            <option selected="" disabled="" value="">Pilih Satuan Produk</option>
-                                            <option>Centi Meter</option>
-                                            <option>Mili Meter</option>
-                                            <option>Meter</option>
-                                        </select>
-                                    </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label" for="shortcuttambahdata">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem"><i class="fa fa-bars"></i></a>
+                                    <!-- Size Chart -->
+                                    <div class="col-12 position-relative">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="width: 6px !important;">Size</th>
+                                                        <th scope="col" style="width: 6px !important;">Satuan</th>
+                                                        <th scope="col" style="width: 2px !important;">Panjang</th>
+                                                        <th scope="col" style="width: 2px !important;">Lebar</th>
+                                                        <th scope="col" style="width: 2px !important;">Ukuran LD</th>
+                                                        <th scope="col" style="width: 2px !important;">Ukuran PB</th>
+                                                        <th scope="col" style="width: 120px !important; text-align:center;">Harga Jual</th>
+                                                        <th scope="col" style="width: 1px !important;">Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="table-body">
+
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    </div>
-                                    <!-- Ukuran Panjang -->
-                                    <div class="col-3 position-relative">
-                                        <label class="form-label" for="PanjangUkuranProduk">UKURAN PANJANG</label>
-                                        <input class="form-control" id="PanjangUkuranProduk" type="text" placeholder="Ukuran Panjang" required>
-                                    </div>
-                                    <!-- Ukuran Lebar -->
-                                    <div class="col-3 position-relative">
-                                        <label class="form-label" for="LebarUkuranProduk">UKURAN LEBAR</label>
-                                        <input class="form-control" id="LebarUkuranProduk" type="text" placeholder="Ukuran Lebar" required>
-                                    </div>
-                                    <!-- Lingkar Dada -->
-                                    <div class="col-3 position-relative">
-                                        <label class="form-label" for="LebarUkuranProduk">UKURAN LD</label>
-                                        <input class="form-control" id="LebarUkuranProduk" type="text" placeholder="Ukuran Lingkar Dada" required>
-                                    </div>
-                                    <!-- Panjang Baju -->
-                                    <div class="col-3 position-relative">
-                                        <label class="form-label" for="LebarUkuranProduk">UKURAN PB</label>
-                                        <input class="form-control" id="LebarUkuranProduk" type="text" placeholder="Ukuran Panjang Baju" required>
                                     </div>
                                     <!-- Catatan Produk -->
                                     <div class="col-12 position-relative">
-                                      <label class="form-label" for="CatatanProduk">CATATAN TAMBAHAN</label>
-                                      <textarea class="form-control input-air-primary" id="exampleFormControlTextarea19" rows="3"></textarea>
+                                      <label class="form-label" for="notes">CATATAN TAMBAHAN</label>
+                                      <textarea class="form-control input-air-primary" id="notes" name="notes" rows="3"></textarea>
                                     </div>
                                     <!-- Upload Gambar -->
                                     <div class="col-12 position-relative"> 
-                                        <label class="form-label" for="formFile">UPLOAD GAMBAR</label>
-                                        <input class="form-control" id="formFile" type="file" accept=".jgp, .jpeg, .png" maxlength="10000000" required>
+                                        <label class="form-label" for="imgm">UPLOAD GAMBAR</label>
+                                        <input class="form-control" id="imgm" name="imgm" type="file" accept=".png, .jpg, .jpeg" style="visibility: hidden;">
+                                        <div id="upload-btn" class="upload-btn"></div>
                                     </div>
                                     <!-- Submit Barang -->
                                     <div class="col-12">
-                                        <button class="btn btn-primary" type="submit">INPUT PRODUK</button>
+                                        <button type="submit" id="sublog" class="btn btn-primary">
+                                            <span id="spinner_sublog" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
+                                            <span id="tx_sublog">Tambah Katalog</span>
+                                        </button>
+                                        <!-- <button class="btn btn-primary" type="submit">Tambah Katalog</button> -->
                                     </div>
-                              </form>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               <!-- End Form Produk -->
             </div>
             <!-- End Listing Supplier -->
             <!-- Modal Tambah Sub Kategori Baru -->
-            <div class="modal fade" id="TambahSubKategoriItem" tabindex="-1" role="dialog" aria-labelledby="SubKategoriItem" aria-hidden="true">
+            <div class="modal fade" id="TambahSubKategoriItem" tabindex="-1" role="dialog" aria-labelledby="TambahSubKategoriItem" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content dark-sign-up">
                     <div class="modal-body social-profile text-start">
                         <div class="modal-toggle-wrapper">
                             <div class="modal-header mb-4">
-                                <h3>Tambah Sub Kategori</h3>
+                                <h3 id="titmod"></h3>
                                 <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form class="row g-3">
-                            <!-- Nama Supplier -->
+                            <!-- Nama -->
                             <div class="col-md-12 position-relative">
-                                <label class="form-label" for="SubKategoriItem">Sub Kategori</label>
-                                <input class="form-control" id="SubKategoriItem" type="text" placeholder="Masukkan Item Baru">
+                                <label class="form-label" for="item" id="labmod"></label>
+                                <input class="form-control" id="item" name="item" type="text" placeholder="Masukkan Item Baru">
                             </div>
                             <!-- Button Simpan -->
                             <div class="col-12">
-                                <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Tambah Baru</button>
+                                <button class="btn btn-primary" type="button" id="addmod">Tambah Baru</button>
                             </div>
                             </form>
                         </div>
@@ -200,43 +176,24 @@
             </div>
             <!-- Modal Daftar Kategori -->
             <div class="modal fade" id="DaftarSubKategoriItem" tabindex="-1" role="dialog" aria-labelledby="#DaftarSubKategoriItem" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="category-pill-modalLabel">List Data</h1>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body custom-input">
-                    <form>
-                    <div class="row g-3">
-                        <!-- Kategori 1 -->
-                        <div class="col-9">
-                        <input class="form-control" id="merek" name="merek" type="text" placeholder="Merek">
+                <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="labdaf"></h1>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <!-- Hapus -->
-                        <div class="col-3">
-                        <div class="btn-group">
-                            <button class="btn btn-danger add_merk" type="button" id="add_merk"><i class="fa fa-trash"></i></button>
+                        <div class="modal-body custom-input">
+                            <form>
+                                <div class="row g-3" id="daf-container">
+                                
+                                </div>
+                            </form>
                         </div>
-                        </div>
-                        <!-- Kategori 1 -->
-                        <div class="col-9">
-                        <input class="form-control" id="merek" name="merek" type="text" placeholder="Merek">
-                        </div>
-                        <!-- Hapus -->
-                        <div class="col-3">
-                        <div class="btn-group">
-                            <button class="btn btn-danger add_merk" type="button" id="add_merk"><i class="fa fa-trash"></i></button>
-                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" id="editmod" data-bs-dismiss="modal" type="button">Simpan</button>
                         </div>
                     </div>
-                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button>
-                    <button class="btn btn-primary" type="button">Simpan</button>
-                </div>
-                </div>
-            </div>
-            </div>
+            </div>          
           </div>

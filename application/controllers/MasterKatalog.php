@@ -7,8 +7,9 @@ class MasterKatalog extends Auth
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('Mkatalog_model');
   }
-
+  // Menu Katalog LVA
   public function index(){
     $data['content'] = $this->load->view('katalog/lvakatalog', '', true);
     $data['modal'] = '';
@@ -51,33 +52,68 @@ class MasterKatalog extends Auth
     ';
     $this->load->view('layout/base', $data); 
   }
+  // Menu Buat Katalog
+  public function generateid() {
+    $data['lastID'] = $this->Mkatalog_model->getLastID();
+    $numericPart = isset($data['lastID'][0]['id_katalog']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['id_katalog']) : '';
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    $data['newID'] = 'SKU-' . $incrementedNumericPart;
+    $data['defID'] = 'SKU-0001';
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+  }
+  public function getsb($kode){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mkatalog_model->getsb($kode,$searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  public function addsb(){
+    if ($this->input->is_ajax_request()) {
+      $kode = $this->input->post('kodekat');
+      $nk = $this->input->post('namakat');
+
+      $this->Mkatalog_model->addsb($kode, $nk);
+
+      echo json_encode(['status' => 'success']);
+    } else {
+        redirect('master-material');
+    }
+  }
+  public function deletesb($id) {
+    $result = $this->Mkatalog_model->deletesb($id);
+    echo json_encode($result);
+  }
+  public function updatesb(){
+    if ($this->input->is_ajax_request()) {
+      $json_data = $this->input->raw_input_stream;
+      $dafData = json_decode($json_data, true);
+      if (!empty($dafData)) {
+          foreach ($dafData as $data) {
+              $idr = $data['id'];
+              $nmr = $data['name'];
+
+              $this->Mkatalog_model->updatesb($idr, [
+                  'nama' => $nmr
+              ]);
+          }
+          echo json_encode(['status' => 'success']);
+      } else {
+          echo json_encode(['status' => 'error', 'message' => 'No data received']);
+      }
+    } else {
+      redirect('katalog');
+    }
+  }  
   public function buatbaru(){
     $data['content'] = $this->load->view('katalog/buatkatalog', '', true);
     $data['modal'] = '';
-    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    $data['css'] = '
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
-    <style>
-      .select2-selection__rendered {
-          line-height: 35px !important;
-      }
-      .select2-container .select2-selection--single {
-          height: 38px !important;
-          padding: 2px !important;
-      }
-      .select2-dropdown--below {
-        margin-top:-2% !important;
-      }
-      .select2-selection__arrow {
-          height: 37px !important;
-      }
-      .select2-container{
-        margin-bottom :-2%;
-      }
-    </style>
-    ';
-    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mmaterial.js') . '"></script>
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
+    $data['js'] = '
+    <script>var base_url = "' . base_url() . '";</script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.0') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -85,26 +121,67 @@ class MasterKatalog extends Auth
     <script src="' . base_url('assets/js/flat-pickr/custom-flatpickr.js') . '"></script>
     <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
     ';
     $this->load->view('layout/base', $data); 
   }
+  public function createdata(){
+    if ($this->input->is_ajax_request()) {
+      $this->load->library('upload');
+      $data = [
+          'id_katalog' => $this->input->post('sku'),
+          'nama_katalog'     => $this->input->post('namakatalog'),
+          'tipe_katalog'     => $this->input->post('selkat'),
+          'merk_katalog'      => $this->input->post('selmrk'),
+          'warna_katalog'  => $this->input->post('selwrn'),
+          'catatan'  => $this->input->post('notes')
+      ];
+      if (!empty($_FILES['img_katalog']['name'])) {
+        $file_path = realpath(APPPATH . '../assets/lvaimages/katalog');
+        $config['upload_path'] = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['overwrite'] = true;
+        $config['file_name'] = $this->input->post('sku') . '_' .$_FILES['img_katalog']['name'];
+        $config['max_size'] = 10048;
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('img_katalog')) {
+          $upload_data = $this->upload->data();
+          $data['img_katalog'] = $upload_data['file_name'];
+        } else {
+          echo json_encode(['status' => 'error', 'message' => $this->upload->display_errors()]);
+          return;
+        }
+      }
+
+      $table_data = json_decode($this->input->post('table_data'), true);
+
+      if (!empty($data)) {
+        $this->Mkatalog_model->addlog($data);
+
+        foreach ($table_data as $item) {
+            $data_detail = [
+                'id_katalog'  => $data['id_katalog'],
+                'satuan' => $item['satlog'],
+                'size'    => $item['sizelog'],
+                'panjang'=> $item['logp'],
+                'lebar'  => $item['logl'],
+                'ukuran_ld'  => $item['logld'],
+                'ukuran_pb'  => $item['logpb'],
+                'harga_jual'  => $item['loghj']
+            ];
+            $this->Mkatalog_model->addlogdtl($data_detail);
+        }
+
+        echo json_encode(['status' => 'success']);
+      } else {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid data']);
+      }
+    } else {
+      show_404();
+    }
+  }
+  // Menu Condiment Katalog
   public function condiments(){
     $data['content'] = $this->load->view('katalog/condiments', '', true);
     $data['modal'] = '';
@@ -136,7 +213,7 @@ class MasterKatalog extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mmaterial.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.0') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
