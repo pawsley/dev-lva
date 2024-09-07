@@ -1,222 +1,308 @@
         <div class="page-body">
-          <div class="container-fluid">
-            <div class="page-title">
-              <div class="row">
-                <div class="col-6">
-                  <h4>Condiments</h4>
-                </div>
-                <div class="col-6">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="<?=base_url()?>">                                       
-                            <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-gallery"></use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">Katalog</li>
-                    <li class="breadcrumb-item active">Condiments Katalog</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Container-fluid starts-->
-          <div class="container-fluid">
-            <!-- Mulai Data Produk Katalog -->
-            <div class="row"> 
-              <div class="col-12"> 
-                <div class="card height-equal"> 
-                <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
-                    <h4>Daftar Katalog</h4>
-                    <div class="d-flex align-items-center">
-                        <a href="<?=base_url()?>katalog/buat-baru/" class="btn btn-primary">
-                            <i class="fa fa-plus"></i> Buat Baru
-                        </a>
+            <div class="container-fluid">
+                <div class="page-title">
+                <div class="row">
+                    <div class="col-6">
+                    <h4>Condiments</h4>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="display" id="basic-1">
-                            <thead> 
-                                <tr>
-                                    <th style="min-width: 30px;"><span class="f-light f-w-600">#</span></th>
-                                    <th><span class="f-light f-w-600">IMG</span></th>
-                                    <th style="min-width: 150px;"><span class="f-light f-w-600">NAMA PRODUK</span></th>
-                                    <th><span class="f-light f-w-600">NO. SKU</span></th>
-                                    <th style="min-width: 120px;"><span class="f-light f-w-600">KATEGORI</span></th>
-                                    <th style="min-width: 120px;"><span class="f-light f-w-600">BRANDS</span></th>
-                                    <th style="min-width: 150px;"><span class="f-light f-w-600">VARIANT WARNA</span></th>
-                                    <th><span class="f-light f-w-600">SIZE</span></th>
-                                    <th style="min-width: 200px;"><span class="f-light f-w-600">COGS KATALOG </span> <i class="fa fa-money"></i></th>
-                                    <th style="min-width: 200px;"><span class="f-light f-w-600">HARGA JUAL KATALOG </span> <i class="fa fa-money"></i></th>
-                                    <th><span class="f-light f-w-600"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody> 
-                            <!-- Data Produk 1 -->
-                                <tr class="odd" role="row">
-                                    <td>
-                                        <input style="padding: 5px 12px; width:auto; height: 28px;" class="checkbox-class" type="checkbox" id="checkbox-27" data-id="27" data-input-id="checkbox-27-hpp" data-input-pub="checkbox-27-pub" data-input-mar="checkbox-27-mar" data-input-cb="checkbox-27-cb">
-                                    </td>
-                                    <td> 
-                                        <div class="light-product-box">
-                                            <img class="img-h-60 img-60" src="../assets/images/katalog/bonneta.jpg" alt="gambar-lva">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>BONNETA</p>
-                                    </td>
-                                    <td> 
-                                    <p class="f-light">02145YK796</p>
-                                    </td>
-                                    <td> 
-                                    <p class="f-light">Katalog Metro</p>
-                                    </td>
-                                    <td> 
-                                        <p class="f-light">LVA Brands</p>
-                                    </td>
-                                    <td> 
-                                      <p class="f-light">Midnight Red Maroon</p>
-                                     </td>
-                                    <td> 
-                                        <p class="f-light">L</p>
-                                    </td>
-                                    <td> 
-                                        <div class="input-group has-validation">
-                                            <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">Rp</span>
-                                            <input class="form-control input-hpp" id="checkbox-34-hpp" value="Rp1.750.000" type="text" onkeyup="formatRupiah(this);" readonly>
-                                        </div>
-                                    </td>
-                                    <td> 
-                                        <div class="input-group has-validation">
-                                            <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">Rp</span>
-                                            <input class="form-control input-hpp" id="checkbox-34-hpp" value="0" type="text" onkeyup="formatRupiah(this);">
-                                        </div>
-                                    </td>
-                                    <td> 
-                                        <div class="btn-group" role="group">
-                                            <button class="btn btn-success dropdown-toggle" id="btnGroupVerticalDrop1" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">AKSI</button>
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
-                                                <a class="dropdown-item" href="javascript(0);" data-bs-toggle="modal" data-bs-target="#DetailKatalog">Detail Katalog</a>
-                                                <a class="dropdown-item" href="#">Edit Katalog</a>
-                                                <a class="dropdown-item" href="#">Hapus Katalog</a>
-                                                <a class="dropdown-item" href="#">Bahan & Produk</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="col-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="<?=base_url()?>">                                       
+                                <svg class="stroke-icon">
+                                <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">General</li>
+                        <li class="breadcrumb-item">Katalog</li>
+                        <li class="breadcrumb-item active">Condiments Katalog</li>
+                    </ol>
                     </div>
                 </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <!-- Detail Katalog -->
-          <div class="modal fade" id="DetailKatalog" tabindex="-1" role="dialog" aria-labelledby="DetailKatalog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content dark-sign-up">
-                    <div class="modal-body social-profile text-start" style="border-radius:5%; max-height: 90vh; overflow-y: auto;">
-                    <div class="modal-toggle-wrapper">
-                      <div class="modal-header mb-4">
-                          <h3>Detail Info Katalog</h3>
-                          <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                        <ul class="list-group">
-                            <!-- Gambar Katalog -->
-                            <div class="text-center mb-3">
-                              <img src="<?=base_url()?>assets/images/katalog/bonneta.jpg" alt="Katalog Image" style="width: 300px; height: 300px;">
-                            </div>
-                            <!-- Barcode Katalog -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>Barcode Katalog</span>
-                                <strong>
-                                    <div style="font-size:0;position:relative;width:90px;height:35px;">
-                                        <div style="background-color:black;width:2px;height:35px;position:absolute;left:0px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:3px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:6px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:11px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:4px;height:35px;position:absolute;left:13px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:19px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:22px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:27px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:2px;height:35px;position:absolute;left:30px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:33px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:4px;height:35px;position:absolute;left:35px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:41px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:44px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:49px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:2px;height:35px;position:absolute;left:52px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:55px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:2px;height:35px;position:absolute;left:57px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:63px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:2px;height:35px;position:absolute;left:66px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:70px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:75px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:2px;height:35px;position:absolute;left:77px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:3px;height:35px;position:absolute;left:82px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:1px;height:35px;position:absolute;left:86px;top:0">&nbsp;</div>
-                                        <div style="background-color:black;width:2px;height:35px;position:absolute;left:88px;top:0">&nbsp;</div>
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <!-- Mulai Data Produk Katalog -->
+                <div class="row"> 
+                    <div class="col-12"> 
+                        <div class="card height-equal"> 
+                            <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
+                                <div class="row">
+                                    <div class="col-md-12 mb-4">
+                                        <h4>List Katalog</h4>
                                     </div>
-                                </strong>
-                            </li>
-                            <!-- SKU KATALOG -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>NOMOR SKU</span>
-                                <strong>02145YK796</strong>
-                            </li>
-                            <!-- Nama Katalog -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>Nama Katalog</span>
-                                <strong>BONNETA</strong>
-                            </li>
-                            <!-- Kategori Katalog -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                              <span>Kategori Katalog</span>
-                              <strong>Katalog Metro</strong>
-                            </li>
-                            <!-- Brand Katalog -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>Brand Katalog</span>
-                                <strong>LVA Brands</strong>
-                            </li>
-                            <!-- Size Katalog -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>Size Katalog</span>
-                                <strong>L</strong>
-                            </li>
-                            <!-- Ukuran -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                              <span>Lingkar Dada</span>
-                              <strong>2,5 M</strong>
-                            </li>
-                            <!-- Ukuran -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                              <span>Panjang Baju</span>
-                              <strong>7 M</strong>
-                            </li>
-                            <!-- Ukuran -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                              <span>Ukuran Katalog</span>
-                              <strong>9 Meter</strong>
-                            </li>
-                            <!-- Warna Katalog -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>Warna Katalog</span>
-                                <strong>Midnight Red Maroon</strong>
-                            </li>
-                            <!-- Total COGS -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>Total COGS</span>
-                                <strong class="text-success">Rp1.835.000</strong>
-                            </li>
-                        </ul>
+                                    <div class="col-md-12">
+                                        <a href="<?=base_url()?>katalog/buat-baru/" class="btn btn-primary">
+                                            <i class="fa fa-plus"></i> Buat Baru
+                                        </a>
+                                        <a class="btn btn-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="CDM" data-title="Tambah Condiment Baru" data-label="Nama Condiment Baru"><i class="icofont icofont-addons"></i></a>
+                                        <a class="btn btn-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="CDM" data-title="Daftar Condiment" data-label="Nama Condiment"><i class="icofont icofont-settings"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="display" id="table-katalog">
+                                        <thead> 
+                                            <tr>
+                                                <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">KATALOG</span></th>
+                                                <th scope="col" style="min-width: 120px;"><span class="f-light f-w-600">DETAIL KATALOG</span></th>
+                                                <th scope="col" style="min-width: 20px;"><span class="f-light f-w-600">SIZE</span></th>
+                                                <th scope="col" style="min-width: 120px;"><span class="f-light f-w-600">STATUS KATALOG</span></th>
+                                                <th scope="col" style="min-width: 20px;"><span class="f-light f-w-600">AKSI</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> 
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <!-- Detail Katalog -->
+            <div class="modal fade" id="DetailKatalog" tabindex="-1" role="dialog" aria-labelledby="DetailKatalog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content dark-sign-up">
+                        <div class="modal-body social-profile text-start" style="border-radius:5%; max-height: 90vh; overflow-y: auto;">
+                        <div class="modal-toggle-wrapper">
+                        <div class="modal-header mb-4">
+                            <h3>Detail Info Katalog</h3>
+                            <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <ul class="list-group">
+                                <!-- Gambar Katalog -->
+                                <div class="text-center mb-3">
+                                <img src="<?=base_url()?>assets/images/katalog/bonneta.jpg" alt="Katalog Image" style="width: 300px; height: 300px;">
+                                </div>
+                                <!-- Barcode Katalog -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Barcode Katalog</span>
+                                    <strong>
+                                        <div style="font-size:0;position:relative;width:90px;height:35px;">
+                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:0px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:3px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:6px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:11px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:4px;height:35px;position:absolute;left:13px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:19px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:22px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:27px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:30px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:33px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:4px;height:35px;position:absolute;left:35px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:41px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:44px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:49px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:52px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:55px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:57px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:63px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:66px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:70px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:75px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:77px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:3px;height:35px;position:absolute;left:82px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:1px;height:35px;position:absolute;left:86px;top:0">&nbsp;</div>
+                                            <div style="background-color:black;width:2px;height:35px;position:absolute;left:88px;top:0">&nbsp;</div>
+                                        </div>
+                                    </strong>
+                                </li>
+                                <!-- SKU KATALOG -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>NOMOR SKU</span>
+                                    <strong>02145YK796</strong>
+                                </li>
+                                <!-- Nama Katalog -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Nama Katalog</span>
+                                    <strong>BONNETA</strong>
+                                </li>
+                                <!-- Kategori Katalog -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>Kategori Katalog</span>
+                                <strong>Katalog Metro</strong>
+                                </li>
+                                <!-- Brand Katalog -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Brand Katalog</span>
+                                    <strong>LVA Brands</strong>
+                                </li>
+                                <!-- Size Katalog -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Size Katalog</span>
+                                    <strong>L</strong>
+                                </li>
+                                <!-- Ukuran -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>Lingkar Dada</span>
+                                <strong>2,5 M</strong>
+                                </li>
+                                <!-- Ukuran -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>Panjang Baju</span>
+                                <strong>7 M</strong>
+                                </li>
+                                <!-- Ukuran -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>Ukuran Katalog</span>
+                                <strong>9 Meter</strong>
+                                </li>
+                                <!-- Warna Katalog -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Warna Katalog</span>
+                                    <strong>Midnight Red Maroon</strong>
+                                </li>
+                                <!-- Total COGS -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Total COGS</span>
+                                    <strong class="text-success">Rp1.835.000</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Tambah Sub Kategori Baru -->
+            <div class="modal fade" id="TambahSubKategoriItem" tabindex="-1" role="dialog" aria-labelledby="TambahSubKategoriItem" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content dark-sign-up">
+                        <div class="modal-body social-profile text-start">
+                            <div class="modal-toggle-wrapper">
+                                <div class="modal-header mb-4">
+                                    <h3 id="titmod"></h3>
+                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form class="row g-3">
+                                    <!-- Nama -->
+                                    <div class="col-md-12 position-relative">
+                                        <label class="form-label" for="item" id="labmod"></label>
+                                        <input class="form-control" id="item" name="item" type="text" placeholder="Masukkan Item Baru">
+                                    </div>
+                                    <!-- Button Simpan -->
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" type="button" id="addmod">Tambah Baru</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Daftar Kategori -->
+            <div class="modal fade" id="DaftarSubKategoriItem" tabindex="-1" role="dialog" aria-labelledby="#DaftarSubKategoriItem" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="labdaf"></h1>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body custom-input">
+                            <form>
+                                <div class="row g-3" id="daf-container">
+                                
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" id="editmod" data-bs-dismiss="modal" type="button">Simpan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Tambah Bahan -->
+            <div class="modal fade bd-example-modal-xl" id="AddMaterial" tabindex="-1" role="dialog" aria-labelledby="AddMaterial" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen" role="document">
+                <div class="modal-content dark-sign-up">
+                  <div class="modal-header social-profile text-start">
+                    <h3>Form Condiment Detail | <span id="skudtl"></span></h3>
+                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body social-profile text-start">
+                    <form class="row g-3" id="form-cdm" method="post">
+                        <!-- PILIH TIPE CONDIMENT -->
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label" for="selcondi">TIPE CONDIMENT</label>
+                            <select class="form-select" id="selcondi" name="selcondi" required>
+                            </select>
+                        </div>
+                        <!-- PILIH SIZE KATALOG -->                                    
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label" for="selsize">SIZE KATALOG</label>
+                            <select class="form-select" id="selsize" name="selsize" required>
+                            </select>
+                        </div>
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label" for="pj">PANJANG</label>
+                            <input class="form-control" id="pj" type="text" readonly>
+                        </div>                                                                                                
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label" for="lb">LEBAR</label>
+                            <input class="form-control" id="lb" type="text" readonly>
+                        </div>                                                                                                
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label" for="ld">UKURAN LD</label>
+                            <input class="form-control" id="ld" type="text" readonly>
+                        </div>                                                                                                
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label" for="pb">UKURAN PB</label>
+                            <input class="form-control" id="pb" type="text" readonly>
+                        </div>                                                                                                
+                        <!-- PILIH MATERIAL SELECT2 -->
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label" for="selmtr">MATERIAL</label>
+                            <select class="form-select" id="selmtr" name="selmtr" required>
+                            </select>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label" for="qty">QUANTITY</label>
+                            <div class="input-group has-validation">
+                                <input class="form-control" id="qty" type="text">
+                                <span class="input-group-text" id="satuan"></span>
+                            </div>                            
+                        </div>
+                        <div class="light-product-box"><img class="img-fluid img-100 d-none" id="img-display" src="" alt="material"></div>
+                        <div class="col-md-12 position-relative">
+                            <button type="button" id="subadd" class="btn btn-primary">
+                                <span id="spinner_subadd" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
+                                <span id="tx_subadd">Tambahkan</span>
+                            </button>
+                        </div>
+                        <div class="col-md-12 position-relative">
+                            <h6>Informasi detail material</h6>
+                        </div>
+                        <div class="col-md-12 position-relative">
+                            <div class="table-responsive">
+                                <table class="display" id="table-material">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">MATERIAL</span></th>
+                                        <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">DETAIL</span></th>
+                                        <th scope="col" style="min-width: 40px; text-align:center;"><span class="f-light f-w-600">QTY</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>                      
+                        <!-- Simpan Detail Condiment -->
+                        <div class="col-md-12 mt-3">
+                            <button type="submit" id="subpmb" class="btn btn-primary">
+                                <span id="spinner_subpmb" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
+                                <span id="tx_subpmb">Simpan Detail Condiment</span>
+                            </button>
+                        </div>
+                    </form>
                   </div>
                 </div>
-            </div>
-          </div>
-          <!-- Container-fluid Ends-->
+              </div>
+            </div>                       
+            <!-- Container-fluid Ends-->
         </div>

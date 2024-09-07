@@ -30,7 +30,7 @@
                     <div class="col-12">
                         <div class="card">
                           <div class="card-header">
-                              <h4>Formulir Input Produk</h4>
+                              <h4>Formulir Input Katalog</h4>
                           </div>
                           <div class="card-body custom-input">
                                 <form class="row g-3" id="form-log" enctype="multipart/form-data">

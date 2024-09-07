@@ -165,7 +165,7 @@
                         </div>                                                                        
                         <!-- PILIH SUPPLIER SELECT2 -->
                         <div class="col-md-12 position-relative">
-                            <label class="form-label" for="selsupp">SUPPILER</label>
+                            <label class="form-label" for="selsupp">SUPPLIER</label>
                             <select class="form-select" id="selsupp" name="selsupp" required>
                             </select>
                         </div>

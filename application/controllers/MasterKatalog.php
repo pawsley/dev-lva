@@ -205,11 +205,6 @@ class MasterKatalog extends Auth
       .select2-container{
         margin-bottom :-2%;
       }
-      table.dataTable input,
-      table.dataTable select {
-        border: 1px solid #efefef;
-        height: 24px !important;
-      }
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
@@ -217,9 +212,6 @@ class MasterKatalog extends Auth
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
-    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
-    <script src="' . base_url('assets/js/flat-pickr/custom-flatpickr.js') . '"></script>
-    <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
@@ -237,11 +229,74 @@ class MasterKatalog extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/custom-flatpickr.js') . '"></script>
+    <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     ';
     $this->load->view('layout/base', $data); 
   }
+  public function getsbcdm($kode){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mkatalog_model->getsbcdm($kode,$searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }  
+  public function addsbcdm(){
+    if ($this->input->is_ajax_request()) {
+      $kode = $this->input->post('kodekat');
+      $nk = $this->input->post('namakat');
+
+      $this->Mkatalog_model->addsbcdm($kode, $nk);
+
+      echo json_encode(['status' => 'success']);
+    } else {
+        redirect('master-material');
+    }
+  }
+  public function deletesbcdm($id) {
+    $result = $this->Mkatalog_model->deletesbcdm($id);
+    echo json_encode($result);
+  }
+  public function updatesbcdm(){
+    if ($this->input->is_ajax_request()) {
+      $json_data = $this->input->raw_input_stream;
+      $dafData = json_decode($json_data, true);
+      if (!empty($dafData)) {
+          foreach ($dafData as $data) {
+              $idr = $data['id'];
+              $nmr = $data['name'];
+
+              $this->Mkatalog_model->updatesbcdm($idr, [
+                  'nama_condiment' => $nmr
+              ]);
+          }
+          echo json_encode(['status' => 'success']);
+      } else {
+          echo json_encode(['status' => 'error', 'message' => 'No data received']);
+      }
+    } else {
+      redirect('katalog');
+    }
+  }
+  public function getsbsize($idk){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mkatalog_model->getsbsize($idk,$searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }  
+  public function getsbmtr(){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mkatalog_model->getsbmtr($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }  
+  public function tablekatalog()  {
+    $this->load->library('datatables');
+    $this->datatables->select('CONCAT(id_katalog, "|", nama_katalog) as katalog, CONCAT(tipe_katalog, " ", merk_katalog, " ",warna_katalog) as detail,
+    id_katalog, nama_katalog, tipe_katalog, merk_katalog, warna_katalog, catatan, img_katalog, ukuran,status');
+    $this->datatables->from('vkatalog');
+    return print_r($this->datatables->generate());
+  }  
 
 }
 

@@ -277,6 +277,25 @@
                       <li class="prm"><a class="prm" href="<?=base_url()?>pembelian/print-material">Printing Material</a></li>
                     </ul>
                   </li>                  
+                  <!-- Menu Produksi -->
+                  <li class="sidebar-list produksi"><i class="fa fa-thumb-tack"></i>
+                    <label class="badge badge-light-primary"></label>
+                    <a class="sidebar-link sidebar-title produksi" href="#">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-board"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-board"></use>
+                        </svg>
+                        <span>Produksi</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li class="prb"><a class="prb" href="<?=base_url()?>produksi/order-baru">Order Baru</a></li>
+                      <li class="prj"><a class="prj" href="<?=base_url()?>produksi/proses-jahit">Proses Jahit</a></li>
+                      <li class="prf"><a class="prf" href="<?=base_url()?>produksi/finishing">Finishing</a></li>
+                      <li class="prs"><a class="prs" href="<?=base_url()?>produksi/stok">Stok</a></li>
+                    </ul>
+                  </li>                  
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

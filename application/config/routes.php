@@ -64,7 +64,15 @@ $route['katalog/updatesb']='MasterKatalog/updatesb';
 $route['katalog/deletesb/(:num)']='MasterKatalog/deletesb/$1';
 $route['katalog/dafsb/(:any)']='MasterKatalog/getsb/$1';
 $route['katalog/add-katalog']='MasterKatalog/createdata';
+// katalog condiment
 $route['katalog/condiments']='MasterKatalog/condiments';
+$route['katalog/newcdm']='MasterKatalog/addsbcdm';
+$route['katalog/dafcdm/(:any)']='MasterKatalog/getsbcdm/$1';
+$route['katalog/dafsize/(:any)']='MasterKatalog/getsbsize/$1';
+$route['katalog/dafmtr']='MasterKatalog/getsbmtr';
+$route['katalog/updatesbcdm']='MasterKatalog/updatesbcdm';
+$route['katalog/deletesbcdm/(:num)']='MasterKatalog/deletesbcdm/$1';
+$route['katalog/list-katalog']='MasterKatalog/tablekatalog';
 // master customer
 $route['customer/buat-baru']='MasterCustomer/buatbaru';
 $route['customer/newsb']='MasterCustomer/createsbmat';
