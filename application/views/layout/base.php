@@ -110,7 +110,7 @@
                     <li class="b-l-warning border-4">
                       <p>Delivery Complete<span class="font-warning">6 hr</span></p>
                     </li>
-                    <li><a class="f-w-700" href="#">Check all</a></li>
+                    <li><a class="f-w-700" href="javascript:void(0)">Check all</a></li>
                   </ul>
                 </div>
               </li> -->
@@ -122,8 +122,8 @@
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
-                  <!-- <li><a href="#"><i data-feather="settings"></i><span>Pengaturan</span></a></li> -->
-                  <li><a href="#"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
+                  <!-- <li><a href="javascript:void(0)"><i data-feather="settings"></i><span>Pengaturan</span></a></li> -->
+                  <li><a href="javascript:void(0)"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
                 </ul>
               </li>
             </ul>
@@ -178,7 +178,7 @@
                   </li>
                   <!-- Menu Master Menu -->
                   <li class="sidebar-list master"><i class="fa fa-thumb-tack"></i>
-                      <a class="sidebar-link sidebar-title master" href="#">
+                      <a class="sidebar-link sidebar-title master" href="javascript:void(0)">
                       <svg class="stroke-icon">
                         <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
                       </svg>
@@ -187,7 +187,7 @@
                       </svg><span>Data Master</span></a>
                     <ul class="sidebar-submenu">
                       <li class="mbnk"><a class="mbnk" href="<?=base_url()?>master-bank">Master Bank</a></li>
-                      <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li>
+                      <!-- <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li> -->
                       <li class="mkar"><a class="mkar" href="<?=base_url()?>master-karyawan">Master Karyawan</a></li>
                       <li class="mtrl"><a class="mtrl" href="<?=base_url()?>master-material">Master Material</a></li>
                       <!-- <li class="mprd"><a class="mprd" href="<?=base_url()?>master-produk">Master Produk</a></li> -->
@@ -195,7 +195,7 @@
                     </ul>
                   </li>            
                   <li class="sidebar-list katalog"><i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title katalog" href="#">
+                    <a class="sidebar-link sidebar-title katalog" href="javascript:void(0)">
                     <svg class="stroke-icon">
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-gallery"></use>
                     </svg>
@@ -209,7 +209,7 @@
                     </ul>
                   </li>
                   <li class="sidebar-list customer"><i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title customer" href="#">
+                    <a class="sidebar-link sidebar-title customer" href="javascript:void(0)">
                     <svg class="stroke-icon">
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-user"></use>
                     </svg>
@@ -243,7 +243,7 @@
                   <!-- Menu Penjualan -->
                   <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
                     <label class="badge badge-light-primary"></label>
-                    <a class="sidebar-link sidebar-title" href="#">
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
                         <svg class="stroke-icon">
                             <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
                         </svg>
@@ -263,7 +263,7 @@
                   <!-- Menu Pembelian -->
                   <li class="sidebar-list pembelian"><i class="fa fa-thumb-tack"></i>
                     <label class="badge badge-light-primary"></label>
-                    <a class="sidebar-link sidebar-title pembelian" href="#">
+                    <a class="sidebar-link sidebar-title pembelian" href="javascript:void(0)">
                         <svg class="stroke-icon">
                             <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-social"></use>
                         </svg>
@@ -280,7 +280,7 @@
                   <!-- Menu Produksi -->
                   <li class="sidebar-list produksi"><i class="fa fa-thumb-tack"></i>
                     <label class="badge badge-light-primary"></label>
-                    <a class="sidebar-link sidebar-title produksi" href="#">
+                    <a class="sidebar-link sidebar-title produksi" href="javascript:void(0)">
                         <svg class="stroke-icon">
                             <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-board"></use>
                         </svg>

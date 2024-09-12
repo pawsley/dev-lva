@@ -35,84 +35,92 @@
                           <div class="card-body custom-input">
                                 <form class="row g-3" id="form-log" enctype="multipart/form-data">
                                     <!-- ID Produk -->
-                                    <div class="col-4 position-relative"> 
+                                    <div class="col-md-4 position-relative"> 
                                         <label class="form-label" for="sku">SKU KATALOG</label>
                                         <input class="form-control" id="sku" name="sku" type="text" placeholder="Nomor SKU Katalog" aria-label="SKUKatalog" readonly>
                                     </div>
                                     <!-- Nama Produk -->
-                                    <div class="col-8 position-relative">
+                                    <div class="col-md-8 position-relative">
                                         <label class="form-label" for="namakatalog">NAMA KATALOG</label>
                                         <input class="form-control" id="namakatalog" name="namakatalog" type="text" placeholder="Silahkan Masukkan Nama Katalog" required>
                                     </div>
                                     <!-- Tipe Produk -->
-                                    <div class="col-2 position-relative"> 
+                                    <div class="col-md-4 position-relative"> 
                                         <label class="form-label" for="selkat">TIPE</label>
-                                        <select class="form-select" id="selkat" name="selkat" required="">
-                                            <!-- <option selected="" disabled="" value="0">Pilih Tipe</option> -->
-                                        </select>
-                                    </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="TPE" data-title="Tambah Tipe Baru" data-label="Nama Tipe Baru"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="TPE" data-title="Daftar Tipe" data-label="Nama Tipe"><i class="fa fa-bars"></i></a>
+                                        <div class="input-group">
+                                            <select class="form-select" id="selkat" name="selkat" required="">
+                                            </select>
+                                            <span class="input-group-append ps-1">
+                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="TPE" data-title="Tambah Tipe Baru" data-label="Nama Tipe Baru"><i class="fa fa-plus"></i></a>
+                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="TPE" data-title="Daftar Tipe" data-label="Nama Tipe"><i class="fa fa-bars"></i></a>
+                                            </span>
                                         </div>
                                     </div>
                                     <!-- Brand Product -->
-                                    <div class="col-2 position-relative"> 
+                                    <div class="col-md-4 position-relative"> 
                                         <label class="form-label" for="selmrk">MERK</label>
-                                        <select class="form-select" id="selmrk" name="selmrk" required="">
-                                            <!-- <option selected="" disabled="" value="0">Pilih Merek</option> -->
-                                        </select>
-                                    </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="MRK" data-title="Tambah Merk Baru" data-label="Nama Merk Baru"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="MRK" data-title="Daftar Merk" data-label="Nama Merk"><i class="fa fa-bars"></i></a>
+                                        <div class="input-group">
+                                            <select class="form-select" id="selmrk" name="selmrk" required="">
+                                            </select>
+                                            <span class="input-group-append ps-1">
+                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="MRK" data-title="Tambah Merk Baru" data-label="Nama Merk Baru"><i class="fa fa-plus"></i></a>
+                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="MRK" data-title="Daftar Merk" data-label="Nama Merk"><i class="fa fa-bars"></i></a>
+                                            </span>
                                         </div>
                                     </div>
                                     <!-- Variant Warna -->
-                                    <div class="col-2 position-relative"> 
+                                    <div class="col-md-4 position-relative"> 
                                         <label class="form-label" for="selwrn">WARNA</label>
-                                        <select class="form-select" id="selwrn" name="selwrn" required="">
-                                            <!-- <option selected="" disabled="" value="0">Pilih Warna</option> -->
-                                        </select>
+                                        <div class="input-group">
+                                            <select class="form-select" id="selwrn" name="selwrn" required="">
+                                            </select>
+                                            <span class="input-group-append ps-1">
+                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="WRN" data-title="Tambah Warna Baru" data-label="Nama Warna Baru"><i class="fa fa-plus"></i></a>
+                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="WRN" data-title="Daftar Warna" data-label="Nama Warna"><i class="fa fa-bars"></i></a>
+                                            </span>
+                                        </div>                                        
                                     </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="WRN" data-title="Tambah Warna Baru" data-label="Nama Warna Baru"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="WRN" data-title="Daftar Warna" data-label="Nama Warna"><i class="fa fa-bars"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-5 position-relative">
-                                        <label class="form-label" id="logdtl">DETAIL KATALOG</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary" href="#!" id="add-row"><i class="icofont icofont-baby-cloth"></i></a>
+
+                                    <div class="col-md-4 position-relative">
+                                        <label class="form-label">LIST SIZE</label>
+                                        <div class="text-start">
                                             <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="SZ" data-title="Tambah Size Baru" data-label="Nama Size Baru">SZ</a>
                                             <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="SZ" data-title="Daftar Size" data-label="Nama Size"><i class="icofont icofont-settings"></i></a>
+                                        </div>
+                                    </div>                                    
+                                    <div class="col-md-4 position-relative">
+                                        <label class="form-label">LIST SATUAN</label>
+                                        <div class="text-start">
                                             <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="ST" data-title="Tambah Satuan Baru" data-label="Nama Satuan Baru">ST</a>
                                             <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="ST" data-title="Daftar Satuan" data-label="Nama Satuan"><i class="icofont icofont-settings"></i></a>
                                         </div>
-                                    </div>
+                                    </div>                                    
+                                    <div class="col-md-4 position-relative">
+                                        <label class="form-label">LIST SIZE CHART</label>
+                                        <div class="text-start">
+                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="DSZ" data-title="Tambah Detail Size Chart" data-label="Nama Detail Baru">DSZ</a>
+                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="DSZ" data-title="Daftar Detail Size Chart" data-label="Nama Detail Size Chart"><i class="icofont icofont-settings"></i></a>
+                                        </div>
+                                    </div>                                    
+                                    <div class="col-md-12 position-relative">
+                                        <label class="form-label" id="logdtl">DETAIL KATALOG</label>
+                                        <div class="text-start">
+                                            <a class="btn badge-light-primary" href="javascript:void(0)" id="add-row"><i class="fa fa-plus"></i> Tambah Detail Katalog</a>
+                                            <a class="btn badge-light-primary add-row-dsz" href="javascript:void(0)"><i class="fa fa-plus"></i> Tambah Detail Size Chart</a>
+                                        </div>
+                                    </div>                                    
                                     <!-- Size Chart -->
-                                    <div class="col-12 position-relative">
+                                    <div class="col-md-12 position-relative">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
+                                            <table class="table table-hover" width="100%">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" style="width: 6px !important;">Size</th>
-                                                        <th scope="col" style="width: 6px !important;">Satuan</th>
-                                                        <th scope="col" style="width: 2px !important;">Panjang</th>
-                                                        <th scope="col" style="width: 2px !important;">Lebar</th>
-                                                        <th scope="col" style="width: 2px !important;">Ukuran LD</th>
-                                                        <th scope="col" style="width: 2px !important;">Ukuran PB</th>
-                                                        <th scope="col" style="width: 120px !important; text-align:center;">Harga Jual</th>
-                                                        <th scope="col" style="width: 1px !important;">Aksi</th>
+                                                        <th style="width: 10%;">Size</th>
+                                                        <th style="width: 10%;">Satuan</th>
+                                                        <th style="width: 35%;">Detail Size Chart</th>
+                                                        <th style="width: 15%;">Harga HPP</th>
+                                                        <th style="width: 15%;">Harga Jual</th>
+                                                        <th style="width: 8%;">#</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="table-body">
@@ -122,18 +130,18 @@
                                         </div>
                                     </div>
                                     <!-- Catatan Produk -->
-                                    <div class="col-12 position-relative">
+                                    <div class="col-md-12 position-relative">
                                       <label class="form-label" for="notes">CATATAN TAMBAHAN</label>
                                       <textarea class="form-control input-air-primary" id="notes" name="notes" rows="3"></textarea>
                                     </div>
                                     <!-- Upload Gambar -->
-                                    <div class="col-12 position-relative"> 
+                                    <div class="col-md-12 position-relative"> 
                                         <label class="form-label" for="imgm">UPLOAD GAMBAR</label>
                                         <input class="form-control" id="imgm" name="imgm" type="file" accept=".png, .jpg, .jpeg" style="visibility: hidden;">
                                         <div id="upload-btn" class="upload-btn"></div>
                                     </div>
                                     <!-- Submit Barang -->
-                                    <div class="col-12">
+                                    <div class="col-md-12">
                                         <button type="submit" id="sublog" class="btn btn-primary">
                                             <span id="spinner_sublog" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
                                             <span id="tx_sublog">Tambah Katalog</span>

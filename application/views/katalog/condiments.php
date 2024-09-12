@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <a href="<?=base_url()?>katalog/buat-baru/" class="btn btn-primary">
-                                            <i class="fa fa-plus"></i> Buat Baru
+                                            <i class="fa fa-plus"></i> Buat Katalog Baru
                                         </a>
                                         <a class="btn btn-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="CDM" data-title="Tambah Condiment Baru" data-label="Nama Condiment Baru"><i class="icofont icofont-addons"></i></a>
                                         <a class="btn btn-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="CDM" data-title="Daftar Condiment" data-label="Nama Condiment"><i class="icofont icofont-settings"></i></a>

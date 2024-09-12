@@ -113,7 +113,7 @@ class MasterKatalog extends Auth
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
     $data['js'] = '
     <script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.0') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -154,21 +154,20 @@ class MasterKatalog extends Auth
         }
       }
 
+      $this->Mkatalog_model->addlog($data);
       $table_data = json_decode($this->input->post('table_data'), true);
 
-      if (!empty($data)) {
-        $this->Mkatalog_model->addlog($data);
+      if (!empty($table_data)) {
 
         foreach ($table_data as $item) {
             $data_detail = [
-                'id_katalog'  => $data['id_katalog'],
+                'id_katalog'  => $item['id_katalog'],
                 'satuan' => $item['satlog'],
                 'size'    => $item['sizelog'],
-                'panjang'=> $item['logp'],
-                'lebar'  => $item['logl'],
-                'ukuran_ld'  => $item['logld'],
-                'ukuran_pb'  => $item['logpb'],
-                'harga_jual'  => $item['loghj']
+                'detail_size'=> $item['dszlog'],
+                'detail_size_num'  => $item['logval'],
+                'harga_jual'  => $item['loghj'],
+                'harga_hpp'  => $item['loghpp']
             ];
             $this->Mkatalog_model->addlogdtl($data_detail);
         }
@@ -208,7 +207,7 @@ class MasterKatalog extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.0') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>

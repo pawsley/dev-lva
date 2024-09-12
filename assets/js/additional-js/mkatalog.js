@@ -3,6 +3,7 @@ $(document).ready(function() {
     if (window.location.href === base_url+'katalog/buat-baru') {
         generateid();
         addsizechart();
+        addlogdtl();
         addsb();
         dafsb();
         getselect2();
@@ -18,12 +19,18 @@ $(document).ready(function() {
 
     }
 });
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
 function addsizechart() {
     // Event handler for adding a new row
     $('#add-row').on('click', function(e) {
-        e.preventDefault(); // Prevent the default anchor action
-
-        // The new row content with updated class selectors
+        e.preventDefault(); 
         var newRow = `
             <tr>
                 <td>
@@ -32,19 +39,23 @@ function addsizechart() {
                 </td>
                 <td>
                     <select class="form-select satlog" name="satlog[]" required>
-                    </select>                                                            
+                    </select>
+                </td>
+                <td class="dszrow">
+                    <div class="input-group dlog">
+                        <select class="form-select dszlog" style="width: 54%;" required>
+                        </select>
+                        <input class="form-control input-air-primary logval"style="width: 18%;" type="text" placeholder="0" required>
+                        <span class="input-group-append ps-1">
+                            <a class="btn badge-light-primary remove-row-dsz" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                        </span>                
+                    </div>
                 </td>
                 <td>
-                    <input class="form-control" name="logp[]" type="text" placeholder="0" required>
-                </td>
-                <td>
-                    <input class="form-control" name="logl[]" type="text" placeholder="0" required>
-                </td>
-                <td>
-                    <input class="form-control" name="logld[]" type="text" placeholder="0" required>
-                </td>
-                <td>
-                    <input class="form-control" name="logpb[]" type="text" placeholder="0" required>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text">Rp</span>
+                        <input class="form-control" type="text" name="loghpp[]" onkeyup="formatRupiah(this);" placeholder="0" required>
+                    </div>
                 </td>
                 <td>
                     <div class="input-group has-validation">
@@ -55,8 +66,13 @@ function addsizechart() {
                 <th scope="row">
                     <ul class="action">
                         <li class="delete">
-                            <a href="#" class="delete-row">
+                            <a href="javascript:void(0)" class="delete-row">
                                 <i class="icon-trash"></i>
+                            </a>
+                        </li>
+                        <li class="edit">
+                            <a href="javascript:void(0)" class="copy-row">
+                                <i class="icon-files"></i>
                             </a>
                         </li>
                     </ul>                                                            
@@ -68,25 +84,57 @@ function addsizechart() {
         $('#table-body').append(newRow);
 
         // Load options for the newly added <select> elements
-        optionST($('.satlog:last')); // Load options into the latest satlog <select>
-        optionSZ($('.sizelog:last')); // Load options into the latest sizelog <select>
+        optionST($('.satlog:last'));
+        optionSZ($('.sizelog:last'));
+        optionDSZ($('.dszlog:last'));
+    });
+
+    $('#table-body').on('click', '.remove-row-dsz', function (e) {
+        e.preventDefault();
+        const inputGroups = $(this).closest('.dszrow').find('.input-group');
+        
+        if (inputGroups.length > 1) {
+            $(this).closest('.input-group').remove();
+        } else {
+            alert('Tidak bisa dihapus!');
+        }
     });
 
     // Event delegation to handle row deletion
     $('#table-body').on('click', '.delete-row', function(e) {
         e.preventDefault();
-        $(this).closest('tr').remove(); // Remove the closest table row
+        $(this).closest('tr').remove(); 
     });
 
+    $('#table-body').on('click', '.copy-row', function(e) {
+        e.preventDefault();
+    
+        let $row = $(this).closest('tr');
+        let $newRow = $row.clone();
+    
+        // Copy values for input and select elements
+        $newRow.find('input, select').each(function() {
+            const elementType = $(this).prop('nodeName').toLowerCase();
+            
+            if (elementType === 'input') {
+                // Preserve input values
+                $(this).val($(this).val());
+            }
+        });
+    
+        $('#table-body').append($newRow);
+    });
+    
     $('#table-body').on('mousedown', '.sizelog', function () {
-        optionSZ($(this)); // Call optionSZ() when sizelog select is clicked
+        optionSZ($(this));
     });
-
     $('#table-body').on('mousedown', '.satlog', function () {
-        optionST($(this)); // Call optionST() when satlog select is clicked
+        optionST($(this));
+    });
+    $('#table-body').on('mousedown', '.dszlog', function () {
+        optionDSZ($(this));
     });
 
-    // Input restriction for specific inputs
     $('#table-body').on('input', 'input[type="text"]', function() {
         let value = $(this).val();
         value = value.replace(',', '.');
@@ -95,6 +143,24 @@ function addsizechart() {
         }
         $(this).val(value);
     });
+}
+function addlogdtl() {
+    $(document).on('click', '.add-row-dsz', function (e) {
+        e.preventDefault();
+        var dszRow = `
+            <div class="input-group dlog">
+                <select class="form-select dszlog" style="width: 54%;" required>
+                </select>
+                <input class="form-control input-air-primary logval"style="width: 18%;" type="text" placeholder="0" required>
+                <span class="input-group-append ps-1">
+                    <a class="btn badge-light-primary remove-row-dsz" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                </span>                
+            </div>
+        `;
+        $('.dszrow').append(dszRow);
+    
+        optionDSZ($('.dszlog:last'));
+    });   
 }
 async function generateid() {
     try {
@@ -413,6 +479,27 @@ function optionSZ(selector) {
         }
     });
 }
+function optionDSZ(selector) {
+    let val = 'DSZ';
+    $.ajax({
+        url: base_url + 'katalog/dafsb/' + val,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response.length > 0) {
+                selector.empty();
+                $.each(response, function(index, item) {
+                    selector.append('<option value="' + item.nama + '">' + item.nama + '</option>');
+                });
+                selector.select(); // Refresh select2
+                selector.prop('required', true);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Terjadi kesalahan:', error);
+        }
+    });
+}
 function imgpreview() {
     $('#upload-btn').on('click', function() {
         $('#imgm').click();
@@ -435,17 +522,16 @@ function imgpreview() {
     });
 }
 function createlog() {
-    $('#form-log').off('submit').on("submit", function (e) {
+    $('#form-log').off('submit').on('submit', function (e) {
         e.preventDefault();
         $('#spinner_sublog').removeClass('d-none');
         $('#tx_sublog').addClass('d-none');
         $('#sublog').prop('disabled', true);
-
         var fileInput = $("#imgm")[0];
         if (!fileInput.files.length) {
             swal("Gagal menambahkan data katalog", "Harap pilih gambar", {
                 icon: "error",
-            }).then(function() {
+            }).then(function () {
                 $("#upload-btn").focus();
                 $('#spinner_sublog').addClass('d-none');
                 $('#tx_sublog').removeClass('d-none');
@@ -456,22 +542,32 @@ function createlog() {
 
         var tableData = [];
         $('#table-body tr').each(function () {
-            var row = {
-                sizelog: $(this).find('select[name="sizelog[]"]').val(),
-                satlog: $(this).find('select[name="satlog[]"]').val(),
-                logp: $(this).find('input[name="logp[]"]').val(),
-                logl: $(this).find('input[name="logl[]"]').val(),
-                logld: $(this).find('input[name="logld[]"]').val(),
-                logpb: $(this).find('input[name="logpb[]"]').val(),
-                loghj: parseFloat($(this).find('input[name="loghj[]"]').val().replace(/\D/g, ''))
-            };
-            tableData.push(row);
-        });
+            let id_katalog = $('#sku').val();
+            let satuan = $(this).find('.satlog').val();
+            let size = $(this).find('.sizelog').val();
+            let harga_hpp = parseFloat($(this).closest('tr').find('input[name="loghpp[]"]').val()) || 0;
+            let harga_jual = parseFloat($(this).closest('tr').find('input[name="loghj[]"]').val()) || 0;
 
+            // Iterate through each detail size input group
+            $(this).find('.dlog').each(function () {
+                let detail_size = $(this).find('.dszlog').val();
+                let logval = $(this).find('.logval').val();
+                tableData.push({
+                    id_katalog: id_katalog,
+                    satlog: satuan,
+                    sizelog: size,
+                    dszlog: detail_size,
+                    logval: logval,
+                    loghpp: harga_hpp,
+                    loghj: harga_jual
+                });
+            });
+        });
+        
         if (tableData.length === 0) {
             swal("Katalog Tidak Lengkap", "Harap isi detail katalog", {
                 icon: "warning",
-            }).then(function() {
+            }).then(function () {
                 $('#spinner_sublog').addClass('d-none');
                 $('#tx_sublog').removeClass('d-none');
                 $('#sublog').prop('disabled', false);
@@ -479,11 +575,9 @@ function createlog() {
             });
             return;
         }
-
         var formData = new FormData($('#form-log')[0]);
         formData.append('img_katalog', fileInput.files[0]);
         formData.append('table_data', JSON.stringify(tableData));
-
         $.ajax({
             url: base_url + 'katalog/add-katalog',
             type: 'POST',
@@ -493,7 +587,7 @@ function createlog() {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    swal("Katalog berhsail ditambahkan", {
+                    swal("Katalog berhasil ditambahkan", {
                         icon: "success",
                         buttons: false,
                         timer: 1000
@@ -506,7 +600,8 @@ function createlog() {
                     });
                 }
             },
-            complete: function() {
+            complete: function () {
+                // Reset form fields and visual indicators after completion
                 $('#form-log').find('select').val('0').trigger('change.select2');
                 $('#form-log').find('input, textarea').val('');
                 $('#logdtl').css('color', 'black');
@@ -516,8 +611,8 @@ function createlog() {
                 $('#spinner_sublog').addClass('d-none');
                 $('#tx_sublog').removeClass('d-none');
                 $('#sublog').prop('disabled', false);
-                generateid();
-            },            
+                generateid(); // Re-generate ID after successful completion
+            },
             error: function (xhr, status, error) {
                 console.error('AJAX Error:', error);
                 alert('An error occurred while saving data.');
@@ -525,6 +620,7 @@ function createlog() {
         });
     });
 }
+
 // condiment
 function addsbcdm() {
     $('#TambahSubKategoriItem').on('shown.bs.modal', function () {
