@@ -69,10 +69,12 @@ $route['katalog/condiments']='MasterKatalog/condiments';
 $route['katalog/newcdm']='MasterKatalog/addsbcdm';
 $route['katalog/dafcdm/(:any)']='MasterKatalog/getsbcdm/$1';
 $route['katalog/dafsize/(:any)']='MasterKatalog/getsbsize/$1';
+$route['katalog/sizedtl/(:any)/(:any)']='MasterKatalog/getdtlsize/$1/$2';
 $route['katalog/dafmtr']='MasterKatalog/getsbmtr';
 $route['katalog/updatesbcdm']='MasterKatalog/updatesbcdm';
 $route['katalog/deletesbcdm/(:num)']='MasterKatalog/deletesbcdm/$1';
 $route['katalog/list-katalog']='MasterKatalog/tablekatalog';
+$route['katalog/aktivasi-katalog']='MasterKatalog/aktivasikatalog';
 // master customer
 $route['customer/buat-baru']='MasterCustomer/buatbaru';
 $route['customer/newsb']='MasterCustomer/createsbmat';
@@ -93,10 +95,14 @@ $route['pembelian/input-data']='PemMaterial/createdata';
 $route['pembelian/delete-data']='PemMaterial/deletedata';
 $route['pembelian/approve-data']='PemMaterial/approvepmb';
 $route['pembelian/terima-data']='PemMaterial/approvegd';
+$route['pembelian/terima-data-lva']='PemMaterial/approvegdlva';
 $route['pembelian/list-pembelian']='PemMaterial/tablepmbmtr';
 $route['pembelian/list-pembelian-detail']='PemMaterial/tablepmbdtl';
 // Printing Material
 $route['pembelian/print-material']='PriMaterial';
+// Gudang
+$route['gudang/lva']='Gudang/gudanglva';
+$route['gudang/ldp']='Gudang/gudangldp';
 // $route['pembelian/input-data']='PemMaterial/createdata';
 // $route['pembelian/delete-data']='PemMaterial/deletedata';
 // $route['pembelian/approve-data']='PemMaterial/approvepmb';
