@@ -91,6 +91,20 @@ $(document).ready(function () {
             $(".sidebar-list.pembelian .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.pembelian ul.sidebar-submenu").slideDown('normal');
         }
+    }else if (segment1 == "gudang") {
+        if (segment2 == "lva") {
+            $(".gudang").addClass("active");
+            $(".gdlva").addClass("active");
+            $(".sidebar-list.gudang").addClass('active');
+            $(".sidebar-list.gudang .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.gudang ul.sidebar-submenu").slideDown('normal'); 
+        }else if(segment2 == "ldp") {
+            $(".gudang").addClass("active");
+            $(".gdldp").addClass("active");
+            $(".sidebar-list.gudang").addClass('active');
+            $(".sidebar-list.gudang .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.gudang ul.sidebar-submenu").slideDown('normal');
+        }
     }
     $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();

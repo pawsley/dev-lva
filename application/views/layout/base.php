@@ -363,6 +363,6 @@
       var segment1 = "<?php echo $this->uri->segment(1); ?>";
       var segment2 = "<?php echo $this->uri->segment(2); ?>";
     </script>
-    <script src="<?=base_url()?>assets/js/additional-js/base.js"></script>
+    <script src="<?=base_url()?>assets/js/additional-js/base.js?v=1.1"></script>
   </body>
 </html>        
