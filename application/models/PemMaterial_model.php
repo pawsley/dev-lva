@@ -79,7 +79,24 @@ class PemMaterial_model extends CI_Model {
   }
   public function approvedgd($id) {
     $this->db->where('id_pembelian', $id);
-    $this->db->set('status', 'Barang Diterima Gudang');
+    $this->db->set('status', 'Barang Diterima Gudang LDP');
+    $success = $this->db->update('tb_pembelian');
+    
+    if ($success) {
+        return array(
+            'status' => 'success',
+            'message' => 'Transaksi Diterima Gudang'
+        );
+    } else {
+        return array(
+            'status' => 'failed',
+            'message' => 'Gagal Diterima Gudang'
+        );
+    }
+  }
+  public function approvedgdlva($id) {
+    $this->db->where('id_pembelian', $id);
+    $this->db->set('status', 'Barang Diterima Gudang LVA');
     $success = $this->db->update('tb_pembelian');
     
     if ($success) {

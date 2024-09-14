@@ -193,7 +193,7 @@
                       <!-- <li class="mprd"><a class="mprd" href="<?=base_url()?>master-produk">Master Produk</a></li> -->
                       <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
                     </ul>
-                  </li>            
+                  </li>
                   <li class="sidebar-list katalog"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title katalog" href="javascript:void(0)">
                     <svg class="stroke-icon">
@@ -295,7 +295,24 @@
                       <li class="prf"><a class="prf" href="<?=base_url()?>produksi/finishing">Finishing</a></li>
                       <li class="prs"><a class="prs" href="<?=base_url()?>produksi/stok">Stok</a></li>
                     </ul>
-                  </li>                  
+                  </li>
+                  <!-- Menu Gudang -->
+                  <li class="sidebar-list gudang"><i class="fa fa-thumb-tack"></i>
+                    <label class="badge badge-light-primary"></label>
+                    <a class="sidebar-link sidebar-title gudang" href="javascript:void(0)">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-widget"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-widget"></use>
+                        </svg>
+                        <span>Gudang</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li class="gdlva"><a class="gdlva" href="<?=base_url()?>gudang/lva">Gudang LVA</a></li>
+                      <li class="gdldp"><a class="gdldp" href="<?=base_url()?>gudang/ldp">Gudang LDP</a></li>
+                    </ul>
+                  </li>
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

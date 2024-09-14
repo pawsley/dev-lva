@@ -38,3 +38,12 @@ function updateDateTime(twid) {
     twid = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;  
     return twid;
 }
+function formatNumber(input) {
+    let value = $(input).val();
+    // Replace commas with dots for consistency
+    value = value.replace(',', '.');
+    // Remove any character that is not a digit, dot, or comma
+    value = value.replace(/[^0-9.]/g, '');
+    // Set the cleaned value back to the input
+    $(input).val(value);
+}

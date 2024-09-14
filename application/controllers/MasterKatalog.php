@@ -39,7 +39,7 @@ class MasterKatalog extends Auth
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/mmaterial.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
@@ -114,7 +114,7 @@ class MasterKatalog extends Auth
     $data['js'] = '
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
@@ -208,11 +208,12 @@ class MasterKatalog extends Auth
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/dataTables.rowsGroup.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
@@ -249,7 +250,7 @@ class MasterKatalog extends Auth
 
       echo json_encode(['status' => 'success']);
     } else {
-        redirect('master-material');
+      show_404();
     }
   }
   public function deletesbcdm($id) {
@@ -283,6 +284,11 @@ class MasterKatalog extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);
   }  
+  public function getdtlsize($idk,$sz){
+    $results = $this->Mkatalog_model->getdtlsize($idk,$sz);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }  
   public function getsbmtr(){
     $searchTerm = $this->input->get('q');
     $results = $this->Mkatalog_model->getsbmtr($searchTerm);
@@ -295,8 +301,60 @@ class MasterKatalog extends Auth
     id_katalog, nama_katalog, tipe_katalog, merk_katalog, warna_katalog, catatan, img_katalog, ukuran,status');
     $this->datatables->from('vkatalog');
     return print_r($this->datatables->generate());
-  }  
+  }
+  public function tablecondiment($id)  {
+    $this->load->library('datatables');
+    $this->datatables->select('ukuran, nama_condiment, kode_material, nama_material, qty_required, sat_material');
+    $this->datatables->from('vcondiment');
+    $this->datatables->where('id_katalog',$id);
+    return print_r($this->datatables->generate());
+  }
+  public function addcdm() {
+    if ($this->input->is_ajax_request()) {
+        $nmc = $this->input->post('selcondi');
+        $idk = $this->input->post('idkat');
+        $sz = $this->input->post('selsize');
+        $mtr = $this->input->post('selmtr');
+        $qty = $this->input->post('qty');
 
+        // Use query binding to avoid SQL injection
+        $this->db->where([
+            'nama_condiment' => $nmc,
+            'id_katalog' => $idk,
+            'size' => $sz,
+            'kode_material' => $mtr
+        ]);
+        $cekcdm = $this->db->get('tb_condiment')->row();
+
+        if ($cekcdm) {
+            $total_qty = $qty + $cekcdm->qty_required;
+            $this->Mkatalog_model->updatecdm($cekcdm->id, $total_qty);
+        } else {
+            // Insert a new record
+            $data = [
+                'nama_condiment' => $nmc,
+                'id_katalog' => $idk,
+                'size' => $sz,
+                'kode_material' => $mtr,
+                'qty_required' => $qty
+            ];
+            $this->Mkatalog_model->addcdm($data);
+        }
+
+        echo json_encode(['status' => 'success']);
+    } else {
+        show_404();
+    }
+  }
+  public function aktivasikatalog() {
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('idkat');
+      $result = $this->Mkatalog_model->aktivasi($id);
+      echo json_encode($result);
+    }else{
+      show_404();
+    }
+  }
 }
 
 

@@ -34,7 +34,7 @@
                                         <h4>List Katalog</h4>
                                     </div>
                                     <div class="col-md-12">
-                                        <a href="<?=base_url()?>katalog/buat-baru/" class="btn btn-primary">
+                                        <a href="<?=base_url()?>katalog/buat-baru" class="btn btn-primary">
                                             <i class="fa fa-plus"></i> Buat Katalog Baru
                                         </a>
                                         <a class="btn btn-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="CDM" data-title="Tambah Condiment Baru" data-label="Nama Condiment Baru"><i class="icofont icofont-addons"></i></a>
@@ -226,64 +226,58 @@
                   <div class="modal-body social-profile text-start">
                     <form class="row g-3" id="form-cdm" method="post">
                         <!-- PILIH TIPE CONDIMENT -->
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label" for="idkat">SKU KATALOG</label>
+                            <input class="form-control" name="idkat" id="idkat" type="text" readonly>
+                        </div>
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label" for="namakat">NAMA KATALOG</label>
+                            <input class="form-control" name="namakat" id="namakat" type="text" readonly>
+                        </div>
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="selcondi">TIPE CONDIMENT</label>
                             <select class="form-select" id="selcondi" name="selcondi" required>
                             </select>
                         </div>
-                        <!-- PILIH SIZE KATALOG -->                                    
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label" for="selsize">SIZE KATALOG</label>
-                            <select class="form-select" id="selsize" name="selsize" required>
-                            </select>
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label" for="selsize">DETAIL SIZE</label>
+                            <select class="form-select" id="selsize" name="selsize" required></select>
+                            <ul id="sizeDetailsList" class="list-group"></ul>
                         </div>
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label" for="pj">PANJANG</label>
-                            <input class="form-control" id="pj" type="text" readonly>
-                        </div>                                                                                                
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label" for="lb">LEBAR</label>
-                            <input class="form-control" id="lb" type="text" readonly>
-                        </div>                                                                                                
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label" for="ld">UKURAN LD</label>
-                            <input class="form-control" id="ld" type="text" readonly>
-                        </div>                                                                                                
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label" for="pb">UKURAN PB</label>
-                            <input class="form-control" id="pb" type="text" readonly>
-                        </div>                                                                                                
                         <!-- PILIH MATERIAL SELECT2 -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="selmtr">MATERIAL</label>
-                            <select class="form-select" id="selmtr" name="selmtr" required>
-                            </select>
+                            <select class="form-select" id="selmtr" name="selmtr" required></select>
+                            <div class="avatar">
+                                <img class="img-100 b-r-8 d-none" id="img-display" alt="material">
+                            </div>
                         </div>
-                        <div class="col-md-6 position-relative">
+                        <div class="col-md-3 position-relative">
                             <label class="form-label" for="qty">QUANTITY</label>
                             <div class="input-group has-validation">
-                                <input class="form-control" id="qty" type="text">
+                                <input class="form-control" name="qty" id="qty" type="text" onkeyup="formatNumber(this)">
                                 <span class="input-group-text" id="satuan"></span>
                             </div>                            
                         </div>
-                        <div class="light-product-box"><img class="img-fluid img-100 d-none" id="img-display" src="" alt="material"></div>
                         <div class="col-md-12 position-relative">
-                            <button type="button" id="subadd" class="btn btn-primary">
+                            <button type="submit" id="subadd" class="btn btn-primary">
                                 <span id="spinner_subadd" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
                                 <span id="tx_subadd">Tambahkan</span>
                             </button>
                         </div>
                         <div class="col-md-12 position-relative">
-                            <h6>Informasi detail material</h6>
+                            <h6>Informasi detail material condiment</h6>
                         </div>
                         <div class="col-md-12 position-relative">
                             <div class="table-responsive">
-                                <table class="display" id="table-material">
+                                <table class="display" id="table-condiment">
                                 <thead>
                                     <tr>
+                                        <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">SIZE</span></th>
+                                        <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">CONDIMENT</span></th>
                                         <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">MATERIAL</span></th>
-                                        <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">DETAIL</span></th>
                                         <th scope="col" style="min-width: 40px; text-align:center;"><span class="f-light f-w-600">QTY</span></th>
+                                        <th scope="col" style="min-width: 40px; text-align:center;"><span class="f-light f-w-600">SATUAN</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -292,13 +286,6 @@
                                 </table>
                             </div>
                         </div>                      
-                        <!-- Simpan Detail Condiment -->
-                        <div class="col-md-12 mt-3">
-                            <button type="submit" id="subpmb" class="btn btn-primary">
-                                <span id="spinner_subpmb" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
-                                <span id="tx_subpmb">Simpan Detail Condiment</span>
-                            </button>
-                        </div>
                     </form>
                   </div>
                 </div>

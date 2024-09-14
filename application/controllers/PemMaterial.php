@@ -41,8 +41,8 @@ class PemMaterial extends CI_Controller
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/pmbmaterial.js?v=1.0') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.0') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pmbmaterial.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
@@ -182,6 +182,15 @@ class PemMaterial extends CI_Controller
     if ($this->input->is_ajax_request()) {
       $id = $this->input->post('invoice');
       $result = $this->PemMaterial_model->approvedgd($id);
+      echo json_encode($result);
+    }else{
+      show_404();
+    }
+  }
+  public function approvegdlva() {
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('invoice');
+      $result = $this->PemMaterial_model->approvedgdlva($id);
       echo json_encode($result);
     }else{
       show_404();

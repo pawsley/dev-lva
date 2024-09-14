@@ -98,21 +98,28 @@ class Mkatalog_model extends CI_Model {
         return array('success' => $success, 'message' => $message);
     }
     public function getsbsize($idk,$searchTerm = null) {
-        $this->db->select(['id_katalog_dtl', 'tb_katalog.id_katalog', 'tb_katalog.nama_katalog','size','panjang','lebar','ukuran_ld','ukuran_pb']);
-        $this->db->from('tb_katalog_dtl');
-        $this->db->join('tb_katalog', 'tb_katalog.id_katalog = tb_katalog_dtl.id_katalog', 'inner');
-        $this->db->where('tb_katalog_dtl.id_katalog', $idk);
+        $this->db->select('id_katalog,nama_katalog,ukuran');
+        $this->db->from('vkatalog');
+        $this->db->where('id_katalog', $idk);
     
         if ($searchTerm) {
             $this->db->group_start();
-            $this->db->like('size', $searchTerm);
+            $this->db->like('ukuran', $searchTerm);
             $this->db->group_end();
         }
     
-        $this->db->order_by('size', 'asc');
+        $this->db->order_by('ukuran', 'asc');
         $query = $this->db->get();
         return $query->result_array();
-    }    
+    }
+    public function getdtlsize($idk,$sz) {
+        $this->db->select('detail_size,detail_size_num, satuan');
+        $this->db->from('tb_katalog_dtl');
+        $this->db->where('id_katalog', $idk);
+        $this->db->where('size', $sz);
+        $query = $this->db->get();
+        return $query->result_array();
+    }        
     public function getsbmtr($searchTerm = null) {
         $this->db->select(['kode_material', 'nama_material', 'kat_material','merk_material','warna_material','sat_material','img_material']);
         $this->db->from('tb_material');
@@ -127,7 +134,33 @@ class Mkatalog_model extends CI_Model {
         $this->db->order_by('kode_material', 'asc');
         $query = $this->db->get();
         return $query->result_array();
-    }    
+    }
+    public function addcdm($data) {
+        $insert = $this->db->insert('tb_condiment', $data);
+        return $insert; 
+    }
+    public function updatecdm($id, $qty) {
+        $this->db->where('id', $id);
+        $update = $this->db->update('tb_condiment', ['qty_required' => $qty]);
+        return $update;
+    }
+    public function aktivasi($id) {
+        $this->db->where('id_katalog', $id);
+        $this->db->set('status', 'Aktif');
+        $success = $this->db->update('tb_katalog');
+        
+        if ($success) {
+            return array(
+                'status' => 'success',
+                'message' => 'Sukses aktivasi'
+            );
+        } else {
+            return array(
+                'status' => 'failed',
+                'message' => 'Gagal aktivasi'
+            );
+        }
+      }       
 }
 
 /* End of file Mkatalog_model.php */

@@ -20,6 +20,7 @@ $(document).ready(function () {
     deletepmbm();
     approvedpmb();
     approvedgd();
+    approvedgdlva();
 });
 function selectTipe() {
     $('#seltipe').select2({
@@ -397,7 +398,7 @@ function approvedpmb() {
     });
 }
 function approvedgd() {
-    $(document).on('click', '#terimapmb', function (e) {
+    $(document).on('click', '#terimapmbldp', function (e) {
         e.preventDefault();
     
         var invoice_id = $(this).data('invoice');
@@ -432,6 +433,71 @@ function approvedgd() {
                 $.ajax({
                     type: 'POST',
                     url: base_url + 'pembelian/terima-data/',
+                    dataType: "json", 
+                    data: {
+                        invoice: invoice_id,
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {                            
+                            swal(response.message, {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1500
+                            }).then(function() {
+                                tablePMBMat.ajax.reload();
+                            });
+                        } else {
+                            swal(response.message, {
+                                icon: "error",
+                                buttons: false,
+                                timer: 1000
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });
+    });
+}
+function approvedgdlva() {
+    $(document).on('click', '#terimapmblva', function (e) {
+        e.preventDefault();
+    
+        var invoice_id = $(this).data('invoice');
+    
+        swal({
+            title: 'Konfirmasi Persetujuan',
+            content: {
+                element: 'span',
+                attributes: {
+                    innerHTML: 'Terima material dengan nomor invoice <strong>' + invoice_id + '</strong>.'
+                }
+            },
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Terima',
+                    value: true,
+                    visible: true,
+                    className: 'btn-success',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'pembelian/terima-data-lva/',
                     dataType: "json", 
                     data: {
                         invoice: invoice_id,
@@ -612,17 +678,18 @@ function tabpmb() {
                                     <button class="btn btn-info-gradien dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
                                     <div class="dropdown-menu">
                                         ${(full.status === "Requesting" ) ? `
-                                        <a class="dropdown-item" id="approvepmb" data-invoice="${data}" href="#">Approve Transaksi</a>
+                                        <a class="dropdown-item" id="approvepmb" data-invoice="${data}" href="javascript:void(0)">Approve Transaksi</a>
                                         ` : ''}
                                         ${(full.status === "Approved" ) ? `
-                                        <a class="dropdown-item" id="terimapmb" data-invoice="${data}" href="#">Barang Diterima</a>
+                                        <a class="dropdown-item" id="terimapmbldp" data-invoice="${data}" href="javascript:void(0)">Barang Diterima Gudang LDP</a>
+                                        <a class="dropdown-item" id="terimapmblva" data-invoice="${data}" href="javascript:void(0)">Barang Diterima Gudang LVA</a>
                                         ` : ''}
-                                        ${(full.status === "Requesting" || full.status === "Approved" || full.status === "Barang Diterima Gudang") ? `
+                                        ${(full.status === "Requesting" || full.status === "Approved" || full.status === "Barang Diterima Gudang LDP" || full.status === "Barang Diterima Gudang LVA") ? `
                                         <a class="dropdown-item" data-invoice="${data}" data-tgl="${full.tgl_pmb}" data-tipe="${full.tipe_pmb}" 
                                             data-supp="${full.nama_supplier} (${full.bank_acc}-${full.norek})" 
                                             data-id_bank="${full.id_bank}" data-acc="${full.nama_rek} (${full.nama_bank}-${full.no_rek})" 
                                             data-stat="${full.status}" data-gt="${full.grand_total}"
-                                            href="javascript(0);" data-bs-toggle="modal" data-bs-target="#DetailTransaksi">
+                                            href="javascript(0)" data-bs-toggle="modal" data-bs-target="#DetailTransaksi">
                                             Detail Transaksi
                                         </a>
                                         ` : ''}

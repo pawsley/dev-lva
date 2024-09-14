@@ -1,6 +1,8 @@
 var tableLog;
+var tableCodm;
 $(document).ready(function() {
     if (window.location.href === base_url+'katalog/buat-baru') {
+        console.log('buat-baru');
         generateid();
         addsizechart();
         addlogdtl();
@@ -15,6 +17,7 @@ $(document).ready(function() {
         dafsbcdm();
         tabkatalog();
         modalcdm();
+        aktivasikat();
     } else if (window.location.href === base_url+'katalog/daftar'){
 
     }
@@ -865,11 +868,11 @@ function tabkatalog() {
                             return `
                                     <button class="btn btn-info-gradien dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
                                     <div class="dropdown-menu">
-                                        ${(full.status === "Aktif" ) ? `
-                                            <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#DetailKatalog">Detail Katalog</a>
+                                        ${(full.status === "Aktif" || full.status === "Tidak" ) ? `
+                                            <a class="dropdown-item" href="javascript:void(0)" id="aktivasi" data-id="${data}">Aktivasi Katalog</a>
                                         ` : ''}
-                                        ${(full.status === "Tidak" ) ? `
-                                            <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id="${data}" data-nk="${full.nama_katalog}" >Bahan & Produk</a>
+                                        ${(full.status === "Aktif" || full.status === "Tidak" ) ? `
+                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id="${data}" data-nk="${full.nama_katalog}" >Bahan & Produk</a>
                                         ` : ''}
                                     </div>
                                 `;
@@ -944,42 +947,46 @@ function getSelect2(idk) {
             },
             dataType: 'json',
             delay: 250,
-            data: function (params) {
+            data: function(params) {
                 return {
                     q: params.term,
                 };
             },
-            processResults: function (data) {
+            processResults: function(data) {
                 var groups = {};
                 var results = [];
-    
-                data.forEach(function (item) {
-                    var groupName = item.id_katalog +' | '+item.nama_katalog;
+                data.forEach(function(item) {
+                    var groupName = item.id_katalog + ' | ' + item.nama_katalog;
+                    
                     if (!groups[groupName]) {
                         groups[groupName] = [];
                     }
-                    groups[groupName].push({
-                        id: item.id_katalog_dtl,
-                        text: ' Size : ('+item.size+') ',
-                        pj : item.panjang,
-                        lb : item.lebar,
-                        ld : item.ukuran_ld,
-                        pb: item.ukuran_pb
+
+                    var sizes = item.ukuran.split(',').map(function(size) {
+                        return size.trim();
+                    });
+
+                    sizes.forEach(function(size) {
+                        groups[groupName].push({
+                            id: size, 
+                            text: 'Size: (' + size + ')',
+                            id_ktl: item.id_katalog
+                        });
                     });
                 });
-    
-                Object.keys(groups).forEach(function (groupName) {
+
+                Object.keys(groups).forEach(function(groupName) {
                     results.push({
                         text: groupName,
                         children: groups[groupName]
                     });
                 });
-    
+
                 return {
                     results: results
                 };
             },
-            cache: false,            
+            cache: false,
         },
     });
     $('#selmtr').select2({
@@ -1015,12 +1022,31 @@ function getSelect2(idk) {
             cache: false,
         },
     });    
-    $('#selsize').on('select2:select', function(e) {
-        $('#pj').val(formatNumber(e.params.data.pj));
-        $('#lb').val(formatNumber(e.params.data.lb));
-        $('#ld').val(formatNumber(e.params.data.ld));
-        $('#pb').val(formatNumber(e.params.data.pb));
-    }); 
+    $('#selsize').on('select2:select', function (e) {
+        let id = e.params.data.id_ktl;
+        let sz = e.params.data.id;
+        $.ajax({
+            type: "GET",
+            url: base_url + "katalog/sizedtl/" + id + '/' + sz,
+            dataType: "json",
+            success: function (data) {
+                $('#sizeDetailsList').empty();
+                
+                $.each(data, function (index, item) {
+                    let listItem = `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>${item.detail_size}</span>
+                            <strong>${item.detail_size_num} ${item.satuan}</strong>
+                        </li>
+                    `;
+                    $('#sizeDetailsList').append(listItem);
+                });
+            },
+            error: function (error) {
+                alert('Failed to retrieve size details.');
+            }
+        });
+    });    
     $('#selmtr').on('select2:select', function(e) {
         $('#satuan').text(e.params.data.sat);
         $('#img-display').removeClass('d-none');
@@ -1034,12 +1060,167 @@ function modalcdm() {
     $('#AddMaterial').on('shown.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var idk = button.data('id');
-        $('#skudtl').text(button.data('id')+' '+button.data('nk'));
-        
-    
+        var nmk = button.data('nk');
+        $('#skudtl').text(idk+' '+nmk);
+        $('#idkat').val(idk);
+        $('#namakat').val(nmk);
         getSelect2(idk);
-        // generateid();
-        // addpmbm();
-        // tabmat();               
+        addcdm();
+        tabcodm(idk);               
+    });
+}
+function addcdm() {
+    $('#form-cdm').off('submit').on('submit', function (e) {
+        e.preventDefault();
+        $('#spinner_subadd').removeClass('d-none');
+        $('#tx_subadd').addClass('d-none');
+        $('#subadd').prop('disabled', true);
+        var formData = $(this).serializeArray();
+        $.ajax({
+            url: base_url + 'MasterKatalog/addcdm',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("Berhasil ditambahkan", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    });
+                } else {
+                    swal(response.message, {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                }
+            },
+            complete: function () {
+                $('#spinner_subadd').addClass('d-none');
+                $('#tx_subadd').removeClass('d-none');
+                $('#subadd').prop('disabled', false);
+                tableCodm.ajax.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+                alert('An error occurred while saving data.');
+            }
+        });
+    });
+}
+function tabcodm(idk) {
+    $.getJSON(base_url + 'assets/json/datatable-id.json', function(json) {
+        if ($.fn.DataTable.isDataTable('#table-condiment')) {
+            tableCodm.destroy();
+        }
+
+        tableCodm = $("#table-condiment").DataTable({
+            "language": json,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": base_url + 'MasterKatalog/tablecondiment/' + idk,
+                "type": "POST",
+            },
+            'rowsGroup': [0,1],
+            "columns": [
+                { "data": "ukuran" },
+                { "data": "nama_condiment" },
+                {
+                    "data": "nama_material",
+                    "render": function(data, type, row) {
+                        return `${row.kode_material} | ${row.nama_material}`;
+                    }
+                },
+                { "data": "qty_required" },
+                { "data": "sat_material" }
+            ],
+
+            "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                   "<'row'<'col-sm-12 col-md-2'B>>" +
+                   "<'row'<'col-sm-12'tr>>" +
+                   "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+            "buttons": [
+                {
+                    "text": 'Refresh',
+                    "className": 'custom-refresh-button',
+                    "attr": {
+                        "id": "refresh-button"
+                    },
+                    "init": function(api, node) {
+                        $(node).removeClass('btn-default').addClass('btn-primary').attr('title', 'Refresh');
+                    },
+                    "action": function() {
+                        tableCodm.ajax.reload(); // Refresh data
+                    }
+                }
+            ]
+        });
+    });
+}
+function aktivasikat() {
+    $(document).on('click', '#aktivasi', function (e) {
+        e.preventDefault();
+    
+        var idkat = $(this).data('id');
+    
+        swal({
+            title: 'Konfirmasi Aktivasi',
+            content: {
+                element: 'span',
+                attributes: {
+                    innerHTML: 'Anda akan mengaktivasi katalog <strong>' + idkat + '</strong>.'
+                }
+            },
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Approve',
+                    value: true,
+                    visible: true,
+                    className: 'btn-success',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'katalog/aktivasi-katalog',
+                    dataType: "json", 
+                    data: {
+                        idkat: idkat,
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {                            
+                            swal(response.message, {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1500
+                            }).then(function() {
+                                tableLog.ajax.reload();
+                            });
+                        } else {
+                            swal(response.message, {
+                                icon: "error",
+                                buttons: false,
+                                timer: 1000
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });
     });
 }
