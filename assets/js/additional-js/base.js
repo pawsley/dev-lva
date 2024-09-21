@@ -43,6 +43,12 @@ $(document).ready(function () {
         $(".sidebar-list.master").addClass('active');
         $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
         $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+    }else if (segment1 == "master-size"){
+        $(".master").addClass("active");
+        $(".msize").addClass("active");
+        $(".sidebar-list.master").addClass('active');
+        $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+        $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
     }else if (segment1 == "katalog"){
         if (segment2 == "buat-baru") {
             $(".katalog").addClass("active");
@@ -91,7 +97,16 @@ $(document).ready(function () {
             $(".sidebar-list.pembelian .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.pembelian ul.sidebar-submenu").slideDown('normal');
         }
-    }else if (segment1 == "gudang") {
+    }else if (segment1 == "penjualan"){
+        if (segment2 == "kasir") {
+            $(".penjualan").addClass("active");
+            $(".pjor").addClass("active");
+            $(".sidebar-list.penjualan").addClass('active');
+            $(".sidebar-list.penjualan .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.penjualan ul.sidebar-submenu").slideDown('normal'); 
+        }
+    }
+    else if (segment1 == "gudang") {
         if (segment2 == "lva") {
             $(".gudang").addClass("active");
             $(".gdlva").addClass("active");

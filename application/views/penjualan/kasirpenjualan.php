@@ -3,15 +3,14 @@
               <div class="page-title">
                 <div class="row">
                   <div class="col-6">
-                    <h4>Kasir</h4>
+                    <h4>Kasir Penjualan</h4>
                   </div>
                   <div class="col-6">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="index.html">                                       
                           <svg class="stroke-icon">
-                            <use href="../assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                            <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
                           </svg></a></li>
-                      <li class="breadcrumb-item"> Home</li>
                       <li class="breadcrumb-item"> Penjualan</li>
                       <li class="breadcrumb-item active"> Kasir Penjualan</li>
                     </ol>
@@ -27,314 +26,90 @@
                   <div class="col-12">
                       <div class="card">
                           <div class="card-header">
-                              <h4>Formulir Penjualan</h4>
+                              <h4>Form Order</h4>
                           </div>
                           <div class="card-body custom-input">
                               <form class="row g-3 mb-4">
-                                    <!-- Invoice ID -->
-                                    <div class="col-2 position-relative">
-                                      <label class="form-label" for="">INVOICE ID</label>
-                                      <input class="form-control" id="" type="text" placeholder="Terisi Otomatis" required readonly>
+                                    <!-- ORDER ID -->
+                                    <div class="col-md-4 position-relative">
+                                      <label class="form-label" for="ordid">ORDER ID</label>
+                                      <input class="form-control" id="ordid" name="ordid" type="text" placeholder="Terisi Otomatis" required readonly>
                                     </div>
                                     <!-- Select Produk -->
-                                    <div class="col-9 position-relative">
-                                        <label class="form-label" for="">PILIH PRODUK</label>
-                                        <input class="form-control" id="" type="text" placeholder="Pilih Produk Katalog" required readonly>
+                                    <div class="col-md-7 position-relative">
+                                        <label class="form-label" for="selkat">PILIH PRODUK</label>
+                                        <select class="form-select" id="selkat" name="selkat" required>
+                                        </select>
                                     </div>
                                     <!-- Button Tambah -->
-                                    <div class="col-1 position-relative">
+                                    <div class="col-md-1 position-relative">
                                       <label class="form-label" for="shortcuttambahdata">KATALOG</label>
                                       <div>
-                                          <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-shopping-basket"></i></a>
+                                          <a class="btn badge-light-primary" href="<?=base_url()?>katalog/buat-baru" ><i class="fa fa-shopping-basket"></i></a>
                                       </div>
                                     </div>
                                     <!-- Table Keranjang -->
                                     <div class="order-history table-responsive wishlist">
-                                      <table class="table table-bordered">
+                                      <table class="table table-bordered" id="table-order" width="100%">
                                         <thead>
                                           <tr>
-                                            <th>#</th>
+                                            <th style="width: 2%">#</th>
                                             <th>PRODUK</th>
                                             <th>SIZE</th>
-                                            <th>LD</th>
-                                            <th>PB</th>
                                             <th>HARGA</th>
                                             <th>QUANTITY</th>
                                             <th>AKSI</th>
                                           </tr>
                                         </thead>
-                                        <tbody>
-                                          <!-- Data 1 -->
-                                          <tr>
-                                            <!-- Gambar -->
-                                            <td><img class="img-fluid img-40" src="../assets/images/katalog/jannete.jpg" alt="#"></td>
-                                            <!-- Nama Produk -->
-                                            <td>
-                                              <div class="product-name">JANNETE DRESS</div>
-                                            </td>
-                                            <!-- Size Produk -->
-                                            <td>L</td>
-                                            <!-- LD Produk -->
-                                            <td>
-                                              <div class="input-group">
-                                                <input class="form-control me-2" type="text" placeholder="2.67" readonly>
-                                                <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">M</span>
-                                              </div>
-                                            </td>
-                                            <!-- Panjang Produk -->
-                                            <td>
-                                              <div class="input-group">
-                                                <input class="form-control me-2" type="text" placeholder="2.67" readonly>
-                                                <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">M</span>
-                                              </div>
-                                            </td>
-                                            <!-- Harga Produk -->
-                                            <td>Rp1.890.000</td>
-                                            <!-- Qty Produk -->
-                                            <td>
-                                              <fieldset class="qty-box">
-                                                <div class="input-group">
-                                                  <input class="touchspin text-center" type="text" value="1">
-                                                </div>
-                                              </fieldset>
-                                            </td>
-                                            <!-- Aksi Buton Hapus -->
-                                            <td>
-                                              <i data-feather="trash-2"></i>
-                                            </td>
-                                          </tr>
-                                          <!-- Data 2 -->
-                                          <tr>
-                                            <!-- Gambar -->
-                                            <td><img class="img-fluid img-40" src="../assets/images/katalog/beyza.jpg" alt="#"></td>
-                                            <!-- Nama Produk -->
-                                            <td>
-                                              <div class="product-name">BEYZA DRESS</div>
-                                            </td>
-                                            <!-- Size Produk -->
-                                            <td>CUSTOM</td>
-                                            <!-- LD Produk -->
-                                            <td>
-                                              <div class="input-group">
-                                                <input class="form-control me-2" type="text" placeholder="Custom">
-                                                <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">M</span>
-                                              </div>
-                                            </td>
-                                            <!-- Panjang Produk -->
-                                            <td>
-                                              <div class="input-group">
-                                                <input class="form-control me-2" type="text" placeholder="Custom">
-                                                <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">M</span>
-                                              </div>
-                                            </td>
-                                            <!-- Harga Produk -->
-                                            <td>Rp1.890.000</td>
-                                            <!-- Qty Produk -->
-                                            <td>
-                                              <fieldset class="qty-box">
-                                                <div class="input-group">
-                                                  <input class="touchspin text-center" type="text" value="1">
-                                                </div>
-                                              </fieldset>
-                                            </td>
-                                            <!-- Aksi Buton Hapus -->
-                                            <td>
-                                              <i data-feather="trash-2"></i>
-                                            </td>
-                                          </tr>
+                                        <tbody id="list-order">
                                         </tbody>
                                       </table>
                                     </div>
+                                    <div class="col-md-12 position-relative">
+                                      <div class="checkout-details">
+                                        <div class="order-box">
+                                          <ul class="sub-total">
+                                            <li>Subtotal <span class="count">0</span></li>
+                                            <li>Diskon <span class="count text-danger">0</span></li>
+                                          </ul>
+                                          <hr>
+                                          <ul class="sub-total mt-4">
+                                            <li>GRAND TOTAL <span class="count text-success f-w-700">0</span></li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>                                    
                                     <!-- Catatan -->
-                                    <div class="col-12 position-relative">
+                                    <div class="col-md-12 position-relative">
                                       <div class="form-floating">
                                         <textarea class="form-control" id="floatingTextarea" placeholder="Buat Catatan Disini"></textarea>
                                         <label for="floatingTextarea">Catatan (Opsional)</label>
                                       </div>
                                     </div>
-                                    <!-- Lanjut Pembayaran -->
-                                    <div class="row g-3 mt-4">
-                                      <!-- Detail Pelanggan -->
-                                      <div class="col-xl-6 col-sm-12">
-                                        <form>
-                                          <div class="row">
-                                            <div class="mb-3 col-sm-9">
-                                              <label for="">CUSTOMER</label>
-                                              <select class="form-select" id="" required="">
-                                                <option selected="" disabled="" value="">Pilih Customer ...</option>
-                                                <option>ELVC-0001 | ILHAM RAMADHAN TAUFIQ | AGEN | Rp23.000.000</option>
-                                              </select>
-                                            </div>
-                                            <!-- Button Tambah -->
-                                            <div class="col-sm-3 mb-3 position-relative">
-                                              <label class="form-label" for="shortcuttambahdata">ADD NEW</label>
-                                              <div>
-                                                <a class="btn badge-light-primary" href="#!" data-bs-toggle="modal" data-bs-target="#CustomerBaru" style="padding-bottom: 6px;border-bottom-width: 1px;border-bottom-style: solid;margin-top: 5px;"><i class="fa fa-plus"></i></a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="mb-3 col-sm-6">
-                                              <label for="">WHATSAPP</label>
-                                              <input class="form-control" id="" type="number" placeholder="Terisi Otomatis" readonly>
-                                            </div>
-                                            <div class="mb-3 col-sm-6">
-                                              <label for="">EMAIL ADDRESS</label>
-                                              <input class="form-control" id="" type="email" placeholder="Terisi Otomatis" readonly>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <!-- Provinsi -->
-                                            <div class="mb-3 col-sm-12">
-                                              <label class="form-label" for="FormProvinsi">PROVINSI</label>
-                                              <select class="form-select" id="FormProvinsi" required="">
-                                                  <option selected="" disabled="" value="">Pilih Provinsi ...</option>
-                                                  <option>Jawa Timur</option>
-                                                  <option>Jawa Tengah</option>
-                                                  <option>Jawa Barat</option>
-                                              </select>
-                                            </div>
-                                            <!-- Kabupaten / Kota -->
-                                            <div class="mb-3 col-sm-6">
-                                              <label class="form-label" for="FormKotaKab">KOTA / KABUPATEN</label>
-                                              <select class="form-select" id="FormKotaKab" required="">
-                                                <option selected="" disabled="" value="">Pilih Kota / Kab ...</option>
-                                                <option>Kota Surabaya</option>
-                                                <option>Kabupaten Sidoarjo</option>
-                                                <option>Kabupaten Malang</option>
-                                              </select>
-                                            </div>
-                                            <!-- Kecamatan -->
-                                            <div class="mb-3 col-sm-6">
-                                              <label class="form-label" for="FormKecamatan">KECAMATAN</label>
-                                              <select class="form-select" id="FormKecamatan" required="">
-                                                  <option selected="" disabled="" value="">Pilih Kecamatan ...</option>
-                                                  <option>Jagir</option>
-                                                  <option>Wonokromo</option>
-                                                  <option>Kedung Asri</option>
-                                              </select>
-                                            </div>
-                                            <!-- Kelurahan -->
-                                            <div class="mb-3 col-sm-6">
-                                              <label class="form-label" for="FormKelurahaan">KELURAHAN</label>
-                                              <select class="form-select" id="FormKelurahaan" required="">
-                                                  <option selected="" disabled="" value="">Pilih Kelurahaan ...</option>
-                                                  <option>Sawunggaling</option>
-                                                  <option>Kesatrian</option>
-                                                  <option>Gedangan</option>
-                                              </select>
-                                            </div>
-                                            <!-- Postal Code -->
-                                            <div class="mb-3 col-sm-6">
-                                              <label for="inputAddress6">KODE POS</label>
-                                              <input class="form-control" id="inputAddress6" type="number">
-                                            </div>
-                                            <!-- Detail Jalan -->
-                                            <div class="mb-3 col-sm-12">
-                                              <label for="inputAddress5">DETAIL JALAN</label>
-                                              <input class="form-control" id="inputAddress5" type="text">
-                                            </div>
-                                            <!-- Pilih Kurir -->
-                                            <div class="mb-3 col-sm-12">
-                                              <label for="">Pilih Jasa Pengiriman</label>
-                                              <select class="form-select" id="" required="">
-                                                <option selected="" disabled="" value="">Pilih Pengiriman ...</option>
-                                                <option>API Raja Ongkir</option>
-                                                <option>API Raja Ongkir</option>
-                                                <option>API Raja Ongkir</option>
-                                            </select>
-                                            </div>
-                                          </div>
-                                        </form>
-                                      </div>
-                                      <!-- Summary Order -->
-                                      <div class="col-xl-6 col-sm-12">
-                                        <div class="row">
-                                          <!-- Tanggal -->
-                                          <div class="mb-3 col-sm-12">
-                                            <label class="form-label" for="">DUE DATE</label>
-                                            <input class="form-control digits" id="" name="" type="datetime-local" value="2023-05-03T18:45:00">
-                                          </div>
-                                          <!-- Saldo Aktif -->
-                                          <div class="mb-3 col-sm-6">
-                                            <label class="form-label" for="SaldoAktif">SALDO AKTIF</label>
-                                              <div class="input-group"><span class="input-group-text" id="SaldoAktif">Rp</span>
-                                                <input class="form-control" id="" type="text" value="4.500.000" readonly="">
-                                              </div>
-                                          </div>
-                                          <!-- Kode Diskon -->
-                                          <div class="mb-3 col-sm-6">
-                                            <label class="form-label" for="">KODE DISKON</label>
-                                              <div class="input-group">
-                                                <input class="form-control me-2" type="text" placeholder="Kode Kupon"><a class="btn btn-primary" href="#">Apply</a>
-                                              </div>
-                                          </div>
-                                          <!-- Bank Pengirim -->
-                                          <div class="col-mb-3 col-sm-6"> 
-                                            <label class="form-label" for="">BANK PENGIRIM</label>
-                                              <select class="form-select" id="">
-                                                  <option selected="" disabled="" value="">Pilih Bank</option>
-                                                  <option>BCA</option>
-                                                  <option>MANDIRI</option>
-                                                  <option>BNI</option>
-                                                  <option>BRI</option>
-                                              </select>
-                                          </div>
-                                          <!-- Bank Penerima -->
-                                          <div class="col-mb-3 col-sm-6"> 
-                                            <label class="form-label" for="">BANK PENGIRIM</label>
-                                              <select class="form-select" id="">
-                                                  <option selected="" disabled="" value="">Pilih Bank</option>
-                                                  <option>BCA | 3456787 | ELVA FAUQO</option>
-                                                  <option>MANDIRI | 4567865437 | ELVA FAUQO</option>
-                                                  <option>BNI | 9876545678 | ELVA FAUQO</option>
-                                                  <option>BRI | 98765456789 | ELVA FAUQO</option>
-                                              </select>
-                                          </div>
-                                          <!-- Nomor Rekening -->
-                                          <div class="mb-3 mt-3 col-sm-12">
-                                            <label for="">NOMOR REKENING</label>
-                                            <input class="form-control" id="" type="text" placeholder="Input Nomor Rekening Pengirim">
-                                          </div>
-                                          <!-- Jumlah Pembayaran -->
-                                          <div class="mb-3 col-sm-6">
-                                            <label class="form-label" for="">NOMINAL PEMBAYARAN</label>
-                                              <div class="input-group"><span class="input-group-text" id="">Rp</span>
-                                                <input class="form-control" id="" type="text" value="" onkeyup="formatRupiah(this)">
-                                              </div>
-                                          </div>
-                                          <!-- Total Tagihan -->
-                                          <div class="mb-3 col-sm-6">
-                                            <label class="form-label" for="SaldoAktif">TOTAL TAGIHAN</label>
-                                              <div class="input-group"><span class="input-group-text" id="SaldoAktif">Rp</span>
-                                                <input class="form-control" id="" type="text" value="" readonly="">
-                                              </div>
-                                          </div>
-                                        </div>
-                                        <!-- Detail Pemesanan -->
-                                        <div class="checkout-details">
-                                          <div class="order-box">
-                                            <div class="title-box">
-                                              <div class="checkbox-title">
-                                                <h4>Detail Pesanan </h4><span>Total</span>
-                                              </div>
-                                            </div>
-                                            <ul class="sub-total">
-                                              <li>Subtotal <span class="count">Rp3.780.000</span></li>
-                                              <li>Biaya Pengiriman <span class="count">Rp120.000</span></li>
-                                              <li>Biaya Tambahan <span class="count">Rp60.000</span></li>
-                                              <li>Diskon <span class="count text-danger">Rp756.000</span></li>
-                                            </ul>
-                                            <hr>
-                                            <ul class="sub-total mt-4">
-                                              <li>GRAND TOTAL <span class="count text-success f-w-700">Rp3.204.000</span></li>
-                                            </ul>
-                                          </div>
-                                        </div>
+                                    <div class="col-md-4 position-relative">
+                                      <label class="form-label" for="cst">CUSTOMER</label>
+                                      <div class="input-group">
+                                        <select class="form-select" id="cst" name="cst" required>
+                                        </select>
+                                        <span class="input-group-append ps-1">
+                                            <a class="btn badge-light-primary shownewmod" href="<?=base_url()?>customer/buat-baru" ><i class="fa fa-plus"></i></a>
+                                        </span>
                                       </div>
                                     </div>
+                                    <div class="col-md-3 position-relative">
+                                      <label class="form-label" for="wa">WHATSAPP</label>
+                                      <input class="form-control" id="wa" name="wa" type="text" placeholder="Terisi Otomatis" readonly>
+                                    </div>
+                                    <div class="col-md-3 position-relative">
+                                      <label class="form-label" for="email">EMAIL</label>
+                                      <input class="form-control" id="email" name="email" type="text" placeholder="Terisi Otomatis" readonly>
+                                    </div>
+                                    <div class="col-md-2 position-relative">
+                                      <label class="form-label" for="duedate">TANGGAL ORDER</label>
+                                      <input class="form-control digits" id="duedate" name="duedate" type="date">
+                                    </div>
                                     <!-- Submit Pesanan -->
-                                    <div class="col-12">
+                                    <div class="col-md-12 position-relative">
                                       <button class="btn btn-success-gradien cart-btn-transform" type="submit">PROSES PESANAN</button>
                                     </div>
                               </form>

@@ -80,6 +80,12 @@
                                             </span>
                                         </div>                                        
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group has-validation">
+                                            <span class="input-group-text">Rp</span>
+                                            <input class="form-control" type="text" name="loghj[]" onkeyup="formatRupiah(this);" placeholder="0" required>
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label">LIST SIZE</label>
@@ -107,6 +113,7 @@
                                         <div class="text-start">
                                             <a class="btn badge-light-primary" href="javascript:void(0)" id="add-row"><i class="fa fa-plus"></i> Tambah Detail Katalog</a>
                                             <a class="btn badge-light-primary add-row-dsz" href="javascript:void(0)"><i class="fa fa-plus"></i> Tambah Detail Size Chart</a>
+                                            <a class="btn badge-light-primary" href="javascript:void(0)"><i class="icofont icofont-settings"></i> Master Size Chart</a>
                                         </div>
                                     </div>                                    
                                     <!-- Size Chart -->

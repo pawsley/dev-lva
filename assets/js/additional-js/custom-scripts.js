@@ -38,6 +38,14 @@ function updateDateTime(twid) {
     twid = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;  
     return twid;
 }
+function updateDateNow(datid) {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = (now.getMonth() + 1).toString().padStart(2, '0');
+    var day = now.getDate().toString().padStart(2, '0');
+    datid = year + '-' + month + '-' + day;  
+    return datid;
+}
 function formatNumber(input) {
     let value = $(input).val();
     // Replace commas with dots for consistency

@@ -117,13 +117,16 @@
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="media profile-media">
                     <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
-                  <div class="media-body"><span>Ms. Elva</span>
-                    <p class="mb-0">Superadmin <i class="middle fa fa-angle-down"></i></p>
+                  <div class="media-body"><span><?php echo $this->session->userdata('nama_karyawan'); ?></span>
+                    <p class="mb-0"> 
+                      <?php echo $this->session->userdata('role_user'); ?>
+                      <i class="middle fa fa-angle-down"></i>
+                    </p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
                   <!-- <li><a href="javascript:void(0)"><i data-feather="settings"></i><span>Pengaturan</span></a></li> -->
-                  <li><a href="javascript:void(0)"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
+                  <li><a href="<?=base_url()?>logout/"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
                 </ul>
               </li>
             </ul>
@@ -192,6 +195,7 @@
                       <li class="mtrl"><a class="mtrl" href="<?=base_url()?>master-material">Master Material</a></li>
                       <!-- <li class="mprd"><a class="mprd" href="<?=base_url()?>master-produk">Master Produk</a></li> -->
                       <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
+                      <li class="msize"><a class="msize" href="<?=base_url()?>master-size">Master Size Chart</a></li>
                     </ul>
                   </li>
                   <li class="sidebar-list katalog"><i class="fa fa-thumb-tack"></i>
@@ -241,9 +245,9 @@
                     </a>
                   </li>
                   <!-- Menu Penjualan -->
-                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                  <li class="sidebar-list penjualan"><i class="fa fa-thumb-tack"></i>
                     <label class="badge badge-light-primary"></label>
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                    <a class="sidebar-link sidebar-title penjualan" href="javascript:void(0)">
                         <svg class="stroke-icon">
                             <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
                         </svg>
@@ -253,13 +257,13 @@
                         <span>Penjualan</span>
                     </a>
                     <ul class="sidebar-submenu">
-                      <li><a href="<?=base_url()?>penjualan/data-customer">Data Customer</a></li>
-                      <li><a href="<?=base_url()?>penjualan/kasir">Kasir Penjualan</a></li>
+                      <!-- <li><a href="<?=base_url()?>penjualan/data-customer">Data Customer</a></li> -->
+                      <li class="pjor"><a class="pjor" href="<?=base_url()?>penjualan/kasir">Kasir Penjualan</a></li>
                       <li><a href="<?=base_url()?>penjualan/pengiriman">Pengiriman</a></li>
                       <li><a href="<?=base_url()?>penjualan/riwayat">Riwayat Penjualan</a></li>
                       <li><a href="<?=base_url()?>penjualan/transaksi">Transaksi Customer</a></li>
                     </ul>
-                  </li>                  
+                  </li>
                   <!-- Menu Pembelian -->
                   <li class="sidebar-list pembelian"><i class="fa fa-thumb-tack"></i>
                     <label class="badge badge-light-primary"></label>
@@ -274,7 +278,7 @@
                     </a>
                     <ul class="sidebar-submenu">
                       <li class="pbm"><a class="pbm" href="<?=base_url()?>pembelian/pembelian-material">Pembelian Material</a></li>
-                      <li class="prm"><a class="prm" href="<?=base_url()?>pembelian/print-material">Printing Material</a></li>
+                      <!-- <li class="prm"><a class="prm" href="<?=base_url()?>pembelian/print-material">Printing Material</a></li> -->
                     </ul>
                   </li>                  
                   <!-- Menu Produksi -->

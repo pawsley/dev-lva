@@ -22,39 +22,39 @@
             <!-- Container-fluid starts-->
             <div class="container-fluid">
             <!-- Data Customer -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card height-equal">
-                        <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
-                            <h4>Database Customer</h4>
-                            <div class="d-flex align-items-center">
-                                <a href="<?=base_url()?>customer/buat-baru" class="btn btn-primary">
-                                    <i class="fa fa-plus"></i> Buat Baru
-                                </a>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card height-equal">
+                            <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
+                                <h4>Database Customer</h4>
+                                <div class="d-flex align-items-center">
+                                    <a href="<?=base_url()?>customer/buat-baru" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i> Buat Baru
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="display" id="table-customer">
-                                    <thead>
-                                        <tr>
-                                            <th><span class="f-light f-w-600">ID CUSTOMER</span></th>
-                                            <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA CUSTOMER</span></th>
-                                            <th style="min-width: 100px;"><span class="f-light f-w-600">TIPE</span></th>
-                                            <th><span class="f-light f-w-600">EMAIL</span></th>
-                                            <th><span class="f-light f-w-600">WHATSAPP</span></th>
-                                            <th style="min-width: 100px;"><span class="f-light f-w-600">SALDO AKTIF</span></th>
-                                            <th class="text-center"><span class="f-light f-w-600">AKSI</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="display" id="table-customer">
+                                        <thead>
+                                            <tr>
+                                                <th><span class="f-light f-w-600">ID CUSTOMER</span></th>
+                                                <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA CUSTOMER</span></th>
+                                                <th style="min-width: 100px;"><span class="f-light f-w-600">TIPE</span></th>
+                                                <th><span class="f-light f-w-600">EMAIL</span></th>
+                                                <th><span class="f-light f-w-600">WHATSAPP</span></th>
+                                                <th style="min-width: 100px;"><span class="f-light f-w-600">SALDO AKTIF</span></th>
+                                                <th class="text-center"><span class="f-light f-w-600">AKSI</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-              </div>
             </div>
             <!-- End Data Customer -->
             <!-- Modal Edit Customer -->

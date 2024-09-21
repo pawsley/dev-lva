@@ -7,11 +7,11 @@ class Auth extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    // $this->load->library('session');
+    $this->load->library('session');
         
-    // if(! $this->session->userdata('logged') == TRUE) {
-    //     redirect(base_url('login'));
-    // }
+    if(! $this->session->userdata('logged') == TRUE) {
+        redirect(base_url('login'));
+    }
   }
 
 }

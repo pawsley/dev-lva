@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+// auth
+$route['login']='Login';
+$route['logout']='Login/logout';
+$route['cek-auth']='Login/aksi_login';
+$route['registrasi']='Login/createpost';
 // master karyawan
 $route['master-karyawan']='MasterKaryawan';
 $route['master-karyawan/role-kar']='MasterKaryawan/loadrole';
@@ -55,6 +60,13 @@ $route['master-produk/jsondis']='MasterProduk/jsondis';
 $route['master-produk/edit/(:any)']='MasterProduk/edit/$1';
 $route['master-produk/update-data']='MasterProduk/updatepost';
 $route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
+// master size
+$route['master-size']='MasterSize';
+// $route['master-produk/simpan-data']='MasterProduk/createpost';
+// $route['master-produk/jsondis']='MasterProduk/jsondis';
+// $route['master-produk/edit/(:any)']='MasterProduk/edit/$1';
+// $route['master-produk/update-data']='MasterProduk/updatepost';
+// $route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
 // master katalog
 $route['katalog/daftar']='MasterKatalog';
 $route['katalog/buat-baru']='MasterKatalog/buatbaru';

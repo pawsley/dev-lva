@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-class Gudang extends CI_Controller
+include_once(APPPATH . 'controllers/Auth.php');
+class Gudang extends Auth
 {
     
   public function __construct()

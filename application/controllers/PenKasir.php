@@ -7,6 +7,7 @@ class PenKasir extends Auth
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('PenKasir_model');
   }
 
   public function index(){
@@ -37,12 +38,42 @@ class PenKasir extends Auth
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+    <script src="' . base_url('assets/js/additional-js/penkasir.js?v=1.0') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
     ';
     $this->load->view('layout/base', $data);    
+  }
+  public function generateid() {
+    $year = date('Y');
+    $month = date('m');
+    $day = date('d');
+
+    $data['lastID'] = $this->PenKasir_model->getLastKode($year, $month, $day);
+    $lastID = isset($data['lastID'][0]['id_order']) ? $data['lastID'][0]['id_order'] : '';
+    
+    if (preg_match('/PO-(\d{4})$/', $lastID, $matches)) {
+        $numericPart = $matches[1];
+    } else {
+        $numericPart = '0000';
+    }
+    $expectedPrefix = "$year/$month/$day";
+    if (strpos($lastID, $expectedPrefix) !== 0) {
+        $numericPart = '0000';
+    }
+
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    $idlog = $this->session->userdata('id_karyawan');
+    $data['newID'] = $expectedPrefix .'/'. $idlog . '/' . 'PO-' . $incrementedNumericPart;
+    $data['defID'] = $expectedPrefix .'/'. $idlog . '/' . 'PO-0001';
+
+    $currentDate = date('Y/m/d');
+    $data['currentDate'] = $currentDate;
+
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
   }
 
 }
