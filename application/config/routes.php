@@ -9,6 +9,13 @@ $route['login']='Login';
 $route['logout']='Login/logout';
 $route['cek-auth']='Login/aksi_login';
 $route['registrasi']='Login/createpost';
+// master agen
+$route['master-agen']='MasterCustomer';
+// master tipe agen
+$route['master-tipe-agen']='MasterTipeAgen';
+$route['master-tipe-agen/list-tipe-agen']='MasterTipeAgen/tabletpa';
+$route['master-tipe-agen/update-data']='MasterTipeAgen/updatedata';
+$route['master-tipe-agen/delete-data/(:any)'] = 'MasterTipeAgen/deletedaf/$1';
 // master karyawan
 $route['master-karyawan']='MasterKaryawan';
 $route['master-karyawan/role-kar']='MasterKaryawan/loadrole';

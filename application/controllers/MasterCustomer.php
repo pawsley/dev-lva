@@ -38,7 +38,8 @@ class MasterCustomer extends Auth
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/mcustomer.js?v=1.0') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mcustomer.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
     <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
@@ -126,8 +127,9 @@ class MasterCustomer extends Auth
   public function createsbmat(){
     if ($this->input->is_ajax_request()) {
       $nk = $this->input->post('namakat');
+      $val = $this->input->post('valdis');
 
-      $this->Mcustomer_model->createsbc($nk);
+      $this->Mcustomer_model->createsbc($nk,$val);
 
       echo json_encode(['status' => 'success']);
     } else {
@@ -146,9 +148,11 @@ class MasterCustomer extends Auth
           foreach ($dafData as $data) {
               $idr = $data['id'];
               $nmr = $data['name'];
+              $dis = $data['dis'];
 
               $this->Mcustomer_model->updatesbc($idr, [
-                  'nama_sbc' => $nmr
+                  'nama_sbc' => $nmr,
+                  'diskon' => $dis
               ]);
           }
           echo json_encode(['status' => 'success']);
@@ -167,6 +171,7 @@ class MasterCustomer extends Auth
         'wa_cst'=>$this->input->post('wac'),
         'email_cst'=>$this->input->post('emc'),
         'tipe_cst'=>$this->input->post('tpc'),
+        'id_sbc'=>$this->input->post('idtpc'),
         'provinsi'=>$this->input->post('prov_name'),
         'kabupaten'=>$this->input->post('kab_name'),
         'kecataman'=>$this->input->post('kec_name'),
@@ -190,6 +195,7 @@ class MasterCustomer extends Auth
             'wa_cst' => $this->input->post('ewac'),
             'email_cst' => $this->input->post('emc'),
             'tipe_cst' => $this->input->post('etpc'),
+            'id_sbc' => $this->input->post('eidtpc'),
             'provinsi' => $this->input->post('eprov_name'),
             'kabupaten' => $this->input->post('ekab_name'),
             'kecataman' => $this->input->post('ekec_name'),

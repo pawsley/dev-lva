@@ -189,11 +189,11 @@
                         <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
                       </svg><span>Data Master</span></a>
                     <ul class="sidebar-submenu">
+                      <li class="mag"><a class="mag" href="<?=base_url()?>master-agen">Master Agen</a></li>
+                      <li class="mta"><a class="mta" href="<?=base_url()?>master-tipe-agen">Master Tipe Agen</a></li>
                       <li class="mbnk"><a class="mbnk" href="<?=base_url()?>master-bank">Master Bank</a></li>
-                      <!-- <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li> -->
                       <li class="mkar"><a class="mkar" href="<?=base_url()?>master-karyawan">Master Karyawan</a></li>
                       <li class="mtrl"><a class="mtrl" href="<?=base_url()?>master-material">Master Material</a></li>
-                      <!-- <li class="mprd"><a class="mprd" href="<?=base_url()?>master-produk">Master Produk</a></li> -->
                       <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
                       <li class="msize"><a class="msize" href="<?=base_url()?>master-size">Master Size Chart</a></li>
                     </ul>
@@ -212,7 +212,7 @@
                       <li class="klva"><a class="klva" href="<?=base_url()?>katalog/daftar">Katalog LVA</a></li>
                     </ul>
                   </li>
-                  <li class="sidebar-list customer"><i class="fa fa-thumb-tack"></i>
+                  <!-- <li class="sidebar-list customer"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title customer" href="javascript:void(0)">
                     <svg class="stroke-icon">
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-user"></use>
@@ -224,7 +224,7 @@
                       <li class="cbb"><a class="cbb" href="<?=base_url()?>customer/buat-baru">Buat Baru</a></li>
                       <li class="cdac"><a class="cdac" href="<?=base_url()?>customer/daftar-customer">Daftar Customer</a></li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
                     <div>

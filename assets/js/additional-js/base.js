@@ -7,12 +7,6 @@ $(document).ready(function () {
         
     if (segment1 == "") {
       $(".dash").addClass("active");
-    }else if (segment1 == "master-diskon"){
-        $(".master").addClass("active");
-        $(".mdis").addClass("active");
-        $(".sidebar-list.master").addClass('active');
-        $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-        $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
     }else if (segment1 == "master-supplier"){
         $(".master").addClass("active");
         $(".msup").addClass("active");
@@ -22,12 +16,6 @@ $(document).ready(function () {
     }else if (segment1 == "master-karyawan"){
         $(".master").addClass("active");
         $(".mkar").addClass("active");
-        $(".sidebar-list.master").addClass('active');
-        $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-        $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
-    }else if (segment1 == "master-produk"){
-        $(".master").addClass("active");
-        $(".mprd").addClass("active");
         $(".sidebar-list.master").addClass('active');
         $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
         $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
@@ -46,6 +34,18 @@ $(document).ready(function () {
     }else if (segment1 == "master-size"){
         $(".master").addClass("active");
         $(".msize").addClass("active");
+        $(".sidebar-list.master").addClass('active');
+        $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+        $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+    }else if (segment1 == "master-agen"){
+        $(".master").addClass("active");
+        $(".mag").addClass("active");
+        $(".sidebar-list.master").addClass('active');
+        $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+        $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+    }else if (segment1 == "master-tipe-agen"){
+        $(".master").addClass("active");
+        $(".mta").addClass("active");
         $(".sidebar-list.master").addClass('active');
         $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
         $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   

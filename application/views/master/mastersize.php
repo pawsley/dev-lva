@@ -38,7 +38,7 @@
                                 <div class="text-start">
                                     <a class="btn badge-light-primary" id="addsize" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-plus"></i> Tambah Detail Size Chart</a>
                                 </div>
-                            </div>                                      
+                            </div>
                           </div>
                       </div>
                       <div class="card-body">
@@ -73,15 +73,15 @@
                                     <!-- Nama -->
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="size"></label>
-                                        <input class="form-control" id="size" name="size" type="text" placeholder="Masukkan Size">
+                                        <input class="form-control" id="size" name="size" type="text" placeholder="Masukkan Nama Size">
                                     </div>
                                     <div class="col-md-6 position-relative">
                                         <label class="form-label" for="nmdtl"></label>
-                                        <input class="form-control" id="nmdtl" name="nmdtl" type="text" placeholder="Masukkan Detail">
+                                        <input class="form-control" id="nmdtl" name="nmdtl" type="text" placeholder="Masukkan Detail Size">
                                     </div>
                                     <div class="col-md-2 position-relative">
                                         <label class="form-label" for="valdtl"></label>
-                                        <input class="form-control" id="valdtl" name="valdtl" type="number" placeholder="Masukkan Angka">
+                                        <input class="form-control" id="valdtl" name="valdtl" type="number" placeholder="0">
                                     </div>
                                     <!-- Button Simpan -->
                                     <div class="col-12">

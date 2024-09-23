@@ -44,8 +44,8 @@
                                                 <option disabled="" value="0">Pilih Tipe Customer</option>
                                             </select>
                                             <span class="input-group-append ps-1">
-                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="TCS" data-title="Tambah Tipe Customer" data-label="Nama Tipe Customer"><i class="fa fa-plus"></i></a>
-                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="TCS" data-title="Daftar Tipe Customer" data-label="Nama Tipe Customer"><i class="fa fa-bars"></i></a>
+                                                <a class="btn badge-light-primary shownewmod" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="TCS" data-title="Tambah Tipe Agen" data-label="Nama Tipe Agen" data-labeldis="Diskon Agen"><i class="fa fa-plus"></i></a>
+                                                <a class="btn badge-light-primary showdafmod" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="TCS" data-title="Daftar Tipe Agen" data-label="Nama Tipe Agen" data-labeldis="Diskon Agen"><i class="fa fa-bars"></i></a>
                                             </span>
                                             <div class="invalid-tooltip">Pilih tipe customer</div>
                                         </div>
@@ -138,9 +138,13 @@
                             </div>
                             <form class="row g-3">
                             <!-- Nama -->
-                            <div class="col-md-12 position-relative">
+                            <div class="col-md-6 position-relative">
                                 <label class="form-label" for="item" id="labmod"></label>
                                 <input class="form-control" id="item" name="item" type="text" placeholder="Masukkan Item Baru">
+                            </div>
+                            <div class="col-md-6 position-relative">
+                                <label class="form-label" for="valdis" id="labdis"></label>
+                                <input class="form-control" id="valdis" name="valdis" type="number" placeholder="Masukkan Diskon">
                             </div>
                             <!-- Button Simpan -->
                             <div class="col-12">

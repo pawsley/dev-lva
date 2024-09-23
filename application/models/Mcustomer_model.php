@@ -10,13 +10,14 @@ class Mcustomer_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();
   }  
-  public function createsbc($nk) {
+  public function createsbc($nk, $val) {
     $existingCategory = $this->db->where('nama_sbc', $nk)
                         ->get('tb_sbcustomer')
                         ->row();
     if (!$existingCategory) {
         $data = array(
-            'nama_sbc' => $nk
+            'nama_sbc' => $nk,
+            'diskon' => $val
         );
         $this->db->insert('tb_sbcustomer', $data);
         return true; 
@@ -25,7 +26,7 @@ class Mcustomer_model extends CI_Model {
     }
   }
   public function getdatasbc($searchTerm = null) {
-    $this->db->select(['id_sbc', 'nama_sbc']);
+    $this->db->select(['id_sbc', 'nama_sbc','diskon']);
     $this->db->from('tb_sbcustomer');
 
     if ($searchTerm) {
