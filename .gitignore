@@ -31,4 +31,9 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 /assets/lvaimages/material
+/assets/lvaimages/katalog
 /assets/lvaimages
+/vendor/
+composer.lock
+assets/lvaimages/material/ELVM-0001_benang-astra.jpeg
+assets/lvaimages/material/ELVM-0002_kainmaroon.png
