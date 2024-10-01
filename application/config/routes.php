@@ -69,6 +69,8 @@ $route['master-produk/update-data']='MasterProduk/updatepost';
 $route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
 // master size
 $route['master-size']='MasterSize';
+$route['master-size/add-data']='MasterSize/createpost';
+$route['master-size/list-data']='MasterSize/tablesizechart';
 // $route['master-produk/simpan-data']='MasterProduk/createpost';
 // $route['master-produk/jsondis']='MasterProduk/jsondis';
 // $route['master-produk/edit/(:any)']='MasterProduk/edit/$1';

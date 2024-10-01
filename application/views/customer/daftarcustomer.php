@@ -79,7 +79,7 @@
                                         <select class="form-select" id="etpc" name="etpc" required>
                                             <option disabled="" value="0">Pilih Tipe Agen ...</option>
                                         </select>
-                                        <input type="text" id="eidtpc" name="eidtpc">
+                                        <input type="hidden" id="eidtpc" name="eidtpc">
                                     </div>
                                     <!-- ID Customer -->
                                     <div class="col-md-4 position-relative"> 

@@ -33,3 +33,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /assets/lvaimages/
 /vendor/
 composer.lock
+composer.json

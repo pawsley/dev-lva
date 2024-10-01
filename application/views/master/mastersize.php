@@ -46,8 +46,9 @@
                               <table class="table table-hover" id="table-size" width="100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 30%;"><span class="f-light f-w-600">SIZE</span></th>
+                                        <th style="width: 20%;"><span class="f-light f-w-600">TIPE SIZE</span></th>
                                         <th style="width: 60%;"><span class="f-light f-w-600">DETAIL SIZE</span></th>
+                                        <th style="width: 10%;"><span class="f-light f-w-600">UKURAN</span></th>
                                         <th style="width: 10%;"><span class="f-light f-w-600">AKSI</span></th>
                                     </tr>
                                 </thead>
@@ -60,8 +61,8 @@
               </div>
             </div>
             <!-- Modal Tambah Sub Kategori Baru -->
-            <div class="modal fade" id="TambahSubKategoriItem" tabindex="-1" role="dialog" aria-labelledby="TambahSubKategoriItem" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal fade bd-example-modal-lg" id="TambahSubKategoriItem" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content dark-sign-up">
                         <div class="modal-body social-profile text-start">
                             <div class="modal-toggle-wrapper">
@@ -69,23 +70,22 @@
                                     <h3 id="titmod">Tambah Detail Size Chart</h3>
                                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form class="row g-3" method="post">
-                                    <!-- Nama -->
+                                <form class="row g-3" id="formsize" method="post">
                                     <div class="col-md-4 position-relative">
-                                        <label class="form-label" for="size"></label>
-                                        <input class="form-control" id="size" name="size" type="text" placeholder="Masukkan Nama Size">
+                                        <label class="form-label" for="size">Tipe Katalog</label>
+                                        <select class="form-select" id="selkat" name="selkat" required="">
+                                        </select>
+                                        <button class="btn badge-light-primary addrow"><i class="fa fa-plus"></i></button>
                                     </div>
-                                    <div class="col-md-6 position-relative">
-                                        <label class="form-label" for="nmdtl"></label>
-                                        <input class="form-control" id="nmdtl" name="nmdtl" type="text" placeholder="Masukkan Detail Size">
-                                    </div>
-                                    <div class="col-md-2 position-relative">
-                                        <label class="form-label" for="valdtl"></label>
-                                        <input class="form-control" id="valdtl" name="valdtl" type="number" placeholder="0">
+                                    <div class="col-md-8 position-relative">
+                                        <label class="form-label" for="nmdtl">Size</label>
+                                        <div class="ipt">
+
+                                        </div>
                                     </div>
                                     <!-- Button Simpan -->
                                     <div class="col-12">
-                                        <button class="btn btn-primary" type="button" id="addszdtl">Tambahkan</button>
+                                        <button class="btn btn-primary" type="submit">Tambahkan</button>
                                     </div>
                                 </form>
                             </div>

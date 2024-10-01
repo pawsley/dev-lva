@@ -1,317 +1,205 @@
-var tableCodm;
+var tablesize;
 $(document).ready(function() {
-    addsb();
-    dafsb();
-    addsizechart();
+    getselect2();
+    rowsize();
+    adddata();
+    tabsize();
 });
-function addsb() {
-    $('#TambahSubKategoriItem').on('shown.bs.modal', function () {
-        setTimeout(function() {
-            $('#item').val('').focus();
-        }, 200);
-    });
-    $('.shownewmod').on('click', function () {
-        let id = $(this).data('id');
-        let title = $(this).data('title');
-        let label = $(this).data('label');
-        
-        // Set the modal content
-        $('#titmod').text(title);
-        $('#labmod').text(label);
-        $('#addmod').off('click').on('click', function () {
-            let item = $('#item').val();
-            if (!item ) {
-                swal("Error", "Item tidak boleh kosong", "error").then(() => {
-                    $('#item').focus();  // Set focus back to the item input after the alert is closed
-                });
-                return;
-            } 
-            $.ajax({
-                type: "POST",
-                url: base_url+"katalog/newsb",
-                data: {
-                    kodekat: id,
-                    namakat: item,
-                },
-                dataType: "json", 
-                success: function (response) {
-                    if (response.status === 'success') {
-                        swal("Data berhasil ditambahkan", {
-                            icon: "success",
-                            buttons: false,
-                            timer: 1000
-                        }).then(function() {
-                            $('#item').val('').focus();
-                        });
-                    }
-                },
-                error: function (error) {
-                    swal("Gagal menambahkan data", {
-                        icon: "error",
-                    });
-                }
-            });
-        });
-    });
-}
-function dafsb() {
-    $('.showdafmod').on('click', function () {
-        let id = $(this).data('id');
-        let title = $(this).data('title');
-
-        $('#labdaf').text(title);
-        fetchdafsb(id);
-        updatesb();
-        deletesb(id);
-    });
-}
-function fetchdafsb(val) {
-    $('#daf-container').empty();
-    
-    $.ajax({
-        type: 'GET',
-        url: base_url+'katalog/dafsb/' + val,
-        dataType: 'json',
-        success: function(response) {
-            $.each(response, function(index, daf) {
-                var dafContainer = $('<div class="row mt-2 daf-item">');
-                var inputField = $('<input class="form-control daf-name" data-id="'+daf.id+'" type="text">')
-                                    .val(daf.nama);
-                var deleteButton = $('<button class="btn btn-danger deldaf" data-id="'+daf.id+'" type="button"><i class="fa fa-trash"></i></button>');
-
-                dafContainer.append($('<div class="col-9">').append(inputField));
-                dafContainer.append($('<div class="col-3">').append(deleteButton));
-
-                $('#daf-container').append(dafContainer);
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-        }
-    }); 
-}
-function updatesb() {
-    $('#editmod').off('click').on('click', function (e) {
-        e.preventDefault();
-        var dafData = [];
-        $('#daf-container .daf-item').each(function() {
-            var idsb = $(this).find('.daf-name').data('id');
-            var namasb = $(this).find('.daf-name').val();
-
-            dafData.push({
-                id: idsb,
-                name: namasb
-            });
-        });
-        var jsonData = JSON.stringify(dafData);
-        $.ajax({
-            type: 'POST',
-            url: base_url + 'katalog/updatesb', 
-            contentType: 'application/json',
-            data: jsonData,
-            success: function(response) {
-                swal("Updated!", {
-                    icon: "success",
-                }).then(function() {
-                    // fetchdafmodal(val);
-                });
+function getselect2() {
+    $('#selkat').select2({
+        language: 'id',
+        placeholder: 'Pilih Tipe',
+        dropdownParent: $("#TambahSubKategoriItem"),
+        allowClear: true,
+        ajax: {
+            url: function() {
+                let val = 'TPE';
+                return base_url + 'katalog/dafsb/' + val;
             },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert('An error occurred while updating the data.');
-            }
-        });
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.id,
+                            text: item.nama,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
     });
 }
-function deletesb(val) {
-    $(document).on('click', '.deldaf', function(e) {
-        e.preventDefault();
-        // Get the data-id of the button clicked
-        var dafId = $(this).data('id');
-
-        swal({
-            title: 'Apa anda yakin?',
-            text: 'Data yang sudah terhapus hilang permanen!',
-            icon: 'warning',
-            buttons: {
-                cancel: {
-                    text: 'Cancel',
-                    value: null,
-                    visible: true,
-                    className: 'btn-secondary',
-                    closeModal: true,
-                },
-                confirm: {
-                    text: 'Delete',
-                    value: true,
-                    visible: true,
-                    className: 'btn-danger',
-                    closeModal: true
-                }
-            }
-        }).then((result) => {
-            if (result) {
-                // User clicked 'Delete', proceed with the deletion
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + 'katalog/deletesb/' + dafId,
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.success) {
-                            swal("Deleted!", {
-                                icon: "success",
-                            }).then(function() {
-                                fetchdafsb(val)
-                            });
-                        } else {
-                            swal('Error!', response.message, 'error');
-                        }
-                    },
-                    error: function (error) {
-                        swal('Error!', 'An error occurred while processing the request.', 'error');
-                    }
-                });
-            }
-        });
-    });
-}
-function addsizechart() {
-    // Event handler for adding a new row
-    $('#add-row').on('click', function(e) {
+function rowsize() {
+    $('.addrow').on('click', function(e) {
         e.preventDefault(); 
         var newRow = `
-            <tr>
-                <td>
-                    <select class="form-select sizelog" name="sizelog[]" required>
-                    </select>
-                </td>
-                <td class="dszrow">
-                    <div class="input-group dlog">
-                        <span class="input-group-append ps-1">
-                            <a class="btn badge-light-primary remove-row-dsz" href="javascript:void(0)"><i class="fa fa-plus"></i></a>
-                        </span>
-                        <select class="form-select dszlog" style="width: 54%;" required>
-                        </select>
-                        <input class="form-control input-air-primary logval"style="width: 18%;" type="text" placeholder="0" required>
-                        <span class="input-group-append ps-1">
-                            <a class="btn badge-light-primary remove-row-dsz" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
-                        </span>                
-                    </div>
-                </td>
-                <th scope="row">
-                    <ul class="action">
-                        <li class="delete">
-                            <a href="javascript:void(0)" class="delete-row">
-                                <i class="icon-trash"></i>
-                            </a>
-                        </li>
-                        <li class="edit">
-                            <a href="javascript:void(0)" class="copy-row">
-                                <i class="icon-files"></i>
-                            </a>
-                        </li>
-                    </ul>                                                            
-                </th>
-            </tr>
+            <div class="input-group dlog">
+                <input class="form-control" name="size[]" type="text" placeholder="Size" required>
+                <input class="form-control" name="nmdtl[]" style="width: 30%;" type="text" placeholder="Masukkan Detail Size" required>
+                <input class="form-control" name="valdtl[]" type="number" placeholder="0" required>
+                <button class="btn badge-light-primary copyrow"><i class="icon-files"></i></button>
+                <a class="btn badge-light-primary deleterow" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+            </div>
         `;
-
-        // Append the new row to the table body
-        $('#table-body').append(newRow);
-
-        // Load options for the newly added <select> elements
-        optionST($('.satlog:last'));
-        optionDSZ($('.dszlog:last'));
+        $('.ipt').append(newRow);
     });
-
-    $('#table-body').on('click', '.remove-row-dsz', function (e) {
+    $(document).on('click', '.copyrow', function(e) {
         e.preventDefault();
-        const inputGroups = $(this).closest('.dszrow').find('.input-group');
         
-        if (inputGroups.length > 1) {
-            $(this).closest('.input-group').remove();
-        } else {
-            alert('Tidak bisa dihapus!');
-        }
-    });
-
-    // Event delegation to handle row deletion
-    $('#table-body').on('click', '.delete-row', function(e) {
-        e.preventDefault();
-        $(this).closest('tr').remove(); 
-    });
-
-    $('#table-body').on('click', '.copy-row', function(e) {
-        e.preventDefault();
-    
-        let $row = $(this).closest('tr');
+        let $row = $(this).closest('.dlog');
         let $newRow = $row.clone();
-    
-        // Copy values for input and select elements
-        $newRow.find('input, select').each(function() {
-            const elementType = $(this).prop('nodeName').toLowerCase();
-            
-            if (elementType === 'input') {
-                // Preserve input values
-                $(this).val($(this).val());
-            }
+        
+        // Clear out ID attributes to prevent conflicts
+        $newRow.find('input').each(function() {
+            $(this).removeAttr('id');  // Remove the ID to avoid duplication
         });
     
-        $('#table-body').append($newRow);
+        // Append the cloned row
+        $('.ipt').append($newRow);
     });
+    $(document).on('click', '.deleterow', function(e) {
+        e.preventDefault();
+        $(this).closest('.dlog').remove(); 
+    });
+}
+function adddata() {
+    $('#formsize').off('submit').on('submit', function (e) {
+        e.preventDefault();
+        var sizeData = [];
+        let tipe = $('#selkat').val();
+        $('.ipt').each(function () {
+            var tableData = [];
+            $(this).find('.dlog').each(function () {
+                let size = $(this).find('input[name="size[]"]').val();
+                let detail = $(this).find('input[name="nmdtl[]"]').val();
+                let value = parseFloat($(this).find('input[name="valdtl[]"]').val()) || 0;    
+                tableData.push({
+                    sizepost: size,
+                    detailpost: detail,
+                    valuepost: value
+                });
+            });
+            sizeData.push({
+                tipepost: tipe,
+                tabledata: tableData
+            });
+        });
     
-    $('#table-body').on('mousedown', '.sizelog', function () {
-        optionSZ($(this));
-    });
-    $('#table-body').on('mousedown', '.dszlog', function () {
-        optionDSZ($(this));
-    });
-
-    $('#table-body').on('input', 'input[type="text"]', function() {
-        let value = $(this).val();
-        value = value.replace(',', '.');
-        if (!/^[0-9.,]*$/.test(value)) {
-            value = value.slice(0, -1);
-        }
-        $(this).val(value);
-    });
-}
-function optionSZ(selector) {
-    let val = 'SZ';
-    $.ajax({
-        url: base_url + 'katalog/dafsb/' + val,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response.length > 0) {
-                selector.empty(); // Clear options in the targeted <select>
-                $.each(response, function(index, item) {
-                    selector.append('<option value="' + item.nama + '">' + item.nama + '</option>');
-                });
+        $.ajax({
+            url: base_url + 'master-size/add-data',
+            type: 'POST',
+            data: JSON.stringify(sizeData), // Convert object to JSON string
+            contentType: 'application/json', // Specify the content type
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("Berhasil ditambahkan", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    });
+                } else {
+                    swal(response.message, {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                }
+            },
+            complete: function () {
+                $('input[name="size[]"]').val('');
+                $('input[name="valdtl[]"]').val('');
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
             }
-        },
-        error: function(xhr, status, error) {
-            console.error('Terjadi kesalahan:', error);
-        }
-    });
+        });
+    });    
 }
-function optionDSZ(selector) {
-    let val = 'DSZ';
-    $.ajax({
-        url: base_url + 'katalog/dafsb/' + val,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response.length > 0) {
-                selector.empty();
-                $.each(response, function(index, item) {
-                    selector.append('<option value="' + item.nama + '">' + item.nama + '</option>');
-                });
-                selector.select(); // Refresh select2
-                selector.prop('required', true);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Terjadi kesalahan:', error);
+function tabsize() {  
+    $.getJSON(base_url + 'assets/json/datatable-id.json', function(json) {
+        json.processing = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Sedang memproses...</span></div></div>';
+        
+        if ($.fn.DataTable.isDataTable('#table-size')) {
+            tablesize.destroy();
         }
+        
+        tablesize = $("#table-size").DataTable({
+            "language": json,
+            "processing": true,
+            "serverSide": true,
+            "order": [
+                [0, 'asc']
+            ],
+            "ajax": {
+                "url": base_url + 'master-size/list-data',
+                "type": "POST",
+            },
+            'rowsGroup': [0],
+            "columns": [
+                {
+                    "data": "datasize",
+                    "render": function(data, type, row) {
+                        return row.nama + ' <b>('+row.ukuran+')</b>';
+                    }
+                },
+                {
+                    "data": "detail_size",
+                },
+                {
+                    "data": "val_size",
+                    "render": function(data, type, row) {
+                        return data + ' CM';
+                    }
+                },
+                {
+                    "data": "id_szdtl",
+                    "orderable": false,
+                    "render": function (data, type, full, meta) {
+                        if (type === "display") {
+                            return `
+                                    <ul class="action">
+                                        <div class="btn-group">
+                                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#EditMasterCustomer" 
+                                            data-id="${data}"><i class="icon-pencil"></i></button>
+                                            <button class="btn btn-secondary" id="delete-data" data-id="${data}"><i class="icon-trash"></i></button>
+                                        </div>
+                                    </ul>
+                                `;
+                        }
+                        return data;
+                    }
+                }                
+            ],
+            "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                   "<'row'<'col-sm-12 col-md-2'B>>" +
+                   "<'row'<'col-sm-12'tr>>" +
+                   "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+            "buttons": [
+                {
+                    "text": 'Refresh',
+                    "className": 'custom-refresh-button',
+                    "attr": {
+                        "id": "refresh-button"
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh');
+                    },
+                    "action": function () {
+                        tablesize.ajax.reload(); // Refresh data
+                    }
+                }
+            ]
+        });
     });
 }
