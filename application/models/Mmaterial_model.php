@@ -40,6 +40,22 @@ class Mmaterial_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function getDataTipeSize($searchTerm = null) {
+    $this->db->select(['tb_sizechart.id','tb_sbkatalog.nama','tb_sbkatalog.kode']);
+    $this->db->from('tb_sbkatalog');
+    $this->db->join('tb_sizechart', 'tb_sizechart.id_sbkatalog = tb_sbkatalog.id', 'inner');
+    $this->db->where('tb_sbkatalog.kode','TPE');
+
+    if ($searchTerm) {
+        $this->db->group_start();
+        $this->db->like('tb_sbkatalog.nama', $searchTerm);
+        $this->db->group_end();
+    }
+
+    $this->db->order_by('tb_sbkatalog.nama', 'asc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function updatedaf($id,$data){
     $this->db->where('id', $id);
     $this->db->update('tb_sbmaterial', $data);

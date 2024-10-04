@@ -75,12 +75,18 @@
                                         <label class="form-label" for="size">Tipe Katalog</label>
                                         <select class="form-select" id="selkat" name="selkat" required="">
                                         </select>
-                                        <button class="btn badge-light-primary addrow"><i class="fa fa-plus"></i></button>
+                                        <button class="btn badge-light-primary addrow"><i class="fa fa-plus"></i> Tambah Detail Size</button>
                                     </div>
                                     <div class="col-md-8 position-relative">
                                         <label class="form-label" for="nmdtl">Size</label>
                                         <div class="ipt">
-
+                                            <div class="input-group dlog">
+                                                <input class="form-control" name="size[]" type="text" placeholder="Size" required>
+                                                <input class="form-control" name="nmdtl[]" style="width: 30%;" type="text" placeholder="Masukkan Detail Size" required>
+                                                <input class="form-control" name="valdtl[]" type="number" placeholder="0" required>
+                                                <button class="btn badge-light-primary copyrow"><i class="icon-files"></i></button>
+                                                <a class="btn badge-light-primary deleterow" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Button Simpan -->

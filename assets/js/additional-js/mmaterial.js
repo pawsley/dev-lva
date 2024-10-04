@@ -356,6 +356,32 @@ function getselect2() {
             cache: false,
         },
     });
+    $('#tipk').select2({
+        language: 'id',
+        ajax: {
+            url: function() {
+                return base_url + 'MasterMaterial/loadkatsize/';
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.id,
+                            text: item.nama,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });
 }
 function edgetselect2() {    
     $('#ekatm').select2({
@@ -495,11 +521,9 @@ function tabmat() {
                     "render": function(data, type, row) {
                         if (type === "display") {
                             return `
-                            <div class="card" style="width: 50%; margin: auto;">
-                                <div style="overflow: hidden; border-top-left-radius: .25rem; border-top-right-radius: .25rem;">
-                                    <img class="img-fluid" src="${base_url+'assets/lvaimages/material/'+row.img_material}" alt="Image Material" loading="lazy" style="width: 100%; height: auto;">
-                                </div>
-                                <p class="card-title" style="text-align: center;">${data}</p>
+                            <div class="product-names">
+                                <div class="light-product-box"><img class="img-fluid" src="${base_url+'assets/lvaimages/material/'+row.img_material}" alt="material-img"></div>
+                                <p>${data}</p>
                             </div>
                             `;
                         }
@@ -507,7 +531,6 @@ function tabmat() {
                     },
                 },
                 { "data": "kat_material"},
-                { "data": "merk_material"},
                 { "data": "warna_material" },
                 { "data": "sat_material" },
                 { 
@@ -576,19 +599,19 @@ function tabmat() {
 }
 function createdata() {
     $("#addm").off('click').on("click", function () {
-        var requiredFields = ['idm', 'nmm', 'katm', 'mrkm', 'wrnm', 'satm'];
-        for (var i = 0; i < requiredFields.length; i++) {
-            var fieldId = requiredFields[i];
-            var fieldValue = $("#" + fieldId).val().trim();
-            if (fieldValue === "") {
-                swal("Gagal menambahkan data material", "Harap lengkapi semua kolom yang diperlukan", {
-                    icon: "error",
-                }).then(function() {
-                    $("#" + fieldId).focus();
-                });
-                return;
-            }
-        }
+        // var requiredFields = ['idm', 'nmm', 'katm', 'tipm', 'wrnm', 'satm','nhm'];
+        // for (var i = 0; i < requiredFields.length; i++) {
+        //     var fieldId = requiredFields[i];
+        //     var fieldValue = $("#" + fieldId).val().trim();
+        //     if (fieldValue === "") {
+        //         swal("Gagal menambahkan data material", "Harap lengkapi semua kolom yang diperlukan", {
+        //             icon: "error",
+        //         }).then(function() {
+        //             $("#" + fieldId).focus();
+        //         });
+        //         return;
+        //     }
+        // }
         var fileInput = $("#imgm")[0];
         if (fileInput.files.length === 0) {
             swal("Gagal menambahkan data material", "Harap pilih gambar", {
@@ -603,9 +626,11 @@ function createdata() {
         formData.append('kode', $("#idm").val());
         formData.append('nama', $("#nmm").val());
         formData.append('kat', $("#katm").val());
-        formData.append('merk', $("#mrkm").val());
         formData.append('warna', $("#wrnm").val());
         formData.append('sat', $("#satm").val());
+        formData.append('hrg', parseFloat($("#nhm").val()));
+        formData.append('tipe', $("#tipm").val());
+        formData.append('tipk', $("#tipk").val());
         formData.append('img_material', fileInput.files[0]);
         $.ajax({
             type: "POST",

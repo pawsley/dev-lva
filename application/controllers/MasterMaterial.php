@@ -23,54 +23,7 @@ class MasterMaterial extends Auth
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
-    <style>
-      .select2-selection__rendered {
-          line-height: 35px !important;
-      }
-      .select2-container .select2-selection--single {
-          height: 38px !important;
-          padding: 2px !important;
-      }
-      .select2-dropdown--below {
-        margin-top:-2% !important;
-      }
-      .select2-selection__arrow {
-          height: 37px !important;
-      }
-      .select2-container{
-        margin-bottom :-2%;
-      }
-      .upload-btn {
-          width: 200px;  /* Set the width as needed */
-          height: 200px; /* Set the height as needed */
-          border: 3px dotted #007bff; /* Dotted border with a blue color */
-          background-size: 100% 100%;
-          // background-repeat: no-repeat;
-          background-position: center;
-          border-radius: 5px;
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-          background-color: #f9f9f9; /* Optional: background color */
-      }
-      .upload-btn:hover {
-          opacity: 0.8;
-      }
-      .upload-btn::after {
-          content: "Upload Gambar";
-          position: absolute;
-          color: #007bff;
-          font-size: 16px;
-          text-align: center;
-          background: rgba(255, 255, 255, 0.8);
-          padding: 10px;
-          border-radius: 5px;
-      }
- 
-    </style>
-    ';
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/mmaterial.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
@@ -90,6 +43,12 @@ class MasterMaterial extends Auth
   public function loadkat($kode){
     $searchTerm = $this->input->get('q');
     $results = $this->Mmaterial_model->getDataKategori($kode,$searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  public function loadkatsize(){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mmaterial_model->getDataTipeSize($searchTerm);
     header('Content-Type: application/json');
     echo json_encode($results);
   }
@@ -192,7 +151,7 @@ class MasterMaterial extends Auth
   }
   public function tablematerial()  {
     $this->load->library('datatables');
-    $this->datatables->select('kode_material, nama_material, kat_material, merk_material, warna_material, sat_material, img_material, status');
+    $this->datatables->select('kode_material, nama_material, kat_material, warna_material, sat_material,  tipe_material, harga_material, img_material, status');
     $this->datatables->from('tb_material');
     return print_r($this->datatables->generate());
   }
@@ -203,9 +162,11 @@ class MasterMaterial extends Auth
         'kode_material'      => $this->input->post('kode'),
         'nama_material'      => $this->input->post('nama'),
         'kat_material'      => $this->input->post('kat'),
-        'merk_material'      => $this->input->post('merk'),
+        'tipe_material'      => $this->input->post('tipe'),
         'warna_material'      => $this->input->post('warna'),
         'sat_material'      => $this->input->post('sat'),
+        'harga_material'      => $this->input->post('hrg'),
+        'id_sizechart'      => $this->input->post('tipk')
       ];
       if (!empty($_FILES['img_material']['name'])) {
         $file_path = realpath(APPPATH . '../assets/lvaimages/material');

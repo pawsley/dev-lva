@@ -41,64 +41,64 @@
                                         <label class="form-label" for="nmm">NAMA MATERIAL</label>
                                         <input class="form-control" id="nmm" type="text" placeholder="Silahkan Masukkan Nama Material" required>
                                     </div>
+                                    <div class="col-4 position-relative"> 
+                                        <label class="form-label" for="tipm">TIPE MATERIAL</label>
+                                        <select class="form-select" id="tipm" required="">
+                                            <option selected="" disabled="" value="0">Pilih Tipe Material</option>
+                                            <option value="Bahan Dasar">Bahan Dasar</option>
+                                            <option value="Bahan Jadi">Bahan Jadi</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4 position-relative"> 
+                                        <label class="form-label" for="tipk">TIPE KATALOG</label>
+                                        <select class="form-select" id="tipk" required="">
+                                            <option selected="" disabled="" value="0">Pilih Tipe Katalog</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4 position-relative">
+                                        <label class="form-label" for="nhm">HARGA MATERIAL</label>
+                                        <div class="input-group has-validation">
+                                            <span class="input-group-text">Rp</span>
+                                            <input class="form-control" id="nhm" type="text" onkeyup="formatRupiah(this);" required>
+                                        </div>
+                                    </div>                                    
                                     <!-- Kategori Material -->
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="katm">KATEGORI MATERIAL</label>
-                                        <select class="form-select" id="katm" data-id="KAT" required="">
-                                            <option selected="" disabled="" value="0">Pilih Kategori Material</option>
-                                        </select>
-                                    </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="KAT" data-title="Tambah Kategori Baru" data-label="Nama Kategori Baru"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="KAT" data-title="Daftar Kategori" data-label="Nama Kategori"><i class="fa fa-bars"></i></a>
-                                        </div>
-                                    </div>
-                                    <!-- Brand Product -->
-                                    <div class="col-4 position-relative"> 
-                                        <label class="form-label" for="mrkm">MEREK MATERIAL</label>
-                                        <select class="form-select" id="mrkm" required="">
-                                            <option selected="" disabled="" value="0">Pilih Merek</option>
-                                        </select>
-                                    </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="MRK" data-title="Tambah Merk Baru" data-label="Nama Merk Baru"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="MRK" data-title="Daftar Merk" data-label="Nama Merk"><i class="fa fa-bars"></i></a>
-                                        </div>
+                                        <div class="input-group">
+                                            <select class="form-select" id="katm" data-id="KAT" required="">
+                                                <option selected="" disabled="" value="0">Pilih Kategori Material</option>
+                                            </select>
+                                            <span class="input-group-append ps-1">
+                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="KAT" data-title="Tambah Kategori Baru" data-label="Nama Kategori Baru"><i class="fa fa-plus"></i></a>
+                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="KAT" data-title="Daftar Kategori" data-label="Nama Kategori"><i class="fa fa-bars"></i></a>
+                                            </span>
+                                        </div>                                         
                                     </div>
                                     <!-- Variant Warna -->
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="wrnm">WARNA MATERIAL</label>
-                                        <select class="form-select" id="wrnm" required="">
-                                            <option selected="" disabled="" value="0">Pilih Variant Warna</option>
-                                        </select>
+                                        <div class="input-group">
+                                            <select class="form-select" id="wrnm" required="">
+                                                <option selected="" disabled="" value="0">Pilih Variant Warna</option>
+                                            </select>
+                                            <span class="input-group-append ps-1">
+                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="WRN" data-title="Tambah Warna Baru" data-label="Nama Warna Baru"><i class="fa fa-plus"></i></a>
+                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="WRN" data-title="Daftar Warna" data-label="Nama Warna"><i class="fa fa-bars"></i></a>
+                                            </span>
+                                        </div>                                        
                                     </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="WRN" data-title="Tambah Warna Baru" data-label="Nama Warna Baru"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="WRN" data-title="Daftar Warna" data-label="Nama Warna"><i class="fa fa-bars"></i></a>
-                                        </div>
-                                    </div>
-                                    <!-- Satuan MAterial -->
+                                    <!-- Satuan Material -->                                                                         
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="satm">SATUAN MATERIAL</label>
-                                        <select class="form-select" id="satm" required="">
-                                            <option selected="" disabled="" value="0">Pilih Satuan Material</option>
-                                        </select>
-                                    </div>
-                                    <!-- Button Tambah -->
-                                    <div class="col-2 position-relative">
-                                        <label class="form-label">TOMBOL AKSI</label>
-                                        <div class="text-center">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="SAT" data-title="Tambah Satuan Baru" data-label="Nama Satuan Baru"><i class="fa fa-plus"></i></a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="SAT" data-title="Daftar Satuan" data-label="Nama Satuan"><i class="fa fa-bars"></i></a>
+                                        <div class="input-group">
+                                            <select class="form-select" id="satm" required="">
+                                                <option selected="" disabled="" value="0">Pilih Satuan Material</option>
+                                            </select>
+                                            <span class="input-group-append ps-1">
+                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="SAT" data-title="Tambah Satuan Baru" data-label="Nama Satuan Baru"><i class="fa fa-plus"></i></a>
+                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="SAT" data-title="Daftar Satuan" data-label="Nama Satuan"><i class="fa fa-bars"></i></a>
+                                            </span>
                                         </div>
                                     </div>
                                     <!-- Upload Gambar -->
@@ -132,7 +132,6 @@
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">ID MATERIAL</span></th>
                                     <th style="text-align:center; min-width: 150px;"><span class="f-light f-w-600">NAMA MATERIAL</span></th>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">KATEGORI</span></th>
-                                    <th style="min-width: 100px;"><span class="f-light f-w-600">MEREK</span></th>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">WARNA</span></th>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">SATUAN</span></th>
                                     <th style="text-align:center;"><span class="f-light f-w-600">AKSI</span></th>
