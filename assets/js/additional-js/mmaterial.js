@@ -676,7 +676,6 @@ function editmtrl() {
         $('#eidm').val(button.data('id'));
         $('#enmm').val(button.data('nm'));
         $("#ekatm").empty().append('<option value="' + button.data('kt') + '">' + button.data('kt') + '</option>').trigger('change.select2');
-        $("#emrkm").empty().append('<option value="' + button.data('mk') + '">' + button.data('mk') + '</option>').trigger('change.select2');
         $("#ewrnm").empty().append('<option value="' + button.data('wn') + '">' + button.data('wn') + '</option>').trigger('change.select2');
         $("#esatm").empty().append('<option value="' + button.data('st') + '">' + button.data('st') + '</option>').trigger('change.select2');
         $uploadBtn.css('background-image', 'url(' +base_url+"/assets/lvaimages/material/"+ button.data('img') + ')');
@@ -699,10 +698,9 @@ function updatedata() {
         }
     
         // Add other form data
-        formData.append('eidm', $('#eidm').val()); // Example of additional data
+        formData.append('eidm', $('#eidm').val());
         formData.append('enmm', $('#enmm').val());
         formData.append('ekatm', $('#ekatm').val());
-        formData.append('emrkm', $('#emrkm').val());
         formData.append('ewrnm', $('#ewrnm').val());
         formData.append('esatm', $('#esatm').val());
     

@@ -4,6 +4,8 @@ $(document).ready(function() {
     rowsize();
     adddata();
     tabsize();
+    addsb();
+    dafsb();
 });
 function getselect2() {
     $('#selkat').select2({
@@ -200,6 +202,177 @@ function tabsize() {
                     }
                 }
             ]
+        });
+    });
+}
+function addsb() {
+    $('#TambahTipeItem').on('shown.bs.modal', function () {
+        setTimeout(function() {
+            $('#item').val('').focus();
+        }, 200);
+    });
+    $('.shownewmod').on('click', function () {
+        let id = $(this).data('id');
+        let title = $(this).data('title');
+        let label = $(this).data('label');
+        
+        // Set the modal content
+        $('#titmod').text(title);
+        $('#labmod').text(label);
+        $('#addmod').off('click').on('click', function () {
+            let item = $('#item').val();
+            if (!item ) {
+                swal("Error", "Item tidak boleh kosong", "error").then(() => {
+                    $('#item').focus();  // Set focus back to the item input after the alert is closed
+                });
+                return;
+            } 
+            $.ajax({
+                type: "POST",
+                url: base_url+"katalog/newsb",
+                data: {
+                    kodekat: id,
+                    namakat: item,
+                },
+                dataType: "json", 
+                success: function (response) {
+                    if (response.status === 'success') {
+                        swal("Data berhasil ditambahkan", {
+                            icon: "success",
+                            buttons: false,
+                            timer: 1000
+                        }).then(function() {
+                            $('#item').val('').focus();
+                        });
+                    }
+                },
+                error: function (error) {
+                    swal("Gagal menambahkan data", {
+                        icon: "error",
+                    });
+                }
+            });
+        });
+    });
+}
+function dafsb() {
+    $('.showdafmod').on('click', function () {
+        let id = $(this).data('id');
+        let title = $(this).data('title');
+
+        $('#labdaf').text(title);
+        fetchdafsb(id);
+        updatesb();
+        deletesb(id);
+    });
+}
+function fetchdafsb(val) {
+    $('#daf-container').empty();
+    
+    $.ajax({
+        type: 'GET',
+        url: base_url+'katalog/dafsb/' + val,
+        dataType: 'json',
+        success: function(response) {
+            $.each(response, function(index, daf) {
+                var dafContainer = $('<div class="row mt-2 daf-item">');
+                var inputField = $('<input class="form-control daf-name" data-id="'+daf.id+'" type="text">')
+                                    .val(daf.nama);
+                var deleteButton = $('<button class="btn btn-danger deldaf" data-id="'+daf.id+'" type="button"><i class="fa fa-trash"></i></button>');
+
+                dafContainer.append($('<div class="col-9">').append(inputField));
+                dafContainer.append($('<div class="col-3">').append(deleteButton));
+
+                $('#daf-container').append(dafContainer);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    }); 
+}
+function updatesb() {
+    $('#editmod').off('click').on('click', function (e) {
+        e.preventDefault();
+        var dafData = [];
+        $('#daf-container .daf-item').each(function() {
+            var idsb = $(this).find('.daf-name').data('id');
+            var namasb = $(this).find('.daf-name').val();
+
+            dafData.push({
+                id: idsb,
+                name: namasb
+            });
+        });
+        var jsonData = JSON.stringify(dafData);
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'katalog/updatesb', 
+            contentType: 'application/json',
+            data: jsonData,
+            success: function(response) {
+                swal("Updated!", {
+                    icon: "success",
+                }).then(function() {
+                    // fetchdafmodal(val);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert('An error occurred while updating the data.');
+            }
+        });
+    });
+}
+function deletesb(val) {
+    $(document).on('click', '.deldaf', function(e) {
+        e.preventDefault();
+        // Get the data-id of the button clicked
+        var dafId = $(this).data('id');
+
+        swal({
+            title: 'Apa anda yakin?',
+            text: 'Data yang sudah terhapus hilang permanen!',
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Delete',
+                    value: true,
+                    visible: true,
+                    className: 'btn-danger',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                // User clicked 'Delete', proceed with the deletion
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'katalog/deletesb/' + dafId,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Deleted!", {
+                                icon: "success",
+                            }).then(function() {
+                                fetchdafsb(val)
+                            });
+                        } else {
+                            swal('Error!', response.message, 'error');
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
         });
     });
 }

@@ -215,28 +215,21 @@
                                     <input class="form-control" id="enmm" name="enmm" type="text" placeholder="Silahkan Masukkan Nama Material" required>
                                 </div>
                                 <!-- Kategori Material -->
-                                <div class="col-3 position-relative"> 
+                                <div class="col-4 position-relative"> 
                                     <label class="form-label" for="ekatm">KATEGORI MATERIAL</label>
                                     <select class="form-select" id="ekatm" name="ekatm" required="">
                                         <option selected="" disabled="" value="">Pilih Kategori Material</option>
                                     </select>
                                 </div>
-                                <!-- Brand Product -->
-                                <div class="col-3 position-relative"> 
-                                    <label class="form-label" for="emrkm">MEREK MATERIAL</label>
-                                    <select class="form-select" id="emrkm" name="emrkm" required="">
-                                        <option selected="" disabled="" value="">Pilih Merek</option>
-                                    </select>
-                                </div>
                                 <!-- Variant Warna -->
-                                <div class="col-3 position-relative"> 
+                                <div class="col-4 position-relative"> 
                                     <label class="form-label" for="ewrnm">WARNA MATERIAL</label>
                                     <select class="form-select" id="ewrnm" name="ewrnm" required="">
                                         <option selected="" disabled="" value="">Pilih Variant Warna</option>
                                     </select>
                                 </div>
                                 <!-- Satuan MAterial -->
-                                <div class="col-3 position-relative"> 
+                                <div class="col-4 position-relative"> 
                                     <label class="form-label" for="esatm">SATUAN MATERIAL</label>
                                     <select class="form-select" id="esatm" name="esatm" required="">
                                         <option selected="" disabled="" value="">Pilih Satuan Material</option>

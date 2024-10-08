@@ -34,9 +34,19 @@
                             <div class="col-md-12 mb-4">
                                 <h4>List Detail Size</h4>
                             </div>
-                            <div class="col-md-12 position-relative">
+                            <div class="col-md-4 position-relative">
                                 <div class="text-start">
                                     <a class="btn badge-light-primary" id="addsize" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem"><i class="fa fa-plus"></i> Tambah Detail Size Chart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 position-relative">
+                                <div class="text-start">
+                                    <a class="btn badge-light-primary shownewmod" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#TambahTipeItem" data-id="TPE" data-title="Tambah Tipe Baru" data-label="Nama Tipe Baru"><i class="fa fa-plus"></i> Tambah Tipe Katalog</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 position-relative">
+                                <div class="text-start">
+                                    <a class="btn badge-light-primary showdafmod" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="TPE" data-title="Daftar Tipe" data-label="Nama Tipe"><i class="fa fa-plus"></i> Data Tipe Katalog </a>
                                 </div>
                             </div>
                           </div>
@@ -67,7 +77,7 @@
                         <div class="modal-body social-profile text-start">
                             <div class="modal-toggle-wrapper">
                                 <div class="modal-header mb-4">
-                                    <h3 id="titmod">Tambah Detail Size Chart</h3>
+                                    <h3>Tambah Detail Size Chart</h3>
                                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form class="row g-3" id="formsize" method="post">
@@ -99,6 +109,32 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal Tambah Sub Kategori Baru -->
+            <div class="modal fade" id="TambahTipeItem" tabindex="-1" role="dialog" aria-labelledby="TambahTipeItem" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content dark-sign-up">
+                    <div class="modal-body social-profile text-start">
+                        <div class="modal-toggle-wrapper">
+                            <div class="modal-header mb-4">
+                                <h3 id="titmod"></h3>
+                                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form class="row g-3">
+                            <!-- Nama -->
+                            <div class="col-md-12 position-relative">
+                                <label class="form-label" for="item" id="labmod"></label>
+                                <input class="form-control" id="item" name="item" type="text" placeholder="Masukkan Item Baru">
+                            </div>
+                            <!-- Button Simpan -->
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="button" id="addmod">Tambah Baru</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
             <!-- Modal Daftar Kategori -->
             <div class="modal fade" id="DaftarSubKategoriItem" tabindex="-1" role="dialog" aria-labelledby="#DaftarSubKategoriItem" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
@@ -116,7 +152,7 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button>
-                            <button class="btn btn-primary" id="editmod" data-bs-dismiss="modal" type="button">Simpan</button>
+                            <button class="btn btn-primary" id="editmod" type="button">Simpan</button>
                         </div>
                     </div>
                 </div>
