@@ -57,6 +57,17 @@ class Mkatalog_model extends CI_Model {
         $insert = $this->db->insert('tb_katalog_dtl', $data);
         return $insert; 
     }
+    public function getDataTipe($kode) {
+        $this->db->select(['tb_sizechart_dtl.size', 'tb_sbkatalog.nama', 'tb_sizechart_dtl.id_sizechart']);
+        $this->db->from('tb_sizechart');
+        $this->db->join('tb_sbkatalog', 'tb_sbkatalog.id = tb_sizechart.id_sbkatalog','inner'); 
+        $this->db->join('tb_sizechart_dtl', 'tb_sizechart_dtl.id_sizechart = tb_sizechart.id', 'inner');
+        $this->db->where('tb_sizechart_dtl.id_sizechart', $kode);
+        $this->db->group_by('tb_sizechart_dtl.size');
+        $this->db->order_by('tb_sizechart_dtl.size', 'asc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     // condiment    
     public function addsbcdm($kode, $nk) {
         $existingCategory = $this->db->where('nama_condiment', $nk)

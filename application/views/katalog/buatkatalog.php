@@ -3,7 +3,7 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-6">
-                            <h4>Buat Katalog</h4>
+                            <h4>Buat Katalog Produk</h4>
                         </div>
                         <div class="col-6">
                             <ol class="breadcrumb">
@@ -16,7 +16,7 @@
                                 </li>
                                 <li class="breadcrumb-item"> General</li>
                                 <li class="breadcrumb-item"> Katalog</li>
-                                <li class="breadcrumb-item active"> Buat Katalog</li>
+                                <li class="breadcrumb-item active"> Buat Katalog Produk</li>
                             </ol>
                         </div>
                     </div>
@@ -29,9 +29,6 @@
                     <!-- Form Produk -->
                     <div class="col-12">
                         <div class="card">
-                          <div class="card-header">
-                              <h4>Formulir Input Katalog</h4>
-                          </div>
                           <div class="card-body custom-input">
                                 <form class="row g-3" id="form-log" enctype="multipart/form-data">
                                     <!-- ID Produk -->
@@ -46,27 +43,9 @@
                                     </div>
                                     <!-- Tipe Produk -->
                                     <div class="col-md-4 position-relative"> 
-                                        <label class="form-label" for="selkat">TIPE</label>
-                                        <div class="input-group">
-                                            <select class="form-select" id="selkat" name="selkat" required="">
-                                            </select>
-                                            <span class="input-group-append ps-1">
-                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="TPE" data-title="Tambah Tipe Baru" data-label="Nama Tipe Baru"><i class="fa fa-plus"></i></a>
-                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="TPE" data-title="Daftar Tipe" data-label="Nama Tipe"><i class="fa fa-bars"></i></a>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <!-- Brand Product -->
-                                    <div class="col-md-4 position-relative"> 
-                                        <label class="form-label" for="selmrk">MERK</label>
-                                        <div class="input-group">
-                                            <select class="form-select" id="selmrk" name="selmrk" required="">
-                                            </select>
-                                            <span class="input-group-append ps-1">
-                                                <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="MRK" data-title="Tambah Merk Baru" data-label="Nama Merk Baru"><i class="fa fa-plus"></i></a>
-                                                <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="MRK" data-title="Daftar Merk" data-label="Nama Merk"><i class="fa fa-bars"></i></a>
-                                            </span>
-                                        </div>
+                                        <label class="form-label" for="selkat">TIPE KATALOG</label>
+                                        <select class="form-select" id="selkat" name="selkat" required="">
+                                        </select>
                                     </div>
                                     <!-- Variant Warna -->
                                     <div class="col-md-4 position-relative"> 
@@ -80,54 +59,22 @@
                                             </span>
                                         </div>                                        
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 position-relative">
+                                        <label class="form-label" for="selwrn">HARGA JUAL</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text">Rp</span>
-                                            <input class="form-control" type="text" name="loghj[]" onkeyup="formatRupiah(this);" placeholder="0" required>
+                                            <input class="form-control" type="text" name="loghj" id="loghj" onkeyup="formatRupiah(this);" placeholder="0" required>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-4 position-relative">
-                                        <label class="form-label">LIST SIZE</label>
-                                        <div class="text-start">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="SZ" data-title="Tambah Size Baru" data-label="Nama Size Baru">SZ</a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="SZ" data-title="Daftar Size" data-label="Nama Size"><i class="icofont icofont-settings"></i></a>
-                                        </div>
-                                    </div>                                    
-                                    <div class="col-md-4 position-relative">
-                                        <label class="form-label">LIST SATUAN</label>
-                                        <div class="text-start">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="ST" data-title="Tambah Satuan Baru" data-label="Nama Satuan Baru">ST</a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="ST" data-title="Daftar Satuan" data-label="Nama Satuan"><i class="icofont icofont-settings"></i></a>
-                                        </div>
-                                    </div>                                    
-                                    <div class="col-md-4 position-relative">
-                                        <label class="form-label">LIST SIZE CHART</label>
-                                        <div class="text-start">
-                                            <a class="btn badge-light-primary shownewmod" href="#!" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" data-id="DSZ" data-title="Tambah Detail Size Chart" data-label="Nama Detail Baru">DSZ</a>
-                                            <a class="btn badge-light-primary showdafmod" href="#!" data-bs-toggle="modal" data-bs-target="#DaftarSubKategoriItem" data-id="DSZ" data-title="Daftar Detail Size Chart" data-label="Nama Detail Size Chart"><i class="icofont icofont-settings"></i></a>
-                                        </div>
-                                    </div>                                    
-                                    <div class="col-md-12 position-relative">
-                                        <label class="form-label" id="logdtl">DETAIL KATALOG</label>
-                                        <div class="text-start">
-                                            <a class="btn badge-light-primary" href="javascript:void(0)" id="add-row"><i class="fa fa-plus"></i> Tambah Detail Katalog</a>
-                                            <a class="btn badge-light-primary add-row-dsz" href="javascript:void(0)"><i class="fa fa-plus"></i> Tambah Detail Size Chart</a>
-                                            <a class="btn badge-light-primary" href="javascript:void(0)"><i class="icofont icofont-settings"></i> Master Size Chart</a>
-                                        </div>
-                                    </div>                                    
                                     <!-- Size Chart -->
                                     <div class="col-md-12 position-relative">
                                         <div class="table-responsive">
                                             <table class="table table-hover" width="100%">
                                                 <thead>
                                                     <tr>
-                                                        <th style="width: 10%;">Size</th>
-                                                        <th style="width: 10%;">Satuan</th>
-                                                        <th style="width: 35%;">Detail Size Chart</th>
-                                                        <th style="width: 15%;">Harga HPP</th>
-                                                        <th style="width: 15%;">Harga Jual</th>
-                                                        <th style="width: 8%;">#</th>
+                                                        <th style="width: 5%;">#</th>
+                                                        <th style="width: 50%;">Tipe Katalog</th>
+                                                        <th style="width: 45%;">Size</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="table-body">
@@ -143,7 +90,7 @@
                                     </div>
                                     <!-- Upload Gambar -->
                                     <div class="col-md-12 position-relative"> 
-                                        <label class="form-label" for="imgm">UPLOAD GAMBAR</label>
+                                        <label class="form-label" for="imgm">UPLOAD GAMBAR KATALOG</label>
                                         <input class="form-control" id="imgm" name="imgm" type="file" accept=".png, .jpg, .jpeg" style="visibility: hidden;">
                                         <div id="upload-btn" class="upload-btn"></div>
                                     </div>
@@ -210,5 +157,5 @@
                         </div>
                     </div>
                 </div>
-            </div>          
+            </div>
           </div>

@@ -85,6 +85,8 @@ $route['katalog/updatesb']='MasterKatalog/updatesb';
 $route['katalog/deletesb/(:num)']='MasterKatalog/deletesb/$1';
 $route['katalog/dafsb/(:any)']='MasterKatalog/getsb/$1';
 $route['katalog/add-katalog']='MasterKatalog/createdata';
+// list katalog
+$route['katalog/list']='MasterKatalog/list';
 // katalog condiment
 $route['katalog/condiments']='MasterKatalog/condiments';
 $route['katalog/newcdm']='MasterKatalog/addsbcdm';

@@ -1,23 +1,24 @@
 var tableLog;
 var tableCodm;
+var formatcur = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+});
 $(document).ready(function() {
     if (window.location.href === base_url+'katalog/buat-baru') {
-        console.log('buat-baru');
         generateid();
-        addsizechart();
-        addlogdtl();
         addsb();
         dafsb();
         getselect2();
         imgpreview();
         createlog();
-    } else if (window.location.href === base_url+'katalog/condiments') {
-        console.log('condiments');
-        addsbcdm();
-        dafsbcdm();
+    } else if (window.location.href === base_url+'katalog/list') {
+        // addsbcdm();
+        // dafsbcdm();
         tabkatalog();
         modalcdm();
-        aktivasikat();
+        // aktivasikat();
     } else if (window.location.href === base_url+'katalog/daftar'){
 
     }
@@ -29,141 +30,6 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(() => func.apply(context, args), wait);
     };
-}
-function addsizechart() {
-    // Event handler for adding a new row
-    $('#add-row').on('click', function(e) {
-        e.preventDefault(); 
-        var newRow = `
-            <tr>
-                <td>
-                    <select class="form-select sizelog" name="sizelog[]" required>
-                    </select>
-                </td>
-                <td>
-                    <select class="form-select satlog" name="satlog[]" required>
-                    </select>
-                </td>
-                <td class="dszrow">
-                    <div class="input-group dlog">
-                        <select class="form-select dszlog" style="width: 54%;" required>
-                        </select>
-                        <input class="form-control input-air-primary logval"style="width: 18%;" type="text" placeholder="0" required>
-                        <span class="input-group-append ps-1">
-                            <a class="btn badge-light-primary remove-row-dsz" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
-                        </span>                
-                    </div>
-                </td>
-                <td>
-                    <div class="input-group has-validation">
-                        <span class="input-group-text">Rp</span>
-                        <input class="form-control" type="text" name="loghpp[]" onkeyup="formatRupiah(this);" placeholder="0" required>
-                    </div>
-                </td>
-                <td>
-                    <div class="input-group has-validation">
-                        <span class="input-group-text">Rp</span>
-                        <input class="form-control" type="text" name="loghj[]" onkeyup="formatRupiah(this);" placeholder="0" required>
-                    </div>
-                </td>
-                <th scope="row">
-                    <ul class="action">
-                        <li class="delete">
-                            <a href="javascript:void(0)" class="delete-row">
-                                <i class="icon-trash"></i>
-                            </a>
-                        </li>
-                        <li class="edit">
-                            <a href="javascript:void(0)" class="copy-row">
-                                <i class="icon-files"></i>
-                            </a>
-                        </li>
-                    </ul>                                                            
-                </th>
-            </tr>
-        `;
-
-        // Append the new row to the table body
-        $('#table-body').append(newRow);
-
-        // Load options for the newly added <select> elements
-        optionST($('.satlog:last'));
-        optionSZ($('.sizelog:last'));
-        optionDSZ($('.dszlog:last'));
-    });
-
-    $('#table-body').on('click', '.remove-row-dsz', function (e) {
-        e.preventDefault();
-        const inputGroups = $(this).closest('.dszrow').find('.input-group');
-        
-        if (inputGroups.length > 1) {
-            $(this).closest('.input-group').remove();
-        } else {
-            alert('Tidak bisa dihapus!');
-        }
-    });
-
-    // Event delegation to handle row deletion
-    $('#table-body').on('click', '.delete-row', function(e) {
-        e.preventDefault();
-        $(this).closest('tr').remove(); 
-    });
-
-    $('#table-body').on('click', '.copy-row', function(e) {
-        e.preventDefault();
-    
-        let $row = $(this).closest('tr');
-        let $newRow = $row.clone();
-    
-        // Copy values for input and select elements
-        $newRow.find('input, select').each(function() {
-            const elementType = $(this).prop('nodeName').toLowerCase();
-            
-            if (elementType === 'input') {
-                // Preserve input values
-                $(this).val($(this).val());
-            }
-        });
-    
-        $('#table-body').append($newRow);
-    });
-    
-    $('#table-body').on('mousedown', '.sizelog', function () {
-        optionSZ($(this));
-    });
-    $('#table-body').on('mousedown', '.satlog', function () {
-        optionST($(this));
-    });
-    $('#table-body').on('mousedown', '.dszlog', function () {
-        optionDSZ($(this));
-    });
-
-    $('#table-body').on('input', 'input[type="text"]', function() {
-        let value = $(this).val();
-        value = value.replace(',', '.');
-        if (!/^[0-9.,]*$/.test(value)) {
-            value = value.slice(0, -1);
-        }
-        $(this).val(value);
-    });
-}
-function addlogdtl() {
-    $(document).on('click', '.add-row-dsz', function (e) {
-        e.preventDefault();
-        var dszRow = `
-            <div class="input-group dlog">
-                <select class="form-select dszlog" style="width: 54%;" required>
-                </select>
-                <input class="form-control input-air-primary logval"style="width: 18%;" type="text" placeholder="0" required>
-                <span class="input-group-append ps-1">
-                    <a class="btn badge-light-primary remove-row-dsz" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
-                </span>                
-            </div>
-        `;
-        $('.dszrow').append(dszRow);
-    
-        optionDSZ($('.dszlog:last'));
-    });   
 }
 async function generateid() {
     try {
@@ -362,8 +228,7 @@ function getselect2() {
         allowClear: true,
         ajax: {
             url: function() {
-                let val = 'TPE';
-                return base_url + 'katalog/dafsb/' + val;
+                return base_url + 'MasterMaterial/loadkatsize/';
             },
             dataType: 'json',
             delay: 250,
@@ -376,7 +241,7 @@ function getselect2() {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            id: item.nama,
+                            id: item.id,
                             text: item.nama,
                         };
                     }),
@@ -384,6 +249,30 @@ function getselect2() {
             },
             cache: false,
         },
+    }).on('change', function(e) {
+        let selectedValue = $(this).val();
+        $('#table-body').empty();
+        $.ajax({
+            type: 'GET',
+            url: base_url+'MasterKatalog/getdatatipe/' + selectedValue,
+            dataType: 'json',
+            success: function(response) {
+                $.each(response, function(index, daf) {
+                    let rowCount = $('#table-body tr').length + 1;
+                
+                    $('#table-body').append(`
+                        <tr>
+                            <td>${rowCount}</td>
+                            <td>${daf.nama}</td>
+                            <td class="sizelog">${daf.size}</td>
+                        </tr>
+                    `);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
     });
     $('#selmrk').select2({
         language: 'id',
@@ -444,65 +333,6 @@ function getselect2() {
         },
     });
 }
-function optionST(selector) {
-    let val = 'ST';
-    $.ajax({
-        url: base_url + 'katalog/dafsb/' + val,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response.length > 0) {
-                selector.empty(); // Clear options in the targeted <select>
-                $.each(response, function(index, item) {
-                    selector.append('<option value="' + item.nama + '">' + item.nama + '</option>');
-                });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Terjadi kesalahan:', error);
-        }
-    });
-}
-function optionSZ(selector) {
-    let val = 'SZ';
-    $.ajax({
-        url: base_url + 'katalog/dafsb/' + val,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response.length > 0) {
-                selector.empty(); // Clear options in the targeted <select>
-                $.each(response, function(index, item) {
-                    selector.append('<option value="' + item.nama + '">' + item.nama + '</option>');
-                });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Terjadi kesalahan:', error);
-        }
-    });
-}
-function optionDSZ(selector) {
-    let val = 'DSZ';
-    $.ajax({
-        url: base_url + 'katalog/dafsb/' + val,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response.length > 0) {
-                selector.empty();
-                $.each(response, function(index, item) {
-                    selector.append('<option value="' + item.nama + '">' + item.nama + '</option>');
-                });
-                selector.select(); // Refresh select2
-                selector.prop('required', true);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Terjadi kesalahan:', error);
-        }
-    });
-}
 function imgpreview() {
     $('#upload-btn').on('click', function() {
         $('#imgm').click();
@@ -546,38 +376,14 @@ function createlog() {
         var tableData = [];
         $('#table-body tr').each(function () {
             let id_katalog = $('#sku').val();
-            let satuan = $(this).find('.satlog').val();
-            let size = $(this).find('.sizelog').val();
-            let harga_hpp = parseFloat($(this).closest('tr').find('input[name="loghpp[]"]').val()) || 0;
-            let harga_jual = parseFloat($(this).closest('tr').find('input[name="loghj[]"]').val()) || 0;
-
-            // Iterate through each detail size input group
-            $(this).find('.dlog').each(function () {
-                let detail_size = $(this).find('.dszlog').val();
-                let logval = $(this).find('.logval').val();
-                tableData.push({
-                    id_katalog: id_katalog,
-                    satlog: satuan,
-                    sizelog: size,
-                    dszlog: detail_size,
-                    logval: logval,
-                    loghpp: harga_hpp,
-                    loghj: harga_jual
-                });
+            let size = $(this).find('.sizelog').text();
+            tableData.push({
+                id_katalog: id_katalog,
+                sizelog: size
             });
+            
         });
         
-        if (tableData.length === 0) {
-            swal("Katalog Tidak Lengkap", "Harap isi detail katalog", {
-                icon: "warning",
-            }).then(function () {
-                $('#spinner_sublog').addClass('d-none');
-                $('#tx_sublog').removeClass('d-none');
-                $('#sublog').prop('disabled', false);
-                $('#logdtl').css('color', 'red');
-            });
-            return;
-        }
         var formData = new FormData($('#form-log')[0]);
         formData.append('img_katalog', fileInput.files[0]);
         formData.append('table_data', JSON.stringify(tableData));
@@ -607,7 +413,6 @@ function createlog() {
                 // Reset form fields and visual indicators after completion
                 $('#form-log').find('select').val('0').trigger('change.select2');
                 $('#form-log').find('input, textarea').val('');
-                $('#logdtl').css('color', 'black');
                 $('#table-body').empty();
                 $('#imgm').val('');
                 $('#upload-btn').css('background-image', 'none');
@@ -821,7 +626,7 @@ function tabkatalog() {
                     "render": function(data, type, row, full) {
                         if (type === "display") {
                             return `
-                                <img class="img-50 me-2" src="${base_url+'assets/lvaimages/katalog/'+row.img_katalog}" alt="katalog">
+                                <div class="light-product-box"><img class="img-50 me-2" src="${base_url+'assets/lvaimages/katalog/'+row.img_katalog}" alt="katalog"></div>
                                 <strong>${row.id_katalog} | ${row.nama_katalog}</strong>
                             `;
                         }
@@ -834,9 +639,9 @@ function tabkatalog() {
                         if (type === "display") {
                             return `
                                 <ul class="list-group list-group-horizontal">
-                                    <li class="list-group-item">${row.tipe_katalog}</li>
-                                    <li class="list-group-item">${row.merk_katalog}</li>
+                                    <li class="list-group-item">${row.nama}</li>
                                     <li class="list-group-item">${row.warna_katalog}</li>
+                                    <li class="list-group-item">${row.size}</li>
                                 </ul>
                             `;
                         }
@@ -844,24 +649,33 @@ function tabkatalog() {
                     }
                 },
                 {
-                    "data":"ukuran",
-                },
-                {
-                    "data": "status",
-                    "render": function (data, type, full, meta) {
-                        if (type === "display") {
-                            if(data ==="Aktif"){
-                                return `<strong class="f-light text-success">Aktif</strong>`;
-                            } else if(data==="Tidak"){
-                                return `<strong class="f-light text-warning">Tidak Aktif</strong>`;
-                            }
-                            return data; // return the original value for other cases
-                        }
-                        return data;
+                    "data":"total_hpp_bahan",
+                    "render": function (data, type, row) {
+                        return formatcur.format(data);
                     }
                 },
                 {
-                    "data": "id_katalog",
+                    "data":"harga_jual",
+                    "render": function (data, type, row) {
+                        return formatcur.format(data);
+                    }
+                },
+                // {
+                //     "data": "status",
+                //     "render": function (data, type, full, meta) {
+                //         if (type === "display") {
+                //             if(data ==="Aktif"){
+                //                 return `<strong class="f-light text-success">Aktif</strong>`;
+                //             } else if(data==="Tidak"){
+                //                 return `<strong class="f-light text-warning">Tidak Aktif</strong>`;
+                //             }
+                //             return data; // return the original value for other cases
+                //         }
+                //         return data;
+                //     }
+                // },
+                {
+                    "data": "id_katalog_dtl",
                     "orderable": false,
                     "render": function (data, type, full, meta) {
                         if (type === "display") {
@@ -869,10 +683,7 @@ function tabkatalog() {
                                     <button class="btn btn-info-gradien dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
                                     <div class="dropdown-menu">
                                         ${(full.status === "Aktif" || full.status === "Tidak" ) ? `
-                                            <a class="dropdown-item" href="javascript:void(0)" id="aktivasi" data-id="${data}">Aktivasi Katalog</a>
-                                        ` : ''}
-                                        ${(full.status === "Aktif" || full.status === "Tidak" ) ? `
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id="${data}" data-nk="${full.nama_katalog}" >Bahan & Produk</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Tambah Material</a>
                                         ` : ''}
                                     </div>
                                 `;
@@ -1061,12 +872,11 @@ function modalcdm() {
         var button = $(e.relatedTarget);
         var idk = button.data('id');
         var nmk = button.data('nk');
-        $('#skudtl').text(idk+' '+nmk);
-        $('#idkat').val(idk);
-        $('#namakat').val(nmk);
-        getSelect2(idk);
-        addcdm();
-        tabcodm(idk);               
+        var size = button.data('size');
+        $('#skudtl').text(idk+' '+nmk+' ('+size+') ');
+        // getSelect2(idk);
+        // addcdm();
+        // tabcodm(idk);
     });
 }
 function addcdm() {

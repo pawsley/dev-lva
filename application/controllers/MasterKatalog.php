@@ -127,12 +127,13 @@ class MasterKatalog extends Auth
   public function createdata(){
     if ($this->input->is_ajax_request()) {
       $this->load->library('upload');
+      $loghj = str_replace(',', '.', $this->input->post('loghj'));
       $data = [
           'id_katalog' => $this->input->post('sku'),
+          'id_sizechart'      => $this->input->post('selkat'),
           'nama_katalog'     => $this->input->post('namakatalog'),
-          'tipe_katalog'     => $this->input->post('selkat'),
-          'merk_katalog'      => $this->input->post('selmrk'),
           'warna_katalog'  => $this->input->post('selwrn'),
+          'harga_jual'  => floatval($loghj),
           'catatan'  => $this->input->post('notes')
       ];
       if (!empty($_FILES['img_katalog']['name'])) {
@@ -162,12 +163,7 @@ class MasterKatalog extends Auth
         foreach ($table_data as $item) {
             $data_detail = [
                 'id_katalog'  => $item['id_katalog'],
-                'satuan' => $item['satlog'],
                 'size'    => $item['sizelog'],
-                'detail_size'=> $item['dszlog'],
-                'detail_size_num'  => $item['logval'],
-                'harga_jual'  => $item['loghj'],
-                'harga_hpp'  => $item['loghpp']
             ];
             $this->Mkatalog_model->addlogdtl($data_detail);
         }
@@ -179,6 +175,48 @@ class MasterKatalog extends Auth
     } else {
       show_404();
     }
+  }
+  public function getdatatipe($kode) {
+    $results = $this->Mkatalog_model->getDataTipe($kode);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  // List Katalog
+  public function list(){
+    $data['content'] = $this->load->view('katalog/listkatalog', '', true);
+    $data['modal'] = '';
+    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
+    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
+    <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/dataTables.rowsGroup.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/custom-flatpickr.js') . '"></script>
+    <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+    ';
+    $this->load->view('layout/base', $data); 
   }
   // Menu Condiment Katalog
   public function condiments(){
@@ -297,8 +335,8 @@ class MasterKatalog extends Auth
   }  
   public function tablekatalog()  {
     $this->load->library('datatables');
-    $this->datatables->select('CONCAT(id_katalog, "|", nama_katalog) as katalog, CONCAT(tipe_katalog, " ", merk_katalog, " ",warna_katalog) as detail,
-    id_katalog, nama_katalog, tipe_katalog, merk_katalog, warna_katalog, catatan, img_katalog, ukuran,status');
+    $this->datatables->select('CONCAT(id_katalog, "|", nama_katalog) as katalog, CONCAT(nama, " ",warna_katalog, " ",size) as detail,
+    id_katalog_dtl, id_katalog, nama_katalog, nama, warna_katalog, img_katalog, total_hpp_bahan,size,harga_jual,status');
     $this->datatables->from('vkatalog');
     return print_r($this->datatables->generate());
   }

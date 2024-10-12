@@ -204,9 +204,10 @@
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-gallery"></use>
                     </svg><span>Katalog</span></a>
                     <ul class="sidebar-submenu">
-                      <li class="kbb"><a class="kbb" href="<?=base_url()?>katalog/buat-baru">Buat Baru</a></li>
-                      <li class="kcon"><a class="kcon" href="<?=base_url()?>katalog/condiments">Condiments</a></li>
-                      <li class="klva"><a class="klva" href="<?=base_url()?>katalog/daftar">Katalog LVA</a></li>
+                      <li class="kbb"><a class="kbb" href="<?=base_url()?>katalog/buat-baru">Buat Katalog Produk</a></li>
+                      <li class="lkp"><a class="lkp" href="<?=base_url()?>katalog/list">List Katalog Produk</a></li>
+                      <!-- <li class="kcon"><a class="kcon" href="<?=base_url()?>katalog/condiments">Condiments</a></li> -->
+                      <!-- <li class="klva"><a class="klva" href="<?=base_url()?>katalog/daftar">Katalog LVA</a></li> -->
                     </ul>
                   </li>
                   <!-- <li class="sidebar-list customer"><i class="fa fa-thumb-tack"></i>
@@ -364,6 +365,6 @@
       var segment1 = "<?php echo $this->uri->segment(1); ?>";
       var segment2 = "<?php echo $this->uri->segment(2); ?>";
     </script>
-    <script src="<?=base_url()?>assets/js/additional-js/base.js?v=1.1"></script>
+    <script src="<?=base_url()?>assets/js/additional-js/base.js?v=1.2"></script>
   </body>
 </html>        
