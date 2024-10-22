@@ -222,12 +222,13 @@
                     <form class="row g-3" id="form-cdm" method="post">
                         <div class="col-md-12 position-relative">
                             <div class="table-responsive">
-                                <table class="display" id="table-condiment">
+                                <table class="display" id="table-addmaterial">
                                 <thead>
                                     <tr>
                                         <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">MATERIAL</span></th>
-                                        <th scope="col" style="min-width: 40px; text-align:center;"><span class="f-light f-w-600">QTY</span></th>
-                                        <th scope="col" style="min-width: 40px; text-align:center;"><span class="f-light f-w-600">HARGA</span></th>
+                                        <th scope="col" style="min-width: 20px;"><span class="f-light f-w-600">QTY</span></th>
+                                        <th scope="col" style="min-width: 100px; text-align:center;"><span class="f-light f-w-600">HARGA SATUAN</span></th>
+                                        <th scope="col" style="min-width: 100px; text-align:center;"><span class="f-light f-w-600">TOTAL HARGA</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>

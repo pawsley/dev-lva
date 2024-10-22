@@ -127,13 +127,13 @@ class MasterKatalog extends Auth
   public function createdata(){
     if ($this->input->is_ajax_request()) {
       $this->load->library('upload');
-      $loghj = str_replace(',', '.', $this->input->post('loghj'));
+      $loghj = str_replace(',', '', $this->input->post('loghj'));
       $data = [
           'id_katalog' => $this->input->post('sku'),
           'id_sizechart'      => $this->input->post('selkat'),
           'nama_katalog'     => $this->input->post('namakatalog'),
           'warna_katalog'  => $this->input->post('selwrn'),
-          'harga_jual'  => floatval($loghj),
+          'harga_jual'  => (int)($loghj),
           'catatan'  => $this->input->post('notes')
       ];
       if (!empty($_FILES['img_katalog']['name'])) {
@@ -217,6 +217,20 @@ class MasterKatalog extends Auth
     <script src="'.base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     ';
     $this->load->view('layout/base', $data); 
+  }
+  public function tablekatalog()  {
+    $this->load->library('datatables');
+    $this->datatables->select('CONCAT(id_katalog, "|", nama_katalog) as katalog, CONCAT(nama, " ",warna_katalog, " ",size) as detail,
+    id_katalog_dtl, id_katalog, nama_katalog, nama, warna_katalog, img_katalog, total_hpp_bahan,id_sizechart, size,harga_jual,status');
+    $this->datatables->from('vkatalog');
+    return print_r($this->datatables->generate());
+  }
+  public function tableaddmaterial($idsz)  {
+    $this->load->library('datatables');
+    $this->datatables->select('kode_material, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material');
+    $this->datatables->from('vkatalog_bahan');
+    $this->datatables->where('id_sizechart',$idsz);
+    return print_r($this->datatables->generate());
   }
   // Menu Condiment Katalog
   public function condiments(){
@@ -333,13 +347,6 @@ class MasterKatalog extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);
   }  
-  public function tablekatalog()  {
-    $this->load->library('datatables');
-    $this->datatables->select('CONCAT(id_katalog, "|", nama_katalog) as katalog, CONCAT(nama, " ",warna_katalog, " ",size) as detail,
-    id_katalog_dtl, id_katalog, nama_katalog, nama, warna_katalog, img_katalog, total_hpp_bahan,size,harga_jual,status');
-    $this->datatables->from('vkatalog');
-    return print_r($this->datatables->generate());
-  }
   public function tablecondiment($id)  {
     $this->load->library('datatables');
     $this->datatables->select('ukuran, nama_condiment, kode_material, nama_material, qty_required, sat_material');

@@ -60,3 +60,8 @@
   line-height: 1.5; /* Consistent line height */
   border-radius: 0;
 }
+table.dataTable input, 
+table.dataTable select {
+  border: 1px solid #efefef;
+  height: 24px !important;
+}

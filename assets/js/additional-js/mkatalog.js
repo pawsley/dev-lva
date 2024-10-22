@@ -1,5 +1,5 @@
 var tableLog;
-var tableCodm;
+var tableAddMtr;
 var formatcur = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
@@ -683,7 +683,7 @@ function tabkatalog() {
                                     <button class="btn btn-info-gradien dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
                                     <div class="dropdown-menu">
                                         ${(full.status === "Aktif" || full.status === "Tidak" ) ? `
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Tambah Material</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-idtl="${full.id_sizechart}" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Tambah Material</a>
                                         ` : ''}
                                     </div>
                                 `;
@@ -871,12 +871,13 @@ function modalcdm() {
     $('#AddMaterial').on('shown.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var idk = button.data('id');
+        var idtl = button.data('idtl');
         var nmk = button.data('nk');
         var size = button.data('size');
         $('#skudtl').text(idk+' '+nmk+' ('+size+') ');
         // getSelect2(idk);
         // addcdm();
-        // tabcodm(idk);
+        tabaddmtr(idtl);
     });
 }
 function addcdm() {
@@ -910,7 +911,7 @@ function addcdm() {
                 $('#spinner_subadd').addClass('d-none');
                 $('#tx_subadd').removeClass('d-none');
                 $('#subadd').prop('disabled', false);
-                tableCodm.ajax.reload();
+                tableAddMtr.ajax.reload();
             },
             error: function (xhr, status, error) {
                 console.error('AJAX Error:', error);
@@ -919,32 +920,71 @@ function addcdm() {
         });
     });
 }
-function tabcodm(idk) {
+function tabaddmtr(idtl) {
     $.getJSON(base_url + 'assets/json/datatable-id.json', function(json) {
-        if ($.fn.DataTable.isDataTable('#table-condiment')) {
-            tableCodm.destroy();
+        if ($.fn.DataTable.isDataTable('#table-addmaterial')) {
+            tableAddMtr.destroy();
         }
 
-        tableCodm = $("#table-condiment").DataTable({
+        tableAddMtr = $("#table-addmaterial").DataTable({
             "language": json,
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": base_url + 'MasterKatalog/tablecondiment/' + idk,
+                "url": base_url + 'MasterKatalog/tableaddmaterial/' + idtl,
                 "type": "POST",
             },
-            'rowsGroup': [0,1],
+            // 'rowsGroup': [0,1],
             "columns": [
-                { "data": "ukuran" },
-                { "data": "nama_condiment" },
                 {
                     "data": "nama_material",
-                    "render": function(data, type, row) {
-                        return `${row.kode_material} | ${row.nama_material}`;
+                    "render": function(data, type, row, full) {
+                        if (type === "display") {
+                            return `
+                                <div class="product-names">
+                                    <div class="light-product-box"><img class="img-fluid" src="${base_url+'assets/lvaimages/material/'+row.img_material}" alt="material"></div>
+                                    <strong>
+                                        ${row.kode_material} | ${row.nama_material}<br>
+                                        <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.tipe_material}</span>
+                                        <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.kat_material}</span>
+                                        <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.warna_material}</span>
+                                    </strong>
+                                </div>
+                            `;
+                        }
+                        return data;
                     }
                 },
-                { "data": "qty_required" },
-                { "data": "sat_material" }
+                { 
+                    "data": null,
+                    "render": function(data, type, row) {
+                        return `
+                            <div class="input-group has-validation">
+                                <input class="form-control" type="text" name="qty" id="qty" placeholder="0" required>
+                                <span class="input-group-text">${row.sat_material}</span>
+                            </div>
+                        `;
+                    },
+                    "orderable": false
+                },
+                { 
+                    "data": "harga_material",
+                    "render": function (data, type, row) {
+                        return formatcur.format(data);
+                    }
+                },
+                { 
+                    "data": null,
+                    "render": function(data, type, row) {
+                        return `
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">Rp</span>
+                                <input class="form-control" type="text" name="qty" id="qty" placeholder="0" required>
+                            </div>
+                        `;
+                    },
+                    "orderable": false
+                }
             ],
 
             "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
@@ -962,7 +1002,7 @@ function tabcodm(idk) {
                         $(node).removeClass('btn-default').addClass('btn-primary').attr('title', 'Refresh');
                     },
                     "action": function() {
-                        tableCodm.ajax.reload(); // Refresh data
+                        tableAddMtr.ajax.reload(); // Refresh data
                     }
                 }
             ]
