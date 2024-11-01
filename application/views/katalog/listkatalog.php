@@ -227,8 +227,8 @@
                                     <tr>
                                         <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">MATERIAL</span></th>
                                         <th scope="col" style="min-width: 20px;"><span class="f-light f-w-600">QTY</span></th>
-                                        <th scope="col" style="min-width: 100px; text-align:center;"><span class="f-light f-w-600">HARGA SATUAN</span></th>
-                                        <th scope="col" style="min-width: 100px; text-align:center;"><span class="f-light f-w-600">TOTAL HARGA</span></th>
+                                        <th scope="col" style="min-width: 100px;"><span class="f-light f-w-600">HARGA SATUAN</span></th>
+                                        <th scope="col" style="min-width: 100px;"><span class="f-light f-w-600">TOTAL HARGA</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>

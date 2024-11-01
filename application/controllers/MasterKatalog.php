@@ -113,7 +113,7 @@ class MasterKatalog extends Auth
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
     $data['js'] = '
     <script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.3') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -190,7 +190,7 @@ class MasterKatalog extends Auth
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.3') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -225,12 +225,49 @@ class MasterKatalog extends Auth
     $this->datatables->from('vkatalog');
     return print_r($this->datatables->generate());
   }
-  public function tableaddmaterial($idsz)  {
+  public function tableaddmaterial($iddtl)  {
     $this->load->library('datatables');
-    $this->datatables->select('kode_material, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material');
+    $search = $this->input->post('search');
+    $this->datatables->select('kode_material, id_katalog_dtl, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material');
     $this->datatables->from('vkatalog_bahan');
-    $this->datatables->where('id_sizechart',$idsz);
+    if (!empty($search)) {
+      $searchTerms = explode(' ', $search);
+      $likeClauses = [];
+      
+      foreach ($searchTerms as $term) {
+          $likeClauses[] = 'concat(nama_material, " ", tipe_material, " ", kat_material, " ", warna_material) LIKE \'%' . $this->db->escape_like_str($term) . '%\'';
+      }
+
+      $this->datatables->where(implode(' AND ', $likeClauses));
+    }
+    $this->datatables->where('id_katalog_dtl',$iddtl);
     return print_r($this->datatables->generate());
+  }
+  public function addmtr() {
+    $materials = $this->input->post('materials');
+
+    if (!empty($materials)) {
+        $totalHarga = 0;
+
+        foreach ($materials as $material) {
+            $data = [
+                'id_katalog_dtl' => $material['idtl'],
+                'kode_material' => $material['kodem'],
+                'qty_material' => $material['qty'],
+                'hpp_bahan' => $material['tharga']
+            ];
+
+            $this->Mkatalog_model->addlogmtr($data);
+            $totalHarga += $material['tharga'];
+        }
+
+        $idtl = $materials[0]['idtl'];
+        $this->Mkatalog_model->updlogdtl($idtl, ['total_hpp_bahan' => $totalHarga]);
+
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error']);
+    }
   }
   // Menu Condiment Katalog
   public function condiments(){
@@ -259,7 +296,7 @@ class MasterKatalog extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.3') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>

@@ -57,6 +57,15 @@ class Mkatalog_model extends CI_Model {
         $insert = $this->db->insert('tb_katalog_dtl', $data);
         return $insert; 
     }
+    public function updlogdtl($id, $data) {
+        $this->db->where('id_katalog_dtl', $id);
+        $update = $this->db->update('tb_katalog_dtl', $data);
+        return $update;
+    }
+    public function addlogmtr($data) {
+        $insert = $this->db->insert('tb_katalog_material', $data);
+        return $insert; 
+    }
     public function getDataTipe($kode) {
         $this->db->select(['tb_sizechart_dtl.size', 'tb_sbkatalog.nama', 'tb_sizechart_dtl.id_sizechart']);
         $this->db->from('tb_sizechart');

@@ -5,6 +5,10 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     currency: 'IDR',
     minimumFractionDigits: 0
 });
+var formatcurdt = new Intl.NumberFormat('id-ID', {
+    style: 'decimal',
+    minimumFractionDigits: 0
+});
 $(document).ready(function() {
     if (window.location.href === base_url+'katalog/buat-baru') {
         generateid();
@@ -683,7 +687,7 @@ function tabkatalog() {
                                     <button class="btn btn-info-gradien dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
                                     <div class="dropdown-menu">
                                         ${(full.status === "Aktif" || full.status === "Tidak" ) ? `
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-idtl="${full.id_sizechart}" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Tambah Material</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id_dtl="${full.id_katalog_dtl}" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Tambah Material</a>
                                         ` : ''}
                                     </div>
                                 `;
@@ -871,13 +875,11 @@ function modalcdm() {
     $('#AddMaterial').on('shown.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var idk = button.data('id');
-        var idtl = button.data('idtl');
+        var id_dtl = button.data('id_dtl');
         var nmk = button.data('nk');
         var size = button.data('size');
         $('#skudtl').text(idk+' '+nmk+' ('+size+') ');
-        // getSelect2(idk);
-        // addcdm();
-        tabaddmtr(idtl);
+        tabaddmtr(id_dtl);
     });
 }
 function addcdm() {
@@ -933,6 +935,9 @@ function tabaddmtr(idtl) {
             "ajax": {
                 "url": base_url + 'MasterKatalog/tableaddmaterial/' + idtl,
                 "type": "POST",
+                "data": function(d) {
+                    d.search = $('#AddMaterial').find('input[type="search"]').val();
+                }
             },
             // 'rowsGroup': [0,1],
             "columns": [
@@ -943,7 +948,7 @@ function tabaddmtr(idtl) {
                             return `
                                 <div class="product-names">
                                     <div class="light-product-box"><img class="img-fluid" src="${base_url+'assets/lvaimages/material/'+row.img_material}" alt="material"></div>
-                                    <strong>
+                                    <strong data-idtl="${row.id_katalog_dtl}" data-kodem="${row.kode_material}">
                                         ${row.kode_material} | ${row.nama_material}<br>
                                         <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.tipe_material}</span>
                                         <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.kat_material}</span>
@@ -960,7 +965,7 @@ function tabaddmtr(idtl) {
                     "render": function(data, type, row) {
                         return `
                             <div class="input-group has-validation">
-                                <input class="form-control" type="text" name="qty" id="qty" placeholder="0" required>
+                                <input class="form-control" type="number" step="0.01" min="0" name="qty" id="qty" placeholder="0" required>
                                 <span class="input-group-text">${row.sat_material}</span>
                             </div>
                         `;
@@ -970,8 +975,14 @@ function tabaddmtr(idtl) {
                 { 
                     "data": "harga_material",
                     "render": function (data, type, row) {
-                        return formatcur.format(data);
-                    }
+                        return `
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">Rp</span>
+                                <input class="form-control" type="text" name="sharga" id="sharga" value="${formatcurdt.format(data)}" readonly>
+                            </div>
+                        `;
+                    },
+                    "orderable": false
                 },
                 { 
                     "data": null,
@@ -979,7 +990,7 @@ function tabaddmtr(idtl) {
                         return `
                             <div class="input-group has-validation">
                                 <span class="input-group-text">Rp</span>
-                                <input class="form-control" type="text" name="qty" id="qty" placeholder="0" required>
+                                <input class="form-control" type="text" name="tharga" id="tharga" placeholder="0" readonly>
                             </div>
                         `;
                     },
@@ -1002,10 +1013,82 @@ function tabaddmtr(idtl) {
                         $(node).removeClass('btn-default').addClass('btn-primary').attr('title', 'Refresh');
                     },
                     "action": function() {
-                        tableAddMtr.ajax.reload(); // Refresh data
+                        tableAddMtr.ajax.reload();
+                    }
+                },
+                {
+                    "text": 'Tambah',
+                    "className": 'custom-tambah-button',
+                    "attr": {
+                        "id": "tambah-button"
+                    },
+                    "action": function() {
+                        var materialsData = [];
+                        
+                        $('#table-addmaterial tbody tr').each(function() {
+                            var $row = $(this);
+                            var materialData = {
+                                qty: parseFloat($row.find('input[name="qty"]').val()) || 0,
+                                tharga: parseFloat($row.find('input[name="tharga"]').val().replace(/\D/g, '')) || 0,
+                                idtl: $row.find('.product-names strong').data('idtl'),
+                                kodem: $row.find('.product-names strong').data('kodem')
+                            };
+                            materialsData.push(materialData);
+                        });
+                
+                        if (materialsData.length === 0) {
+                            swal("No materials to add", {
+                                icon: "warning",
+                                buttons: false,
+                                timer: 1000
+                            });
+                            return; // Exit if no materials to add
+                        }
+                
+                        $.ajax({
+                            url: base_url + 'MasterKatalog/addmtr',
+                            type: 'POST',
+                            data: { materials: materialsData },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    swal("Berhasil ditambahkan", {
+                                        icon: "success",
+                                        buttons: false,
+                                        timer: 1000
+                                    });
+                                } else {
+                                    swal("Gagal ditambahkan", {
+                                        icon: "error",
+                                        buttons: false,
+                                        timer: 1000
+                                    });
+                                }
+                            },
+                            complete: function () {
+                                tableAddMtr.ajax.reload();
+                                $('#AddMaterial').modal('hide');
+                                tableLog.ajax.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                swal("Gagal ditambahkan", {
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 1000
+                                });
+                            }
+                        });
                     }
                 }
+                               
             ]
+        });
+        $('#table-addmaterial tbody').on('input', '#qty', function() {
+            var $row = $(this).closest('tr'); 
+            var qty = $(this).val() || 0;
+            var sharga = parseFloat($row.find('#sharga').val().replace(/\D/g, '')) || 0;
+            var totalharga = qty * sharga;
+            $row.find('#tharga').val(formatcurdt.format(totalharga));
         });
     });
 }
