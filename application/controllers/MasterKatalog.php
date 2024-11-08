@@ -127,7 +127,7 @@ class MasterKatalog extends Auth
   public function createdata(){
     if ($this->input->is_ajax_request()) {
       $this->load->library('upload');
-      $loghj = str_replace(',', '', $this->input->post('loghj'));
+      $loghj = str_replace(['.', ','], '', $this->input->post('loghj'));
       $data = [
           'id_katalog' => $this->input->post('sku'),
           'id_sizechart'      => $this->input->post('selkat'),

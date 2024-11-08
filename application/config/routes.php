@@ -106,13 +106,14 @@ $route['customer/input-data']='MasterCustomer/createdata';
 $route['customer/update-data']='MasterCustomer/updatedata';
 $route['customer/delete-data/(:any)'] = 'MasterCustomer/deletedata/$1';
 $route['customer/list-customer']='MasterCustomer/tablecst';
-// Penjualan Data Customer
+// Penjualan 
 $route['penjualan/data-customer']='PenDataCustomer';
 $route['penjualan/kasir']='PenKasir';
+$route['penjualan/data-katalog']='PenKasir/loadkatalog';
 $route['penjualan/pengiriman']='PenKirim';
 $route['penjualan/riwayat']='PenRiwayat';
 $route['penjualan/transaksi']='PenTrans';
-// Pembelian Material
+// Pembelian 
 $route['pembelian/pembelian-material']='PemMaterial';
 $route['pembelian/input-data']='PemMaterial/createdata';
 $route['pembelian/delete-data']='PemMaterial/deletedata';
@@ -126,9 +127,3 @@ $route['pembelian/print-material']='PriMaterial';
 // Gudang
 $route['gudang/lva']='Gudang/gudanglva';
 $route['gudang/ldp']='Gudang/gudangldp';
-// $route['pembelian/input-data']='PemMaterial/createdata';
-// $route['pembelian/delete-data']='PemMaterial/deletedata';
-// $route['pembelian/approve-data']='PemMaterial/approvepmb';
-// $route['pembelian/terima-data']='PemMaterial/approvegd';
-// $route['pembelian/list-pembelian']='PemMaterial/tablepmbmtr';
-// $route['pembelian/list-pembelian-detail']='PemMaterial/tablepmbdtl';

@@ -69,7 +69,7 @@
                                     <!-- Size Chart -->
                                     <div class="col-md-12 position-relative">
                                         <div class="table-responsive">
-                                            <table class="table table-hover" width="100%">
+                                            <table class="table table-hover table-double " width="100%">
                                                 <thead>
                                                     <tr>
                                                         <th style="width: 5%;">#</th>
