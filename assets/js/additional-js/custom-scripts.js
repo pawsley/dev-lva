@@ -55,3 +55,12 @@ function formatNumber(input) {
     // Set the cleaned value back to the input
     $(input).val(value);
 }
+var formatcurrency = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+});
+var formatdecimal = new Intl.NumberFormat('id-ID', {
+    style: 'decimal',
+    minimumFractionDigits: 0
+});

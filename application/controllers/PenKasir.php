@@ -34,12 +34,13 @@ class PenKasir extends Auth
         .select2-container{
           margin-bottom :-2%;
         }
-    </style>    
+    </style>
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
-    <script src="' . base_url('assets/js/additional-js/penkasir.js?v=1.0') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/penkasir.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.2') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -74,6 +75,24 @@ class PenKasir extends Auth
     $data['currentDate'] = $currentDate;
 
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
+  }
+  public function loadkatalog($id_ktdl=null) {
+    $searchTerm = $this->input->get('q');
+    $results = $this->PenKasir_model->getDataKatalog($searchTerm, $id_ktdl);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  public function loadcustomer() {
+    $searchTerm = $this->input->get('q');
+    $results = $this->PenKasir_model->getDataAgen($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  public function loadtipecustomer() {
+    $searchTerm = $this->input->get('q');
+    $results = $this->PenKasir_model->getDataTipeAgen($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
   }
 
 }

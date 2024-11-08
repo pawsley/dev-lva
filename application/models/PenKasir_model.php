@@ -25,7 +25,52 @@ class PenKasir_model extends CI_Model {
     $this->db->order_by('nama_condiment', 'asc');
     $query = $this->db->get();
     return $query->result_array();
-}  
+  }
+  public function getDataKatalog($searchTerm, $id) {
+    $this->db->select('id_katalog,id_katalog_dtl,nama_katalog, nama as tipe, warna_katalog,img_katalog,size,harga_jual');
+    $this->db->from('vkatalog');
+    if ($searchTerm) {
+      $this->db->group_start();
+      $this->db->like('nama_katalog', $searchTerm);
+      $this->db->or_like('nama', $searchTerm);
+      $this->db->group_end();
+    }
+    if ($id !== null) {
+      $this->db->where('id_katalog_dtl',$id);
+    }
+    $this->db->order_by('nama_katalog','asc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function getDataAgen($searchTerm) {
+    $this->db->select('tc.id_cst, tc.nama_cst, tc.wa_cst, tc.email_cst, ts.id_sbc, ts.diskon, tc.tipe_cst');
+    $this->db->from('tb_customer tc');
+    $this->db->join('tb_sbcustomer ts', 'tc.id_sbc = ts.id_sbc');
+    if ($searchTerm) {
+      $this->db->group_start();
+      $this->db->like('nama_cst', $searchTerm);
+      $this->db->group_end();
+    }
+    $this->db->order_by('nama_cst','asc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function getDataTipeAgen($searchTerm) {
+    $this->db->select('ts.id_sbc, ts.diskon, ts.nama_sbc');
+    $this->db->from('tb_sbcustomer ts');
+    if ($searchTerm) {
+      $this->db->group_start();
+      $this->db->like('nama_sbc', $searchTerm);
+      $this->db->group_end();
+    }
+    $this->db->order_by('nama_sbc','asc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }  
+  public function addOrder($data) {
+    $insert = $this->db->insert('tb_order', $data);
+    return $insert; 
+  }
 }
 
 /* End of file PenKasir_model.php */
