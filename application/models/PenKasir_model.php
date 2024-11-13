@@ -66,11 +66,31 @@ class PenKasir_model extends CI_Model {
     $this->db->order_by('nama_sbc','asc');
     $query = $this->db->get();
     return $query->result_array();
-  }  
-  public function addOrder($data) {
-    $insert = $this->db->insert('tb_order', $data);
-    return $insert; 
   }
+  public function addOrder($data){
+    $insert = $this->db->insert('tb_order', $data);
+    return $insert;    
+  }
+  public function addOrderDetail($data){
+    $insert = $this->db->insert('tb_order_dtl', $data);
+    return $insert;
+  }
+  // public function addOrder($data, $data2) {
+  //   $this->db->trans_start();
+
+  //   $this->db->insert('tb_order', $data);
+  //   $id_order = $this->db->insert_id();
+
+  //   foreach ($data2 as &$detail) {
+  //       $detail['id_order'] = $id_order;
+  //   }
+
+  //   $this->db->insert_batch('tb_order_dtl', $data2);
+
+  //   $this->db->trans_complete();
+
+  //   return $this->db->trans_status();
+  // }
 }
 
 /* End of file PenKasir_model.php */

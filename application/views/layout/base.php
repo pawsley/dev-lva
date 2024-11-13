@@ -257,9 +257,9 @@
                     <ul class="sidebar-submenu">
                       <!-- <li><a href="<?=base_url()?>penjualan/data-customer">Data Customer</a></li> -->
                       <li class="pjor"><a class="pjor" href="<?=base_url()?>penjualan/kasir">Kasir Penjualan</a></li>
-                      <li><a href="<?=base_url()?>penjualan/pengiriman">Pengiriman</a></li>
-                      <li><a href="<?=base_url()?>penjualan/riwayat">Riwayat Penjualan</a></li>
-                      <li><a href="<?=base_url()?>penjualan/transaksi">Transaksi Customer</a></li>
+                      <!-- <li><a href="<?=base_url()?>penjualan/pengiriman">Pengiriman</a></li> -->
+                      <li class="pjrw"><a class="pjrw" href="<?=base_url()?>penjualan/riwayat">Riwayat Penjualan</a></li>
+                      <!-- <li><a href="<?=base_url()?>penjualan/transaksi">Transaksi Customer</a></li> -->
                     </ul>
                   </li>
                   <!-- Menu Pembelian -->

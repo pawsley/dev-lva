@@ -4,6 +4,7 @@ $(document).ready(function () {
     $('#duedate').val(updateDateNow(datid));
     getselect2();
     calculateFinal();
+    createOrder();
 });
 async function generateid() {
     try {
@@ -101,10 +102,10 @@ function getselect2() {
                 response.forEach(function(daf) {
                     if ($('#list-order').find(`#${daf.id_katalog_dtl}`).length === 0) {
                         $('#list-order').append(`
-                            <tr id="${daf.id_katalog_dtl}">
+                            <tr id="order-detail" data-idkdl="${daf.id_katalog_dtl}" data-idkat="${daf.id_katalog}">
                                 <td><div class="light-product-box"><img class="img-50" src="${base_url+'assets/lvaimages/katalog/'+daf.img_katalog}" alt="katalog"></div></td>
                                 <td>${daf.nama_katalog}</td>
-                                <td>${daf.size}</td>
+                                <td id="dsize">${daf.size}</td>
                                 <td>${formatcurrency.format(daf.harga_jual)}</td>
                                 <td><input class="form-control qty-input" type="number" min="1" name="qty[]" placeholder="0" required oninput="calculateTotal(this, ${daf.harga_jual}, '${daf.id_katalog_dtl}')"/></td>
                                 <td id="total-${daf.id_katalog_dtl}">Rp 0</td>
@@ -174,7 +175,7 @@ function getselect2() {
         var data = e.params.data;
         $('#wa').val(data.wa && data.wa !== '' ? data.wa : " - ");
         $('#email').val(data.email && data.email !== '' ? data.email : " - ");
-        $("#seltipe").empty().append('<option value="' +data.diskon+ '">' +data.nama_sbc+ '</option>').trigger('change.select2');
+        $("#seltipe").empty().append('<option data-id="'+data.id+'" value="' +data.diskon+ '">' +data.nama_sbc+ '</option>').trigger('change.select2');
     });    
 }
 function getSelect2Data(data) {
@@ -209,4 +210,84 @@ function calculateFinal() {
     let grandTotal = subtotal - discountAmount;
     $('#diskon').text(' - '+formatcurrency.format(discountAmount));
     $('#grand').text(formatcurrency.format(grandTotal));
+}
+function createOrder() {
+    $('#form-order').off('submit').on('submit', function (e) {
+        e.preventDefault();
+        $('#spinner_submit').removeClass('d-none');
+        $('#tx_submit').addClass('d-none');
+        $('#btn_submit').prop('disabled', true);
+
+        var tableData = [];
+        $('#list-order tr').each(function () {
+            let id_katalog = $(this).data('idkat');
+            let id_katalog_dtl = $(this).data('idkdl');
+            let size = $(this).find('#dsize').text();
+            let qty = $(this).find('.qty-input').val();
+            let total = $(this).find('#total-'+id_katalog_dtl).text().replace(/[-Rp\s.]/g, '');
+            tableData.push({
+                id_katalog: id_katalog,
+                id_katalog_dtl: id_katalog_dtl,
+                detail_size: size,
+                qty_order: qty,
+                harga_jual_order: total
+            });
+        });
+        
+        
+        var formData = new FormData(this);
+        formData.append('order_id', $('#ordid').val());
+        formData.append('orderdate', $('#duedate').val());
+        formData.append('selcst', $('#selcst').val());
+        formData.append('catatan', $('#txtcatatan').val());
+        formData.append('predis', $('#seltipe').val());
+        formData.append('nomdis', $('#diskon').text().replace(/[-Rp\s.]/g, ''));
+        formData.append('sub', $('#subtotal').text().replace(/[-Rp\s.]/g, ''));
+        formData.append('grand', $('#grand').text().replace(/[-Rp\s.]/g, ''));
+        // details
+        formData.append('table_data', JSON.stringify(tableData));
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ': ' + pair[1]);
+        }
+        $.ajax({
+            url: base_url + 'PenKasir/createorder',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("Order "+response.message, {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    });
+                } else {
+                    swal('Order '+response.message, {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                }
+            },
+            complete: function () {
+                $('#form-order').find('select').val('0').trigger('change.select2');
+                $('#form-order').find('input, textarea').val('');
+                $('#list-order').empty();
+
+                $('#spinner_submit').addClass('d-none');
+                $('#tx_submit').removeClass('d-none');
+                $('#btn_submit').prop('disabled', false);
+                $('#duedate').val(updateDateNow(datid));
+                generateid();
+                calculateTotal();
+                calculateFinal();
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+                alert('An error occurred while saving data.');
+            }
+        });
+    });
 }

@@ -110,6 +110,12 @@ $(document).ready(function () {
             $(".sidebar-list.penjualan").addClass('active');
             $(".sidebar-list.penjualan .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.penjualan ul.sidebar-submenu").slideDown('normal'); 
+        } else if (segment2 == "riwayat") {
+            $(".penjualan").addClass("active");
+            $(".pjrw").addClass("active");
+            $(".sidebar-list.penjualan").addClass('active');
+            $(".sidebar-list.penjualan .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.penjualan ul.sidebar-submenu").slideDown('normal'); 
         }
     }else if (segment1 == "gudang") {
         if (segment2 == "lva") {

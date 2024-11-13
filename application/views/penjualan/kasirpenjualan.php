@@ -29,7 +29,7 @@
                               <h4>Form Order</h4>
                           </div>
                           <div class="card-body custom-input">
-                              <form class="row g-3 mb-4">
+                              <form class="row g-3 mb-4" id="form-order">
                                     <!-- ORDER ID -->
                                     <div class="col-md-6 position-relative">
                                       <label class="form-label" for="ordid">ORDER ID</label>
@@ -110,13 +110,16 @@
                                     <!-- Catatan -->
                                     <div class="col-md-12 position-relative">
                                       <div class="form-floating">
-                                        <textarea class="form-control" id="floatingTextarea" placeholder="Buat Catatan Disini"></textarea>
+                                        <textarea class="form-control" id="txtcatatan" name="txtcatatan" placeholder="Buat Catatan Disini"></textarea>
                                         <label for="floatingTextarea">Catatan (Opsional)</label>
                                       </div>
                                     </div>                                    
                                     <!-- Submit Pesanan -->
                                     <div class="col-md-12 position-relative">
-                                      <button class="btn btn-success-gradien cart-btn-transform" type="submit">PROSES PESANAN</button>
+                                      <button class="btn btn-success-gradien cart-btn-transform" id="btn_submit" type="submit">
+                                        <span id="spinner_submit" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
+                                        <span id="tx_submit">PROSES PESANAN</span>
+                                      </button>
                                     </div>
                               </form>
                           </div>

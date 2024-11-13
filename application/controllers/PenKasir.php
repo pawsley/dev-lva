@@ -8,6 +8,7 @@ class PenKasir extends Auth
   {
     parent::__construct();
     $this->load->model('PenKasir_model');
+    $this->load->library('QrcodeGenerator');
   }
 
   public function index(){
@@ -39,7 +40,7 @@ class PenKasir extends Auth
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
-    <script src="' . base_url('assets/js/additional-js/penkasir.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/penkasir.js?v=1.2') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.2') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -93,6 +94,53 @@ class PenKasir extends Auth
     $results = $this->PenKasir_model->getDataTipeAgen($searchTerm);
     header('Content-Type: application/json');
     echo json_encode($results);
+  }
+  public function createorder(){
+    if ($this->input->is_ajax_request()) {
+      $orderData = [
+        'id_order' => $this->input->post('order_id'),
+        'id_cst' => $this->input->post('selcst'),
+        'id_karyawan' => $this->session->userdata('id_karyawan'),
+        'tanggal_order' => $this->input->post('orderdate'),
+        'catatan_order' => $this->input->post('catatan'),
+        'presentase_diskon' => $this->input->post('predis'),
+        'nominal_diskon' => $this->input->post('nomdis'),
+        'sub_total' => $this->input->post('sub'),
+        'grand_total'=> $this->input->post('grand')
+      ];
+      $result = $this->PenKasir_model->addOrder($orderData);
+      if ($result) {
+        $table_data = json_decode($this->input->post('table_data'), true);
+        foreach ($table_data as $item) {
+          $orderDetails = [
+              'id_order' => $this->input->post('order_id'),
+              'id_katalog' => $item['id_katalog'],
+              'id_katalog_dtl' => $item['id_katalog_dtl'],
+              'detail_size' => $item['detail_size'],
+              'qty_order' => $item['qty_order'],
+              'harga_jual_order' => $item['harga_jual_order'],
+          ];
+          $this->PenKasir_model->addOrderDetail($orderDetails);
+        }
+
+        $qrdata = str_replace('/', '_', $this->input->post('order_id'));
+        $customDir = './assets/lvaimages/qrcode_order/';
+        $this->qrcodegenerator->generate($qrdata, $customDir);
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Berhasil dibuat.'
+        ];
+      } else {
+        $response = [
+            'status' => 'error',
+            'message' => 'Gagal dibuat.'
+        ];
+      }
+      echo json_encode($response);
+    } else {
+      show_404();
+    }
   }
 
 }
