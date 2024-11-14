@@ -64,3 +64,7 @@ var formatdecimal = new Intl.NumberFormat('id-ID', {
     style: 'decimal',
     minimumFractionDigits: 0
 });
+function formatDateForTable(date) {
+    var options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('id-ID', options);
+}

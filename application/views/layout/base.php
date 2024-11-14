@@ -230,9 +230,9 @@
                     </div>
                   </li>
                   <!-- Status Order -->
-                  <li class="sidebar-list">
+                  <li class="sidebar-list stato">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="index.html">
+                    <a class="sidebar-link sidebar-title link-nav stato" href="<?= base_url()?>status-order">
                         <svg class="stroke-icon">
                             <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-task"></use>
                         </svg>

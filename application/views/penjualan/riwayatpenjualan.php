@@ -8,9 +8,9 @@
                 <div class="col-6">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html">                                       
+                        <a href="<?=base_url()?>">                                       
                             <svg class="stroke-icon">
-                            <use href="../assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                            <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
                             </svg>
                         </a>
                     </li>
@@ -29,44 +29,18 @@
                 <div class="card height-equal"> 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="display" id="basic-1">
+                        <table class="display" id="table-riwayatp">
                             <thead> 
                                 <tr>
-                                  <th><span class="f-light f-w-600">TANGGAL</span></th>
-                                  <th style="min-width: 100px;"><span class="f-light f-w-600">ID INVOICE</span></th>
-                                  <th style="min-width: 100px;"><span class="f-light f-w-600">ID TRANSAKSI</span></th>
-                                  <th style="min-width: 100px;"><span class="f-light f-w-600">ID CUSTOMER</span></th>
-                                  <th style="min-width: 100px;"><span class="f-light f-w-600">NOMINAL HARGA</span></th>
-                                  <th><span class="f-light f-w-600">TOMBOL AKSI</span></th>
+                                  <th style="min-width: 180px;"><span class="f-light f-w-600">ORDER ID</span></th>
+                                  <th style="min-width: 50px;"><span class="f-light f-w-600">TANGGAL</span></th>
+                                  <th style="min-width: 100px;"><span class="f-light f-w-600">CUSTOMER</span></th>
+                                  <th style="min-width: 100px;"><span class="f-light f-w-600">GRAND TOTAL</span></th>
+                                  <th style="min-width: 40px;"><span class="f-light f-w-600">STATUS</span></th>
+                                  <th style="min-width: 20px;"><span class="f-light f-w-600">AKSI</span></th>
                                 </tr>
                             </thead>
                             <tbody> 
-                              <!-- Data Produk 1 -->
-                              <tr class="odd" role="row">
-                                <td>
-                                    <p class="f-light">2024/02/05</p>
-                                </td>
-                                <td>
-                                    <p class="f-light">INVS-00001</p>
-                                </td>
-                                <td>
-                                    <p class="f-light">5678312345670</p>
-                                </td>
-                                <td>
-                                    <p class="f-light">ELVC-0001</p>
-                                </td>
-                                <td>
-                                    <p class="f-light f-w-600 text-success">Rp3.204.000</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <button class="btn btn-info"><i class="fa fa-truck"></i></button>
-                                        <button class="btn btn-info"><i class="fa fa-envelope"></i></button>
-                                        <button class="btn btn-info"><i class="fa fa-file-text-o"></i></button>
-                                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#DetailTransaksi"><i class="fa fa-eye"></i></button>
-                                    </div>
-                                </td>
-                              </tr>
                             </tbody>
                         </table>
                     </div>

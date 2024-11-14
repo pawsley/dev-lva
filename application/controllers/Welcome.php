@@ -5,13 +5,18 @@ class Welcome extends Auth {
 	public function index(){
 		$data['content'] = $this->load->view('dashboard/index', '', true);
 		$data['modal'] = '';
-		$data['css'] = '';
+		$data['css'] = '
+		    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">';
 		$data['js'] = '<script>var base_url = "' . base_url() . '";</script>
 			<script src="' . base_url() . 'assets/js/counter/jquery.waypoints.min.js"></script>
 			<script src="' . base_url() . 'assets/js/counter/jquery.counterup.min.js"></script>
 			<script src="' . base_url() . 'assets/js/counter/counter-custom.js"></script>
 			<script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
 			<script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
+    		<script src="' . base_url('assets/js/additional-js/penstatusorder.js') . '"></script>
+			<script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.3') . '"></script>
 			<script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
 			<script src="' . base_url() . 'assets/js/animation/wow/wow.min.js"></script>
 			<script src="' . base_url('assets/js/additional-js/dashboard.js') . '"></script>

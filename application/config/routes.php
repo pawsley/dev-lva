@@ -112,7 +112,12 @@ $route['penjualan/kasir']='PenKasir';
 $route['penjualan/data-katalog']='PenKasir/loadkatalog';
 $route['penjualan/pengiriman']='PenKirim';
 $route['penjualan/riwayat']='PenRiwayat';
+$route['penjualan/list-riwayat']='PenRiwayat/tableriwayat';
 $route['penjualan/transaksi']='PenTrans';
+// status order
+$route['status-order']='StatusOrder';
+$route['status-order/list']='StatusOrder/tablestatorder';
+$route['status-order/detail']='StatusOrder/tabledetailorder';
 // Pembelian 
 $route['pembelian/pembelian-material']='PemMaterial';
 $route['pembelian/input-data']='PemMaterial/createdata';

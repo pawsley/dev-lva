@@ -131,6 +131,8 @@ $(document).ready(function () {
             $(".sidebar-list.gudang .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.gudang ul.sidebar-submenu").slideDown('normal');
         }
+    }else if (segment1 == "status-order"){
+        $(".stato").addClass("active");
     }
     $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();
