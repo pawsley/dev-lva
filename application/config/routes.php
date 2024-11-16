@@ -125,6 +125,7 @@ $route['pembelian/delete-data']='PemMaterial/deletedata';
 $route['pembelian/approve-data']='PemMaterial/approvepmb';
 $route['pembelian/terima-data']='PemMaterial/approvegd';
 $route['pembelian/terima-data-lva']='PemMaterial/approvegdlva';
+$route['pembelian/list-material']='PemMaterial/tablematerial';
 $route['pembelian/list-pembelian']='PemMaterial/tablepmbmtr';
 $route['pembelian/list-pembelian-detail']='PemMaterial/tablepmbdtl';
 // Printing Material

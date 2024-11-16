@@ -41,8 +41,8 @@ class PemMaterial extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/pmbmaterial.js?v=1.1') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pmbmaterial.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.2') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
@@ -154,10 +154,16 @@ class PemMaterial extends Auth
     $inv = $this->input->post('invid');
     $this->load->library('datatables');
     $this->datatables->select('CONCAT(kode_material, "|", nama_material) as material, kode_material, nama_material, 
-    CONCAT(kat_material, " ", merk_material, " " ,warna_material, " ",sat_material) as detail, kat_material, merk_material, warna_material, sat_material, 
+    CONCAT(kat_material, " " ,warna_material, " ",sat_material) as detail, kat_material, warna_material, sat_material, 
     img_material, qty_pb_dtl, nominal_pb_dtl, total_pb_dtl');
     $this->datatables->from('vpmbmtr');
     $this->datatables->where('id_pembelian',$inv);
+    return print_r($this->datatables->generate());
+  }
+  public function tablematerial()  {
+    $this->load->library('datatables');
+    $this->datatables->select('kode_material, nama_material, kat_material, warna_material, sat_material, material_need, harga_material, img_material');
+    $this->datatables->from('vmaterial_need');
     return print_r($this->datatables->generate());
   }
   public function deletedata() {

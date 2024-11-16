@@ -569,8 +569,6 @@ function tabdtl(inv) {
                             return `
                                 <ul class="list-group list-group-horizontal">
                                     <li class="list-group-item">${row.kat_material}</li>
-                                    <li class="list-group-item">${row.merk_material}</li>
-                                    <li class="list-group-item">${row.sat_material}</li>
                                     <li class="list-group-item">${row.warna_material}</li>
                                 </ul>
                             `;
@@ -580,6 +578,12 @@ function tabdtl(inv) {
                 },
                 {
                     "data": "qty_pb_dtl",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return `<span>${data+' '+row.sat_material}</span>`;
+                        }
+                        return data;
+                    }
                 },
                 {
                     "data": "nominal_pb_dtl",
@@ -743,7 +747,7 @@ function tabmat() {
                 [1, 'asc']
             ],
             "ajax": {
-                "url": base_url + 'master-material/list-material',
+                "url": base_url + 'pembelian/list-material',
                 "type": "POST",
                 "complete": function() {
                     reapplyState();  // Reapply state and calculations after DataTable is fully loaded
@@ -777,8 +781,6 @@ function tabmat() {
                             return `
                                 <ul class="list-group list-group-horizontal">
                                     <li class="list-group-item">${row.kat_material}</li>
-                                    <li class="list-group-item">${row.merk_material}</li>
-                                    <li class="list-group-item">${row.sat_material}</li>
                                     <li class="list-group-item">${row.warna_material}</li>
                                 </ul>
                             `;
@@ -793,7 +795,8 @@ function tabmat() {
                         let disabled = checkboxStates[row.kode_material] ? '' : 'disabled';
                         return `
                             <div class="input-group has-validation">
-                                <input class="form-control input-qty" required id="${inputId}" type="number" ${disabled}>
+                                <input class="form-control input-qty" required id="${inputId}" value="${row.material_need}" type="number" ${disabled}>
+                                <span class="input-group-text">${row.sat_material}</span>
                             </div>
                         `;
                     },
@@ -807,7 +810,7 @@ function tabmat() {
                         return `
                             <div class="input-group has-validation">
                                 <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">Rp</span>
-                                <input class="form-control input-hrg" required id="${inputId}" type="text" onkeyup="formatRupiah(this);" ${disabled}>
+                                <input class="form-control input-hrg" required id="${inputId}" type="text" value="${formatcur.format(row.harga_material)}" onkeyup="formatRupiah(this);" ${disabled}>
                             </div>
                         `;
                     },
@@ -821,7 +824,7 @@ function tabmat() {
                         return `
                             <div class="input-group has-validation">
                                 <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">Rp</span>
-                                <input class="form-control input-total" required id="${inputId}" type="text" onkeyup="formatRupiah(this);" ${disabled} readonly>
+                                <input class="form-control input-total" required id="${inputId}" type="text" value="${formatcur.format((row.material_need * row.harga_material))}" onkeyup="formatRupiah(this);" ${disabled} readonly>
                             </div>
                         `;
                     },
@@ -885,10 +888,17 @@ function updateInputs(kode_material, isChecked, applyFocus = false) {
 
     if (isChecked) {
         qtyInput.prop('disabled', false);
-        
+        var qty = parseFloat(qtyInput.val()) || 0;
+        var hrg = parseFloat(hrgInput.val().replace(/\D/g, '')) || 0;
+        var total = qty * hrg;
         // Apply focus if required
         if (applyFocus) {
-            setTimeout(() => { qtyInput.focus(); }, 0); 
+            setTimeout(() => { qtyInput.focus(); }, 100); 
+        }
+        if (qty !== 0 || hrg !== 0 || total !== 0) {
+            localStorage.setItem(kode_material + '_qty', qty);
+            localStorage.setItem(kode_material + '_hrg', hrg);
+            localStorage.setItem(kode_material + '_total', total);
         }
         
         var storedQty = localStorage.getItem(kode_material + '_qty');
@@ -899,9 +909,9 @@ function updateInputs(kode_material, isChecked, applyFocus = false) {
         hrgInput.prop('disabled', false).val(storedHrg ? formatcur.format(storedHrg) : '');
         totalInput.prop('disabled', false).val(storedTotal ? formatcur.format(storedTotal) : '');
     } else {
-        qtyInput.prop('disabled', true).val('0');
-        hrgInput.prop('disabled', true).val('0');
-        totalInput.prop('disabled', true).val('0');
+        qtyInput.prop('disabled', true)
+        hrgInput.prop('disabled', true)
+        totalInput.prop('disabled', true)
 
         // Remove items from localStorage
         localStorage.removeItem(kode_material + '_qty');
