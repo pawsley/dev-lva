@@ -133,3 +133,5 @@ $route['pembelian/print-material']='PriMaterial';
 // Gudang
 $route['gudang/lva']='Gudang/gudanglva';
 $route['gudang/ldp']='Gudang/gudangldp';
+// produksi
+$route['produksi/produksi-baru']='ProdOrder';

@@ -292,8 +292,8 @@
                         <span>Produksi</span>
                     </a>
                     <ul class="sidebar-submenu">
-                      <li class="prb"><a class="prb" href="<?=base_url()?>produksi/order-baru">Order Baru</a></li>
-                      <li class="prj"><a class="prj" href="<?=base_url()?>produksi/proses-jahit">Proses Jahit</a></li>
+                      <li class="prb"><a class="prb" href="<?=base_url()?>produksi/produksi-baru">Produksi Baru</a></li>
+                      <li class="prj"><a class="prj" href="<?=base_url()?>produksi/proses-jahit">List Produksi</a></li>
                       <li class="prf"><a class="prf" href="<?=base_url()?>produksi/finishing">Finishing</a></li>
                       <li class="prs"><a class="prs" href="<?=base_url()?>produksi/stok">Stok</a></li>
                     </ul>
@@ -365,6 +365,6 @@
       var segment1 = "<?php echo $this->uri->segment(1); ?>";
       var segment2 = "<?php echo $this->uri->segment(2); ?>";
     </script>
-    <script src="<?=base_url()?>assets/js/additional-js/base.js?v=1.2"></script>
+    <script src="<?=base_url()?>assets/js/additional-js/base.js?v=1.3"></script>
   </body>
 </html>        

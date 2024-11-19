@@ -131,6 +131,14 @@ $(document).ready(function () {
             $(".sidebar-list.gudang .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.gudang ul.sidebar-submenu").slideDown('normal');
         }
+    }else if (segment1 == "produksi"){
+        if (segment2 == "produksi-baru") {
+            $(".produksi").addClass("active");
+            $(".prb").addClass("active");
+            $(".sidebar-list.produksi").addClass('active');
+            $(".sidebar-list.produksi .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.produksi ul.sidebar-submenu").slideDown('normal'); 
+        }
     }else if (segment1 == "status-order"){
         $(".stato").addClass("active");
     }
