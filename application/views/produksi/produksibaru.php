@@ -31,15 +31,15 @@
                             <form class="row g-3 mb-4" id="form-prodbaru">
                                 <!-- ORDER ID -->
                                 <div class="col-md-4 position-relative">
-                                    <label class="form-label" for="ordid">PRODUKSI ID</label>
-                                    <input class="form-control" id="ordid" name="ordid" type="text" placeholder="Terisi Otomatis" required readonly>
+                                    <label class="form-label" for="prdid">PRODUKSI ID</label>
+                                    <input class="form-control" id="prdid" name="prdid" type="text" placeholder="Terisi Otomatis" required readonly>
                                 </div>
                                 <div class="col-md-4 position-relative">
                                     <label class="form-label" for="dateprod">TANGGAL PRODUKSI</label>
                                     <input class="form-control digits" id="dateprod" name="dateprod" type="date">
                                 </div>
                                 <div class="col-md-4 position-relative">
-                                    <label class="form-label" for="duedateprod">TANGGAL PRODUKSI SELESAI</label>
+                                    <label class="form-label" for="duedateprod">TANGGAL PRODUKSI SELESAI (+14 Hari)</label>
                                     <input class="form-control digits" id="duedateprod" name="duedateprod" type="date">
                                 </div>
                                 <div class="col-md-6 position-relative">
@@ -48,8 +48,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 position-relative">
-                                    <label class="form-label" for="statmtr">STATUS ORDER</label>
-                                    <button type="button" class="btn btn-light form-control disabled">Belum Ada Status</button> 
+                                    <label class="form-label">STATUS ORDER</label>
+                                    <button type="button" class="btn btn-light form-control disabled" id="info-stat">Belum Ada Status</button> 
                                 </div>
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="cst">CUSTOMER</label>
@@ -77,8 +77,7 @@
                                         <th style="width: 30%">PRODUK</th>
                                         <th style="width: 5%">SIZE</th>
                                         <th style="width: 20%">DETAIL MATERIAL</th>
-                                        <th style="width: 10%">QUANTITY</th>
-                                        <th style="width: 20%">TOTAL</th>
+                                        <th style="width: 10%">QUANTITY ORDER</th>
                                         </tr>
                                     </thead>
                                     <tbody id="list-prodbaru">
@@ -89,7 +88,7 @@
                                 <div class="col-md-12 position-relative">
                                     <div class="form-floating">
                                     <textarea class="form-control" id="txtcatatan" name="txtcatatan" placeholder="Buat Catatan Disini"></textarea>
-                                    <label for="floatingTextarea">Keterangan (Opsional)</label>
+                                    <label>Keterangan (Opsional)</label>
                                     </div>
                                 </div>                                    
                                 <!-- Submit PRODUKSI -->

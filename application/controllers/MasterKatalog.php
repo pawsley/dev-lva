@@ -228,7 +228,7 @@ class MasterKatalog extends Auth
   public function tableaddmaterial($iddtl)  {
     $this->load->library('datatables');
     $search = $this->input->post('search');
-    $this->datatables->select('kode_material, id_katalog_dtl, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material');
+    $this->datatables->select('kode_material, id_katalog_dtl, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material, qty');
     $this->datatables->from('vkatalog_bahan');
     if (!empty($search)) {
       $searchTerms = explode(' ', $search);
@@ -256,9 +256,21 @@ class MasterKatalog extends Auth
                 'qty_material' => $material['qty'],
                 'hpp_bahan' => $material['tharga']
             ];
+            $cekdata = $this->db->query(
+              'SELECT id_katalog_dtl, kode_material 
+               FROM tb_katalog_material 
+               WHERE id_katalog_dtl = ? AND kode_material = ?', 
+              [$material['idtl'], $material['kodem']]
+              )->result();
 
-            $this->Mkatalog_model->addlogmtr($data);
-            $totalHarga += $material['tharga'];
+              if (count($cekdata) > 0) {
+                  $this->Mkatalog_model->updlogmtr($material['idtl'], $material['kodem'], $data);
+              } else { // Otherwise, add it
+                  $this->Mkatalog_model->addlogmtr($data);
+              }
+
+              // Accumulate the total cost
+              $totalHarga += $material['tharga'];
         }
 
         $idtl = $materials[0]['idtl'];

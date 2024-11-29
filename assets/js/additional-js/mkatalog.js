@@ -961,11 +961,11 @@ function tabaddmtr(idtl) {
                     }
                 },
                 { 
-                    "data": null,
+                    "data": "qty",
                     "render": function(data, type, row) {
                         return `
                             <div class="input-group has-validation">
-                                <input class="form-control" type="number" step="0.01" min="0" name="qty" id="qty" placeholder="0" required>
+                                <input class="form-control" type="number" step="0.01" min="0" name="qty" id="qty" placeholder="0" value="${row.qty}" required>
                                 <span class="input-group-text">${row.sat_material}</span>
                             </div>
                         `;

@@ -2,7 +2,64 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ProdOrder_model extends CI_Model {
-
+    public function getLastKode($year, $month) {
+        $this->db->select('no_produksi');
+        $this->db->from('tb_produksi');
+        $this->db->like('no_produksi', "$year$month", 'after');
+        $this->db->order_by('no_produksi', 'desc');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getPoId($searchTerm, $ido) {
+        $this->db->select(['id_order', 'nama_cst','wa_cst','email_cst','status','tipe_cst']);
+        $this->db->from('vorder');
+        if ($searchTerm) {
+            $this->db->group_start();
+            $this->db->like('id_order', $searchTerm);
+            $this->db->or_like('nama_cst', $searchTerm);
+            $this->db->group_end();
+        }
+        if ($ido !== null) {
+            $this->db->where('id_order',$ido);
+        }
+        $this->db->where_in('status',['Approve']);
+        $this->db->group_by('id_order');
+        $this->db->order_by('id_order', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getListDataPo($ido) {
+        $this->db->select(['id_katalog','id_katalog_dtl', 'nama_katalog','img_katalog','qty_order','detail_size']);
+        $this->db->from('vorder');
+        if ($ido !== null) {
+            $this->db->where('id_order',$ido);
+        }
+        $this->db->where_in('status',['Approve']);
+        $this->db->order_by('id_katalog_dtl', 'asc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getListDataPoMaterial($idkdl) {
+        $this->db->select(['id','tkm.id_katalog_dtl','tm.kode_material','tm.nama_material','tm.sat_material','qty_material']);
+        $this->db->from('vorder vo');
+        $this->db->join('tb_katalog_material tkm', 'tkm.id_katalog_dtl = vo.id_katalog_dtl');
+        $this->db->join('tb_material tm', 'tkm.kode_material = tm.kode_material');
+        if ($idkdl !== null) {
+            $this->db->where('tkm.id_katalog_dtl',$idkdl);
+        }
+        $this->db->where_in('vo.status',['Approve']);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function addProd($data){
+        $insert = $this->db->insert('tb_produksi', $data);
+        return $insert;    
+    }
+    public function addProdDtl($data){
+        $insert = $this->db->insert('tb_produksi_dtl', $data);
+        return $insert;    
+    }
 }
 
 /* End of file ProdOrder_model.php */
