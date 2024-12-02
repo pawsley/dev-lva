@@ -52,7 +52,7 @@ class MasterKaryawan extends Auth
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/mkaryawan.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkaryawan.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
@@ -166,7 +166,7 @@ class MasterKaryawan extends Auth
       $id = $this->input->post('eid');
       $fileupload = isset($_FILES['e_filecv']) ? $_FILES['e_filecv']['name'] : null;
       $data = [
-        'nama_lengkap'     => $this->input->post('enama'),
+        'nama_karyawan'     => $this->input->post('enama'),
         'tanggal_lahir'   => $this->input->post('etgl'),
         'jen_kel'   => $this->input->post('ejk'),
         'email'   => $this->input->post('email'),
@@ -178,13 +178,15 @@ class MasterKaryawan extends Auth
         'alamat'      => $this->input->post('ealamat'),
         'no_wa'  => $this->input->post('ewa'),
         'file_cv'  => $this->input->post('efile'),
-        'jabatan'  => $this->input->post('ejabatan'),
         'role_user'  => $this->input->post('erole'),
         'gaji'  => $this->input->post('egaji'),
+        'tipe_gaji'  => $this->input->post('etg'),
+        'bank_acc'  => $this->input->post('ebank'),
+        'norek'  => $this->input->post('enorek'),
         'status'      => $this->input->post('estatus'),
       ];
 
-      $file_path = realpath(APPPATH . '../assets/dhdokumen/karyawan');
+      $file_path = realpath(APPPATH . '../assets/pdf/cvkaryawan');
       $config['upload_path'] = $file_path;
       $config['allowed_types'] = 'pdf';
       $config['overwrite'] = true;

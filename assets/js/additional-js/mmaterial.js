@@ -412,13 +412,12 @@ function edgetselect2() {
             cache: false,
         },
     });
-    $('#emrkm').select2({
-        language: 'id',
+    $('#etipk').select2({
         dropdownParent: $("#EditMasterMaterial"),
+        language: 'id',
         ajax: {
             url: function() {
-                let val = 'MRK';
-                return base_url + 'MasterMaterial/loadkat/' + val;
+                return base_url + 'MasterMaterial/loadkatsize/';
             },
             dataType: 'json',
             delay: 250,
@@ -431,7 +430,7 @@ function edgetselect2() {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            id: item.nama,
+                            id: item.id,
                             text: item.nama,
                         };
                     }),
@@ -530,6 +529,13 @@ function tabmat() {
                         return data;
                     },
                 },
+                { "data": "tipe_material"},
+                { "data": "nama" },
+                { "data": "harga_material",
+                    "render": function (data, type, row) {
+                        return formatcurrency.format(data);
+                    }
+                },
                 { "data": "kat_material"},
                 { "data": "warna_material" },
                 { "data": "sat_material" },
@@ -545,6 +551,7 @@ function tabmat() {
                                             <button class="btn" id="edit-btn" type="button" 
                                                 data-id="${data}" data-nm="${full.nama_material}" data-kt="${full.kat_material}"
                                                 data-mk="${full.merk_material}" data-wn="${full.warna_material}" data-st="${full.sat_material}" data-img="${full.img_material}"
+                                                data-tm="${full.tipe_material}" data-hm="${full.harga_material}" data-idsc="${full.id_sizechart}" data-nmtk="${full.nama}"
                                                 data-bs-toggle="modal" data-bs-target="#EditMasterMaterial">
                                                 <i class="icon-pencil"></i>
                                             </button>
@@ -675,6 +682,9 @@ function editmtrl() {
     
         $('#eidm').val(button.data('id'));
         $('#enmm').val(button.data('nm'));
+        $('#etipm').val(button.data('tm'));
+        $('#enhm').val(formatdecimal.format(button.data('hm')));
+        $("#etipk").empty().append('<option value="' + button.data('idsc') + '">' + button.data('nmtk') + '</option>').trigger('change.select2');
         $("#ekatm").empty().append('<option value="' + button.data('kt') + '">' + button.data('kt') + '</option>').trigger('change.select2');
         $("#ewrnm").empty().append('<option value="' + button.data('wn') + '">' + button.data('wn') + '</option>').trigger('change.select2');
         $("#esatm").empty().append('<option value="' + button.data('st') + '">' + button.data('st') + '</option>').trigger('change.select2');
@@ -700,6 +710,9 @@ function updatedata() {
         // Add other form data
         formData.append('eidm', $('#eidm').val());
         formData.append('enmm', $('#enmm').val());
+        formData.append('etipm', $('#etipm').val());
+        formData.append('etipk', $('#etipk').val());
+        formData.append('enhm', $('#enhm').val());
         formData.append('ekatm', $('#ekatm').val());
         formData.append('ewrnm', $('#ewrnm').val());
         formData.append('esatm', $('#esatm').val());

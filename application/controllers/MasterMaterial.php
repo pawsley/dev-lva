@@ -151,8 +151,8 @@ class MasterMaterial extends Auth
   }
   public function tablematerial()  {
     $this->load->library('datatables');
-    $this->datatables->select('kode_material, nama_material, kat_material, warna_material, sat_material,  tipe_material, harga_material, img_material, status');
-    $this->datatables->from('tb_material');
+    $this->datatables->select('kode_material, nama, id_sizechart, nama_material, kat_material, warna_material, sat_material,  tipe_material, harga_material, img_material, status');
+    $this->datatables->from('vmaterial');
     return print_r($this->datatables->generate());
   }
   public function createpost(){
@@ -218,7 +218,6 @@ class MasterMaterial extends Auth
         $data = [
             'nama_material' => $this->input->post('enmm'),
             'kat_material' => $this->input->post('ekatm'),
-            'merk_material' => $this->input->post('emrkm'),
             'warna_material' => $this->input->post('ewrnm'),
             'sat_material' => $this->input->post('esatm'),
             'img_material' => $oldImage // Default to old image

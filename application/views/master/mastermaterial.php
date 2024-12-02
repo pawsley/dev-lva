@@ -131,9 +131,12 @@
                                 <tr>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">ID MATERIAL</span></th>
                                     <th style="text-align:center; min-width: 150px;"><span class="f-light f-w-600">NAMA MATERIAL</span></th>
+                                    <th style="min-width: 100px;"><span class="f-light f-w-600">TIPE MATERIAL</span></th>
+                                    <th style="min-width: 100px;"><span class="f-light f-w-600">TIPE KATALOG</span></th>
+                                    <th style="min-width: 100px;"><span class="f-light f-w-600">HARGA</span></th>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">KATEGORI</span></th>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">WARNA</span></th>
-                                    <th style="min-width: 100px;"><span class="f-light f-w-600">SATUAN</span></th>
+                                    <th style="min-width: 100px;"><span class="f-light f-w-600">SATUAN</span></th>                                    
                                     <th style="text-align:center;"><span class="f-light f-w-600">AKSI</span></th>
                                 </tr>
                                 </thead>
@@ -214,6 +217,27 @@
                                     <label class="form-label" for="enmm">NAMA MATERIAL</label>
                                     <input class="form-control" id="enmm" name="enmm" type="text" placeholder="Silahkan Masukkan Nama Material" required>
                                 </div>
+                                <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="etipm">TIPE MATERIAL</label>
+                                    <select class="form-select" id="etipm" name="etipm" required="">
+                                        <option selected="" disabled="" value="0">Pilih Tipe Material</option>
+                                        <option value="Bahan Dasar">Bahan Dasar</option>
+                                        <option value="Bahan Jadi">Bahan Jadi</option>
+                                    </select>
+                                </div>
+                                <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="etipk">TIPE KATALOG</label>
+                                    <select class="form-select" id="etipk" name="etipk" required="">
+                                        <option selected="" disabled="" value="0">Pilih Tipe Katalog</option>
+                                    </select>
+                                </div>
+                                <div class="col-4 position-relative">
+                                    <label class="form-label" for="enhm">HARGA MATERIAL</label>
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text">Rp</span>
+                                        <input class="form-control" id="enhm" name="enhm" type="text" onkeyup="formatRupiah(this);" required>
+                                    </div>
+                                </div>                                
                                 <!-- Kategori Material -->
                                 <div class="col-4 position-relative"> 
                                     <label class="form-label" for="ekatm">KATEGORI MATERIAL</label>

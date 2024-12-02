@@ -133,13 +133,6 @@
                             </a>
                           <div class="valid-tooltip">Max ukuran 10Mb</div>
                         </div>
-                        <!-- Pilih Posisi -->
-                        <div class="col-md-6 position-relative">
-                          <label class="form-label" for="e_jabatan">Jabatan Karyawan</label>
-                          <select class="form-select" id="e_jabatan" name="e_jabatan" required="">
-                            <option selected="" disabled="">Pilih Jabatan Karyawan ...</option>
-                          </select>
-                        </div>
                         <!-- Pilih Role -->
                         <div class="col-md-6 position-relative">
                           <label class="form-label" for="e_role">Role Karyawan</label>
@@ -147,8 +140,28 @@
                             <option selected="" disabled="">Pilih Role Karyawan ...</option>
                           </select>
                         </div>
+                        <div class="col-md-6 position-relative">
+                          <label class="form-label" for="etg">Jenis Gaji</label>
+                          <select class="form-select" id="etg" name="etg">
+                            <option selected="" disabled="" value="">Pilih Jenis Gaji Karyawan ...</option>
+                            <option value="BULANAN">BULANAN (Gaji Dibayar Dalam Tempo Bulanan)</option>
+                            <option value="BORONGAN">BORONGAN (Gaji Dibayar Per Project Selesai)</option>
+                          </select>
+                        </div>
+                        <!-- BANK AKUN -->
+                        <div class="col-md-4 position-relative"> 
+                            <label class="form-label" for="ebank">Akun Bank</label>
+                            <select class="form-select" id="ebank" name="ebank">
+                                <option selected="" disabled="" value="">Pilih Bank Akun</option>
+                            </select>
+                        </div>
+                        <!-- NOMOR REKENING -->
+                        <div class="col-md-4 position-relative"> 
+                            <label class="form-label" for="enorek">Nomor Rekening</label>
+                            <input class="form-control" id="enorek" name="enorek" type="number" placeholder="Input Nomor Rekening" aria-label="NomorRekening">
+                        </div>                        
                         <!-- Masukkan Gaji Karyawan -->
-                        <div class="col-md-12 position-relative">
+                        <div class="col-md-4 position-relative">
                           <label class="form-label" for="e_gaji">Gaji Karyawan</label>
                           <div class="input-group has-validation">
                               <span class="input-group-text">Rp</span>

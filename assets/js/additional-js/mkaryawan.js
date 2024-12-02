@@ -200,8 +200,8 @@ function getid() {
             dataType: "json",
             success: function(data) {
                 $.each(data.get_id, function(index, item) {
-                    $("#e_id").val(item.id_user);
-                    $("#e_nl").val(item.nama_lengkap);
+                    $("#e_id").val(item.id_karyawan);
+                    $("#e_nl").val(item.nama_karyawan);
                     $("#e_tl").val(item.tanggal_lahir);
                     $("#e_jk").val(item.jen_kel);
                     $("#e_email").val(item.email);
@@ -213,11 +213,14 @@ function getid() {
                     $("#e_alamat").val(item.alamat);
                     $("#e_wa").val(item.no_wa);
                     $("#oldfile").val(item.file_cv);
-                    $("#filecv_filename").attr("href", base_url+"assets/dhdokumen/karyawan/" + item.file_cv);
+                    $("#filecv_filename").attr("href", base_url+"assets/pdf/cvkaryawan/" + item.file_cv);
                     $("#filecv").text(item.file_cv);
-                    $("#e_jabatan").empty().append('<option value="' + item.jabatan + '">' +item.jabatan+ '</option>').trigger('change.select2');
+                    // $("#e_jabatan").empty().append('<option value="' + item.jabatan + '">' +item.jabatan+ '</option>').trigger('change.select2');
                     $("#e_role").empty().append('<option value="' + item.role_user + '">' +item.role_user+ '</option>').trigger('change.select2');
                     $("#e_gaji").val(item.gaji);
+                    $("#etg").val(item.tipe_gaji);
+                    $("#enorek").val(item.norek);
+                    $("#ebank").empty().append('<option value="' + item.bank_acc + '">' +item.bank_acc+ '</option>').trigger('change.select2');
                     formatRupiah(document.getElementById("e_gaji"));
                     $("#e_status").val(item.status);
                 });
@@ -305,9 +308,11 @@ function updatedata() {
         var kode = $("#e_kode").val();
         var alamat = $("#e_alamat").val();
         var wa = $("#e_wa").val();
-        var jabatan = $("#e_jabatan").val();
         var role = $("#e_role").val();
         var gaji = parseFloat($("#e_gaji").val().replace(/\D/g, ''));
+        var etg = $("#etg").val();
+        var enorek = $("#enorek").val();
+        var ebank = $("#ebank").val();
         var status = $("#e_status").val();
         var fileInput = $('#e_filecv')[0].files[0];
         var oldfile = $("#oldfile").val();
@@ -324,9 +329,11 @@ function updatedata() {
         formData.append('ekode', kode);
         formData.append('ealamat', alamat);
         formData.append('ewa', wa);
-        formData.append('ejabatan', jabatan);
         formData.append('erole', role);
         formData.append('egaji', gaji);
+        formData.append('etg', etg);
+        formData.append('ebank', ebank);
+        formData.append('enorek', enorek);
         formData.append('estatus', status);
 
         if (fileInput) {
