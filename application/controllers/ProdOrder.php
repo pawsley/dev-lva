@@ -107,54 +107,68 @@ class ProdOrder extends Auth
       }
     imagejpeg($imageResource, $imagePath.$imageName);
   }
-  public function createprod(){
+  public function createprod() {
     if ($this->input->is_ajax_request()) {
-      $orderData = [
-        'id_order' => $this->input->post('order_id'),
-        'no_produksi' => $this->input->post('selcst'),
-        'tgl_produksi' => $this->session->userdata('id_karyawan'),
-        'tgl_produksi_selesai' => $this->input->post('orderdate'),
-        'catatan_order' => $this->input->post('catatan'),
-        'presentase_diskon' => $this->input->post('predis'),
-        'nominal_diskon' => $this->input->post('nomdis'),
-        'sub_total' => $this->input->post('sub'),
-        'grand_total'=> $this->input->post('grand')
-      ];
-      $result = $this->PenKasir_model->addOrder($orderData);
-      if ($result) {
-        $table_data = json_decode($this->input->post('table_data'), true);
-        foreach ($table_data as $item) {
-          $orderDetails = [
-              'id_order' => $this->input->post('order_id'),
-              'id_katalog' => $item['id_katalog'],
-              'id_katalog_dtl' => $item['id_katalog_dtl'],
-              'detail_size' => $item['detail_size'],
-              'qty_order' => $item['qty_order'],
-              'harga_jual_order' => $item['harga_jual_order'],
-          ];
-          $this->PenKasir_model->addOrderDetail($orderDetails);
+        // Collect production data
+        $prodData = [
+            'id_order' => $this->input->post('order_id'),
+            'no_produksi' => $this->input->post('noprod'),
+            'tgl_produksi' => $this->session->userdata('dateprod'),
+            'tgl_produksi_selesai' => $this->input->post('dateprodfinish'),
+            'jumlah_produksi' => $this->input->post('totalprod'),
+            'keterangan' => $this->input->post('catatan')
+        ];
+
+        // Insert production data into the database
+        $result = $this->ProdOrder_model->addProd($prodData);
+
+        if ($result) {
+            // Assuming `addProd` returns the inserted ID
+            $insertId = $this->db->insert_id();
+
+            // Generate a barcode for the order
+            $this->barcode($this->input->post('noprod'));
+
+            // Decode the JSON table data
+            $table_data = json_decode($this->input->post('table_data'), true);
+
+            if (!empty($table_data)) {
+                foreach ($table_data as $item) {
+                    // Prepare production detail data
+                    $prodDetails = [
+                        'no_produksi_dtl' => $item['no_produksi_dtl'], // Ensure this exists in the input
+                        'id_produksi' => $insertId,
+                        'id_odtl' => $item['id_katalog_dtl']
+                    ];
+
+                    // Insert each production detail
+                    $this->ProdOrder_model->addProdDtl($prodDetails);
+
+                    // Generate barcode for each production detail
+                    $this->barcode($item['no_produksi_dtl']);
+                }
+            }
+
+            // Return success response
+            $response = [
+                'status' => 'success',
+                'message' => 'Berhasil dibuat.'
+            ];
+        } else {
+            // Return error response if the production insertion fails
+            $response = [
+                'status' => 'error',
+                'message' => 'Gagal dibuat.'
+            ];
         }
 
-        $qrdata = str_replace('/', '_', $this->input->post('order_id'));
-        $customDir = './assets/lvaimages/qrcode_order/';
-        $this->qrcodegenerator->generate($qrdata, $customDir);
-
-        $response = [
-            'status' => 'success',
-            'message' => 'Berhasil dibuat.'
-        ];
-      } else {
-        $response = [
-            'status' => 'error',
-            'message' => 'Gagal dibuat.'
-        ];
-      }
-      echo json_encode($response);
+        // Output the JSON response
+        echo json_encode($response);
     } else {
-      show_404();
+        // Return a 404 error if not an AJAX request
+        show_404();
     }
   }
-
 }
 
 

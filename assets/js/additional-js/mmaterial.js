@@ -620,14 +620,14 @@ function createdata() {
         //     }
         // }
         var fileInput = $("#imgm")[0];
-        if (fileInput.files.length === 0) {
-            swal("Gagal menambahkan data material", "Harap pilih gambar", {
-                icon: "error",
-            }).then(function() {
-                $("#imgm").focus();
-            });
-            return;
-        }
+        // if (fileInput.files.length === 0) {
+        //     swal("Gagal menambahkan data material", "Harap pilih gambar", {
+        //         icon: "error",
+        //     }).then(function() {
+        //         $("#imgm").focus();
+        //     });
+        //     return;
+        // }
 
         var formData = new FormData();
         formData.append('kode', $("#idm").val());
