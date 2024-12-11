@@ -137,7 +137,7 @@
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">KATEGORI</span></th>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">WARNA</span></th>
                                     <th style="min-width: 100px;"><span class="f-light f-w-600">SATUAN</span></th>                                    
-                                    <th style="text-align:center;"><span class="f-light f-w-600">AKSI</span></th>
+                                    <th style="text-align:center; min-width: 50px;"><span class="f-light f-w-600">AKSI</span></th>
                                 </tr>
                                 </thead>
                                 <tbody>

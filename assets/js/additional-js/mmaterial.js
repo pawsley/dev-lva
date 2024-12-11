@@ -519,9 +519,11 @@ function tabmat() {
                     "data": "nama_material",
                     "render": function(data, type, row) {
                         if (type === "display") {
+							var imgtag = '';
+							row.img_material == null || row.img_material == "" ? '' : imgtag = `<img class="img-30 me-2" src="${base_url+'assets/lvaimages/material/'+row.img_material}" alt="material">`;
                             return `
                             <div class="product-names">
-                                <div class="light-product-box"><img class="img-fluid" src="${base_url+'assets/lvaimages/material/'+row.img_material}" alt="material-img"></div>
+                                ${imgtag}
                                 <p>${data}</p>
                             </div>
                             `;
@@ -712,7 +714,7 @@ function updatedata() {
         formData.append('enmm', $('#enmm').val());
         formData.append('etipm', $('#etipm').val());
         formData.append('etipk', $('#etipk').val());
-        formData.append('enhm', $('#enhm').val());
+        formData.append('ehrgm', $('#enhm').val());
         formData.append('ekatm', $('#ekatm').val());
         formData.append('ewrnm', $('#ewrnm').val());
         formData.append('esatm', $('#esatm').val());

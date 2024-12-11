@@ -217,8 +217,11 @@ class MasterMaterial extends Auth
         $oldImage = $this->input->post('oldimg'); // Get the old image URL
         $data = [
             'nama_material' => $this->input->post('enmm'),
+            'id_sizechart' => $this->input->post('etipk'),
+            'tipe_material' => $this->input->post('etipm'),
             'kat_material' => $this->input->post('ekatm'),
             'warna_material' => $this->input->post('ewrnm'),
+            'harga_material' => $this->input->post('ehrgm'),
             'sat_material' => $this->input->post('esatm'),
             'img_material' => $oldImage // Default to old image
         ];
