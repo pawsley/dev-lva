@@ -42,8 +42,8 @@ class MasterSize extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/msize.js?v=1.0') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/msize.js?v='.time().'') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
@@ -135,6 +135,14 @@ class MasterSize extends Auth
       show_404();
     }
   }
+  public function deletepost($idsz, $iddtl) {
+    if ($this->input->is_ajax_request()) {
+      $result = $this->Msize_model->deletesizedtl($idsz, $iddtl);
+      echo json_encode($result);
+    }else{
+      show_404();
+    }
+  }  
   public function tablesizechart()  {
     $this->load->library('datatables');
     $this->datatables->select('id_szdtl, id, nama, concat(nama, "(", ukuran, ")") as datasize, ukuran, detail_size, val_size');
