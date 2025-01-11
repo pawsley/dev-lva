@@ -6,6 +6,7 @@ $(document).ready(function() {
     tabsize();
     addsb();
     dafsb();
+    deletedtl();
 });
 function getselect2() {
     $('#selkat').select2({
@@ -170,9 +171,9 @@ function tabsize() {
                             return `
                                     <ul class="action">
                                         <div class="btn-group">
-                                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#EditMasterCustomer" 
+                                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#EditDetailSize" 
                                             data-id="${data}"><i class="icon-pencil"></i></button>
-                                            <button class="btn btn-secondary" id="delete-data" data-id="${data}"><i class="icon-trash"></i></button>
+                                            <button class="btn btn-secondary" id="delete-data" data-id="${data}" data-idsz="${full.id}"><i class="icon-trash"></i></button>
                                         </div>
                                     </ul>
                                 `;
@@ -363,6 +364,59 @@ function deletesb(val) {
                                 icon: "success",
                             }).then(function() {
                                 fetchdafsb(val)
+                            });
+                        } else {
+                            swal('Error!', response.message, 'error');
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });
+    });
+}
+function deletedtl() {
+    $(document).on('click', '#delete-data', function(e) {
+        e.preventDefault();
+        // Get the data-id of the button clicked
+        var id = $(this).data('id');
+        var idsz = $(this).data('idsz');
+
+        swal({
+            title: 'Apa anda yakin?',
+            text: 'Data yang sudah terhapus hilang permanen!',
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Delete',
+                    value: true,
+                    visible: true,
+                    className: 'btn-danger',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                // User clicked 'Delete', proceed with the deletion
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'master-size/hapus/' + idsz +'/'+ id,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Deleted!", {
+                                icon: "success",
+                            }).then(function() {
+                                tablesize.ajax.reload();
                             });
                         } else {
                             swal('Error!', response.message, 'error');

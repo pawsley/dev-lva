@@ -26,7 +26,7 @@ class MasterMaterial extends Auth
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/mmaterial.js?v='.time().' ') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>

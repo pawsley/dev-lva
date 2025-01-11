@@ -82,13 +82,13 @@
                                 </div>
                                 <form class="row g-3" id="formsize" method="post">
                                     <div class="col-md-4 position-relative">
-                                        <label class="form-label" for="size">Tipe Katalog</label>
+                                        <label class="form-label" for="selkat">Tipe Katalog</label>
                                         <select class="form-select" id="selkat" name="selkat" required="">
                                         </select>
                                         <button class="btn badge-light-primary addrow"><i class="fa fa-plus"></i> Tambah Detail Size</button>
                                     </div>
                                     <div class="col-md-8 position-relative">
-                                        <label class="form-label" for="nmdtl">Size</label>
+                                        <label class="form-label">Size</label>
                                         <div class="ipt">
                                             <div class="input-group dlog">
                                                 <input class="form-control" name="size[]" type="text" placeholder="Size" required>

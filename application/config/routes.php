@@ -71,11 +71,11 @@ $route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
 $route['master-size']='MasterSize';
 $route['master-size/add-data']='MasterSize/createpost';
 $route['master-size/list-data']='MasterSize/tablesizechart';
+$route['master-size/hapus/(:num)/(:num)'] = 'MasterSize/deletepost/$1/$2';
 // $route['master-produk/simpan-data']='MasterProduk/createpost';
 // $route['master-produk/jsondis']='MasterProduk/jsondis';
 // $route['master-produk/edit/(:any)']='MasterProduk/edit/$1';
 // $route['master-produk/update-data']='MasterProduk/updatepost';
-// $route['master-produk/hapus/(:any)'] = 'MasterProduk/deletepost/$1';
 // master katalog
 $route['katalog/daftar']='MasterKatalog';
 $route['katalog/buat-baru']='MasterKatalog/buatbaru';
