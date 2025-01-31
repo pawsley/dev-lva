@@ -7,6 +7,7 @@ $(document).ready(function() {
     addsb();
     dafsb();
     deletedtl();
+	edsize();
 });
 function getselect2() {
     $('#selkat').select2({
@@ -171,7 +172,7 @@ function tabsize() {
                             return `
                                     <ul class="action">
                                         <div class="btn-group">
-                                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#EditDetailSize" 
+                                            <button class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#EditDetailSize" 
                                             data-id="${data}"><i class="icon-pencil"></i></button>
                                             <button class="btn btn-secondary" id="delete-data" data-id="${data}" data-idsz="${full.id}"><i class="icon-trash"></i></button>
                                         </div>
@@ -204,6 +205,29 @@ function tabsize() {
                 }
             ]
         });
+    });
+}
+function edsize() {
+    $('#table-size tbody').on('click', '.edit-btn', function () {
+        var data = tablesize.row($(this).closest('tr')).data(); // Get the row data
+        console.log(data); // Log the data to the console
+
+        // Populate the modal with the data
+        $('#EditDetailSize').find('#usize').val(data.ukuran);
+        $('#EditDetailSize').find('#unmdtl').val(data.detail_size);
+        $('#EditDetailSize').find('#uvaldtl').val(data.val_size);
+        // $('#EditDetailSize').find('#val_size').val(data.val_size);
+        // $('#EditDetailSize').find('#id_szdtl').val(data.id_szdtl);
+
+        // Optionally, you can trigger an AJAX call to fetch more details if needed
+        // $.ajax({
+        //     url: base_url + 'master-size/get-detail',
+        //     type: 'POST',
+        //     data: { id: data.id_szdtl },
+        //     success: function(response) {
+        //         // Handle the response and populate the modal
+        //     }
+        // });
     });
 }
 function addsb() {

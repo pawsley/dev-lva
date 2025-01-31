@@ -109,6 +109,41 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade bd-example-modal-lg" id="EditDetailSize" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content dark-sign-up">
+                        <div class="modal-body social-profile text-start">
+                            <div class="modal-toggle-wrapper">
+                                <div class="modal-header mb-4">
+                                    <h3>Edit Size Chart</h3>
+                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form class="row g-3" id="formsize" method="post">
+                                    <div class="col-md-4 position-relative">
+                                        <label class="form-label" for="uselkat">Tipe Katalog</label>
+                                        <select class="form-select" id="uselkat" name="uselkat" required="">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-8 position-relative">
+                                        <label class="form-label">Size</label>
+                                        <div class="ipt">
+                                            <div class="input-group dlog">
+                                                <input class="form-control" name="usize" id="usize" type="text" placeholder="Size" required>
+                                                <input class="form-control" name="unmdtl" id="unmdtl" style="width: 30%;" type="text" placeholder="Masukkan Detail Size" required>
+                                                <input class="form-control" name="uvaldtl" id="uvaldtl" type="number" placeholder="0" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Button Simpan -->
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" type="submit">Edit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Modal Tambah Sub Kategori Baru -->
             <div class="modal fade" id="TambahTipeItem" tabindex="-1" role="dialog" aria-labelledby="TambahTipeItem" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">

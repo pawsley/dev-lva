@@ -21,6 +21,10 @@ class Msize_model extends CI_Model {
       return ['success' => true, 'message' => 'All Data successfully deleted.'];
     }
   }
+	public function updatesizedtl($iddtl, $data) {
+		$this->db->where('id_szdtl', $iddtl);
+    $this->db->update('tb_sizechart_dtl', $data);
+	}
 }
 
 /* End of file Msize_model.php */

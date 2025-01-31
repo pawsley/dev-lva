@@ -200,7 +200,7 @@ class MasterMaterial extends Auth
       $result = $this->Mmaterial_model->delete($id);
       $imagePath = './assets/lvaimages/material/';
       $fileName = $imagePath . $img;
-      if (file_exists($fileName)) {
+      if (file_exists($fileName) && $img !== '') {
           unlink($fileName);
       }
       echo json_encode($result);

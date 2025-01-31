@@ -142,7 +142,24 @@ class MasterSize extends Auth
     }else{
       show_404();
     }
-  }  
+  }
+	public function updatepost(){
+		if ($this->input->is_ajax_request()) {
+			
+			$id = $this->input->post('eid');
+			$data = [
+					'id_sizechart' => $this->input->post('isize'),
+					'size' => $this->input->post('size'),
+					'detail_size' => $this->input->post('dsize'),
+					'val_size' => $this->input->post('vsize'),
+			];
+
+			$this->Msize_model->updatesizedtl($id, $data);
+			echo json_encode(['status' => 'success']);
+		} else {
+			show_404();
+		}
+	}
   public function tablesizechart()  {
     $this->load->library('datatables');
     $this->datatables->select('id_szdtl, id, nama, concat(nama, "(", ukuran, ")") as datasize, ukuran, detail_size, val_size');
