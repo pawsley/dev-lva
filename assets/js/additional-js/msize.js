@@ -40,6 +40,36 @@ function getselect2() {
             cache: false,
         },
     });
+    $('#uselkat').select2({
+        language: 'id',
+        placeholder: 'Pilih Tipe',
+        dropdownParent: $("#EditDetailSize"),
+        allowClear: true,
+        ajax: {
+            url: function() {
+                let val = 'TPE';
+                return base_url + 'katalog/dafsb/' + val;
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.id,
+                            text: item.nama,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });
 }
 function rowsize() {
     $('.addrow').on('click', function(e) {
@@ -209,25 +239,49 @@ function tabsize() {
 }
 function edsize() {
     $('#table-size tbody').on('click', '.edit-btn', function () {
-        var data = tablesize.row($(this).closest('tr')).data(); // Get the row data
-        console.log(data); // Log the data to the console
-
-        // Populate the modal with the data
+        var data = tablesize.row($(this).closest('tr')).data();
+		var datsz = data.datasize.split('(')[0].trim();
+		console.log(data);
+		getselect2();
         $('#EditDetailSize').find('#usize').val(data.ukuran);
         $('#EditDetailSize').find('#unmdtl').val(data.detail_size);
         $('#EditDetailSize').find('#uvaldtl').val(data.val_size);
-        // $('#EditDetailSize').find('#val_size').val(data.val_size);
-        // $('#EditDetailSize').find('#id_szdtl').val(data.id_szdtl);
-
-        // Optionally, you can trigger an AJAX call to fetch more details if needed
-        // $.ajax({
-        //     url: base_url + 'master-size/get-detail',
-        //     type: 'POST',
-        //     data: { id: data.id_szdtl },
-        //     success: function(response) {
-        //         // Handle the response and populate the modal
-        //     }
-        // });
+		$('#EditDetailSize').find("#uselkat").empty().append('<option value="' + data.id + '">' + datsz + '</option>').trigger('change.select2');
+		updatedata(data.id_szdtl);
+    });
+}
+function updatedata(id) {
+    $("#editdtl").off('click').on("click", function (e) {
+        e.preventDefault();
+		var formData = new FormData();
+        formData.append('eid', id);
+        formData.append('size', $('#usize').val());
+        formData.append('dsize', $('#unmdtl').val());
+        formData.append('vsize', $('#uvaldtl').val());
+        formData.append('isize', $('#uselkat').val());
+    
+        $.ajax({
+            url: base_url + 'master-size/update-data',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                swal("Berhasil diupdate", {
+                    icon: "success",
+                    buttons: false,
+                    timer: 1000
+                }).then(function() {
+                    $('#EditDetailSize').modal('hide');
+                    tablesize.ajax.reload();
+                });
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                swal("Error", "Failed to update data", "error");
+                console.error('Error:', status, error);
+            }
+        });
     });
 }
 function addsb() {

@@ -136,7 +136,7 @@
                                     </div>
                                     <!-- Button Simpan -->
                                     <div class="col-12">
-                                        <button class="btn btn-primary" type="submit">Edit</button>
+                                        <button class="btn btn-primary" id="editdtl" type="submit">Edit</button>
                                     </div>
                                 </form>
                             </div>
