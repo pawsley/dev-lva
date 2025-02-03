@@ -2,11 +2,24 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ProdOrder_model extends CI_Model {
-    public function getLastKode($year, $month) {
-        $this->db->select('no_produksi');
-        $this->db->from('tb_produksi');
-        $this->db->like('no_produksi', "$year$month", 'after');
-        $this->db->order_by('no_produksi', 'desc');
+	public function getLastKode($year, $month) {
+		$this->db->select('no_produksi');
+		$this->db->from('tb_produksi');
+		$this->db->like('no_produksi', "$year$month");
+		$this->db->order_by('no_produksi', 'DESC');
+		$this->db->limit(1);
+	
+		$query = $this->db->get();
+		$result = $query->row_array();
+	
+		return $result ? $result['no_produksi'] : null;
+	}
+	
+    public function getLastKodeDtl($year, $month) {
+        $this->db->select('no_produksi_dtl');
+        $this->db->from('tb_produksi_dtl');
+        $this->db->like('no_produksi_dtl', "$year$month");
+        $this->db->order_by('no_produksi_dtl', 'desc');
         $this->db->limit(1);
         $query = $this->db->get();
         return $query->result_array();
@@ -54,11 +67,31 @@ class ProdOrder_model extends CI_Model {
     }
     public function addProd($data){
         $insert = $this->db->insert('tb_produksi', $data);
-        return $insert;    
+		if ($insert) {
+			return true; 
+		} else {
+			return false; 
+		}
+		// $response = [
+		// 	'status' => $insert ? 'success' : 'error',
+		// 	'message' => $insert ? 'Berhasil' : 'Gagal',
+		// ];
+		
+		// return json_encode($response); 
     }
     public function addProdDtl($data){
         $insert = $this->db->insert('tb_produksi_dtl', $data);
-        return $insert;    
+		if ($insert) {
+			return true; 
+		} else {
+			return false; 
+		}
+		// $response = [
+		// 	'status' => $insert ? 'success' : 'error',
+		// 	'message' => $insert ? 'Berhasil' : 'Gagal',
+		// ];
+		
+		// return json_encode($response); 
     }
 }
 

@@ -46,14 +46,45 @@ class ProdOrder extends Auth
     ';
     $this->load->view('layout/base', $data);    
   }
-  public function generateid() {
+	public function generateid() {
+    $year = date('Y');
+    $month = date('m');
+    $expectedPrefix = "$year$month";
+
+    // Fetch last order number
+    $lastID = $this->ProdOrder_model->getLastKode($year, $month) ?? '';
+
+    // Extract numeric part using regex
+    if (preg_match('/PR(\d{4})/', $lastID, $matches)) {
+        $numericPart = $matches[1];
+    } else {
+        $numericPart = '0000';
+    }
+
+    if (!empty($lastID) && strpos($lastID, $expectedPrefix) === false) {
+        $numericPart = '0000';
+    }
+
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    $idlog = $this->session->userdata('id_karyawan');
+
+    $data['newID'] = "PR{$incrementedNumericPart}/{$expectedPrefix}/{$idlog}";
+    $data['defID'] = "PR0001/{$expectedPrefix}/{$idlog}";
+
+    $data['currentDate'] = date('Y/m');
+
+
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function generateiddl() {
     $year = date('Y');
     $month = date('m');
 
-    $data['lastID'] = $this->ProdOrder_model->getLastKode($year, $month);
-    $lastID = isset($data['lastID'][0]['no_produksi']) ? $data['lastID'][0]['no_produksi'] : '';
+    $data['lastID'] = $this->ProdOrder_model->getLastKodeDtl($year, $month);
+    $lastID = isset($data['lastID'][0]['no_produksi_dtl']) ? $data['lastID'][0]['no_produksi_dtl'] : '';
     
-    if (preg_match('/PR-(\d{4})$/', $lastID, $matches)) {
+    if (preg_match('/DL(\d{4})$/', $lastID, $matches)) {
         $numericPart = $matches[1];
     } else {
         $numericPart = '0000';
@@ -64,9 +95,8 @@ class ProdOrder extends Auth
     }
 
     $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-    $idlog = $this->session->userdata('id_karyawan');
-    $data['newID'] = $expectedPrefix . $idlog . 'PR-' . $incrementedNumericPart;
-    $data['defID'] = $expectedPrefix . $idlog . 'PR-0001';
+    $data['newID'] = 'DL' . $incrementedNumericPart.'/'.$expectedPrefix;
+    $data['defID'] = 'DL0001'.'/'.$expectedPrefix;
 
     $currentDate = date('Y/m');
     $data['currentDate'] = $currentDate;
@@ -127,7 +157,7 @@ class ProdOrder extends Auth
             $insertId = $this->db->insert_id();
 
             // Generate a barcode for the order
-            $this->barcode($this->input->post('noprod'));
+            // $this->barcode($this->input->post('noprod'));
 
             // Decode the JSON table data
             $table_data = json_decode($this->input->post('table_data'), true);
@@ -145,7 +175,7 @@ class ProdOrder extends Auth
                     $this->ProdOrder_model->addProdDtl($prodDetails);
 
                     // Generate barcode for each production detail
-                    $this->barcode($item['no_produksi_dtl']);
+                    // $this->barcode($item['no_produksi_dtl']);
                 }
             }
 
