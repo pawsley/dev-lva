@@ -39,12 +39,12 @@ class ProdOrder extends Auth
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
-    <script src="' . base_url('assets/js/additional-js/prodbaru.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/prodbaru.js?v='.time().' ') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.3') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     ';
-    $this->load->view('layout/base', $data);    
+    $this->load->view('layout/base', $data);
   }
 	public function generateid() {
     $year = date('Y');
@@ -143,7 +143,7 @@ class ProdOrder extends Auth
         $prodData = [
             'id_order' => $this->input->post('order_id'),
             'no_produksi' => $this->input->post('noprod'),
-            'tgl_produksi' => $this->session->userdata('dateprod'),
+            'tgl_produksi' => $this->input->post('dateprod'),
             'tgl_produksi_selesai' => $this->input->post('dateprodfinish'),
             'jumlah_produksi' => $this->input->post('totalprod'),
             'keterangan' => $this->input->post('catatan')
@@ -153,43 +153,41 @@ class ProdOrder extends Auth
         $result = $this->ProdOrder_model->addProd($prodData);
 
         if ($result) {
-            // Assuming `addProd` returns the inserted ID
-            $insertId = $this->db->insert_id();
 
-            // Generate a barcode for the order
-            // $this->barcode($this->input->post('noprod'));
-
-            // Decode the JSON table data
-            $table_data = json_decode($this->input->post('table_data'), true);
-
-            if (!empty($table_data)) {
-                foreach ($table_data as $item) {
-                    // Prepare production detail data
-                    $prodDetails = [
-                        'no_produksi_dtl' => $item['no_produksi_dtl'], // Ensure this exists in the input
-                        'id_produksi' => $insertId,
-                        'id_odtl' => $item['id_katalog_dtl']
-                    ];
-
-                    // Insert each production detail
-                    $this->ProdOrder_model->addProdDtl($prodDetails);
-
-                    // Generate barcode for each production detail
-                    // $this->barcode($item['no_produksi_dtl']);
-                }
+          $insertId = $this->db->insert_id();
+          $detailprd = json_decode($this->input->post('listprod'), true);
+          
+          if (!empty($detailprd)) {
+            $parts = explode('/', $this->input->post('noprod'));
+            $dlCounter = 1; // Global counter for no_produksi_dtl
+        
+            foreach ($detailprd as $item) {
+              // Insert based on the quantity order (`qty`)
+              for ($i = 0; $i < $item['qty']; $i++) { 
+                $prdl = $parts[0] . '/DL' . $dlCounter; // Increment global counter
+    
+                $prodDetails = [
+                    'no_produksi_dtl' => $prdl,
+                    'id_produksi' => $insertId,
+                    'id_odtl' => $item['id_odtl']
+                ];
+                $this->ProdOrder_model->addProdDtl($prodDetails);
+    
+                $dlCounter++; // Increment for next row
+              }
             }
-
-            // Return success response
-            $response = [
-                'status' => 'success',
-                'message' => 'Berhasil dibuat.'
-            ];
+          }
+          $this->ProdOrder_model->updPoId($this->input->post('order_id'));
+          // Return success response
+          $response = [
+              'status' => 'success',
+              'message' => 'Berhasil dibuat.'
+          ];
         } else {
-            // Return error response if the production insertion fails
-            $response = [
-                'status' => 'error',
-                'message' => 'Gagal dibuat.'
-            ];
+          $response = [
+              'status' => 'error',
+              'message' => 'Gagal dibuat.'
+          ];
         }
 
         // Output the JSON response
@@ -198,6 +196,186 @@ class ProdOrder extends Auth
         // Return a 404 error if not an AJAX request
         show_404();
     }
+  }
+  public function menulistprod(){
+    $data['content'] = $this->load->view('produksi/listproduksi', '', true);
+    $data['modal'] = '';
+    $data['css'] = '
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <style>
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 2px !important;
+        }
+        .select2-dropdown--below {
+          margin-top:-2% !important;
+        }
+        .select2-selection__arrow {
+            height: 37px !important;
+        }
+        .select2-container{
+          margin-bottom :-2%;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">
+    ';
+    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
+    <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+    <script src="' . base_url('assets/js/additional-js/prodbaru.js?v='.time().' ') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v='.time().' ') . '"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/dataTables.rowsGroup.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
+    ';
+    $this->load->view('layout/base', $data);
+  }
+  public function menustok(){
+    $data['content'] = $this->load->view('produksi/stok', '', true);
+    $data['modal'] = '';
+    $data['css'] = '
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <style>
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 2px !important;
+        }
+        .select2-dropdown--below {
+          margin-top:-2% !important;
+        }
+        .select2-selection__arrow {
+            height: 37px !important;
+        }
+        .select2-container{
+          margin-bottom :-2%;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">
+    ';
+    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
+    <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+    <script src="' . base_url('assets/js/additional-js/prodbaru.js?v='.time().' ') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v='.time().' ') . '"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/dataTables.rowsGroup.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
+    ';
+    $this->load->view('layout/base', $data);
+  }
+  public function menufinishing(){
+    $data['content'] = $this->load->view('produksi/finishing', '', true);
+    $data['modal'] = '';
+    $data['css'] = '
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <style>
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 2px !important;
+        }
+        .select2-dropdown--below {
+          margin-top:-2% !important;
+        }
+        .select2-selection__arrow {
+            height: 37px !important;
+        }
+        .select2-container{
+          margin-bottom :-2%;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">
+    ';
+    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
+    <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+    <script src="' . base_url('assets/js/additional-js/prodbaru.js?v='.time().' ') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v='.time().' ') . '"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/dataTables.rowsGroup.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
+    ';
+    $this->load->view('layout/base', $data);
+  }
+  public function tableproduksi(){
+    $this->load->library('datatables');
+    $this->datatables->select('id_order,no_produksi,id,no_produksi_dtl,tgl_produksi,tgl_produksi_selesai, nama_katalog, img_katalog, detail_size, nama_cst, proses_produksi');
+    $this->datatables->from('vprod');
+    $this->datatables->where_in('proses_produksi',['Belum Ada Proses','Potong','Jahit']);
+    return print_r($this->datatables->generate());
+  }
+  public function tablefinish(){
+    $this->load->library('datatables');
+    $this->datatables->select('id_order,no_produksi,id,no_produksi_dtl,tgl_produksi,tgl_produksi_selesai, nama_katalog, img_katalog, detail_size, nama_cst, proses_produksi');
+    $this->datatables->from('vprod');
+    $this->datatables->where_in('proses_produksi',['Jahit','Finishing','QC']);
+    return print_r($this->datatables->generate());
+  }
+  public function tablestokpro(){
+    $this->load->library('datatables');
+    $this->datatables->select('id_order,no_produksi,id,no_produksi_dtl,tgl_produksi,tgl_produksi_selesai, nama_katalog, img_katalog, detail_size, nama_cst, proses_produksi');
+    $this->datatables->from('vprod');
+    $this->datatables->where_in('proses_produksi',['Finishing']);
+    return print_r($this->datatables->generate());
   }
 }
 

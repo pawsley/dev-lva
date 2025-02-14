@@ -261,7 +261,6 @@
                       <li class="pjor"><a class="pjor" href="<?=base_url()?>penjualan/kasir">Kasir Penjualan</a></li>
                       <!-- <li><a href="<?=base_url()?>penjualan/pengiriman">Pengiriman</a></li> -->
                       <li class="pjrw"><a class="pjrw" href="<?=base_url()?>penjualan/riwayat">Riwayat Penjualan</a></li>
-                      <!-- <li><a href="<?=base_url()?>penjualan/transaksi">Transaksi Customer</a></li> -->
                     </ul>
                   </li>
                   <!-- Menu Pembelian -->
@@ -295,11 +294,28 @@
                     </a>
                     <ul class="sidebar-submenu">
                       <li class="prb"><a class="prb" href="<?=base_url()?>produksi/produksi-baru">Produksi Baru</a></li>
-                      <li class="prj"><a class="prj" href="<?=base_url()?>produksi/proses-jahit">List Produksi</a></li>
+                      <li class="prj"><a class="prj" href="<?=base_url()?>produksi/list-produksi">List Produksi</a></li>
                       <li class="prf"><a class="prf" href="<?=base_url()?>produksi/finishing">Finishing</a></li>
                       <li class="prs"><a class="prs" href="<?=base_url()?>produksi/stok">Stok</a></li>
                     </ul>
                   </li>
+                  <!-- Menu Tagihan -->
+                  <li class="sidebar-list tagihan"><i class="fa fa-thumb-tack"></i>
+                    <label class="badge badge-light-primary"></label>
+                    <a class="sidebar-link sidebar-title tagihan" href="javascript:void(0)">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-editors"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-editors"></use>
+                        </svg>
+                        <span>Tagihan</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li class="tgiv"><a class="tgiv" href="<?=base_url()?>tagihan/baru">Buat Tagihan</a></li>
+                      <li class="tgliv"><a class="tgliv" href="<?=base_url()?>tagihan/list-tagihan">List Tagihan</a></li>
+                    </ul>
+                  </li>                  
                   <!-- Menu Gudang -->
                   <li class="sidebar-list gudang"><i class="fa fa-thumb-tack"></i>
                     <label class="badge badge-light-primary"></label>

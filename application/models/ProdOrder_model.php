@@ -43,7 +43,7 @@ class ProdOrder_model extends CI_Model {
         return $query->result_array();
     }
     public function getListDataPo($ido) {
-        $this->db->select(['id_katalog','id_katalog_dtl', 'nama_katalog','img_katalog','qty_order','detail_size']);
+        $this->db->select(['id_odtl','id_katalog','id_katalog_dtl', 'nama_katalog','img_katalog','qty_order','detail_size']);
         $this->db->from('vorder');
         if ($ido !== null) {
             $this->db->where('id_order',$ido);
@@ -92,6 +92,13 @@ class ProdOrder_model extends CI_Model {
 		// ];
 		
 		// return json_encode($response); 
+    }
+    public function updPoId($id){
+        $data = [
+            'status' => 'Produksi'
+        ];
+        $this->db->where('id_order', $id);
+        return $this->db->update('tb_order', $data);
     }
 }
 

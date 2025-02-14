@@ -138,6 +138,38 @@ $(document).ready(function () {
             $(".sidebar-list.produksi").addClass('active');
             $(".sidebar-list.produksi .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
             $(".sidebar-list.produksi ul.sidebar-submenu").slideDown('normal'); 
+        } else if (segment2 == "list-produksi") {
+            $(".produksi").addClass("active");
+            $(".prj").addClass("active");
+            $(".sidebar-list.produksi").addClass('active');
+            $(".sidebar-list.produksi .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.produksi ul.sidebar-submenu").slideDown('normal'); 
+        } else if (segment2 == "finishing") {
+            $(".produksi").addClass("active");
+            $(".prf").addClass("active");
+            $(".sidebar-list.produksi").addClass('active');
+            $(".sidebar-list.produksi .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.produksi ul.sidebar-submenu").slideDown('normal'); 
+        } else if (segment2 == "stok") {
+            $(".produksi").addClass("active");
+            $(".prs").addClass("active");
+            $(".sidebar-list.produksi").addClass('active');
+            $(".sidebar-list.produksi .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.produksi ul.sidebar-submenu").slideDown('normal'); 
+        }
+    }else if (segment1 == "tagihan"){
+        if (segment2 == "baru") {
+            $(".tagihan").addClass("active");
+            $(".tgiv").addClass("active");
+            $(".sidebar-list.tagihan").addClass('active');
+            $(".sidebar-list.tagihan .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.tagihan ul.sidebar-submenu").slideDown('normal'); 
+        } else if (segment2 == "list-tagihan") {
+            $(".tagihan").addClass("active");
+            $(".tgliv").addClass("active");
+            $(".sidebar-list.tagihan").addClass('active');
+            $(".sidebar-list.tagihan .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+            $(".sidebar-list.tagihan ul.sidebar-submenu").slideDown('normal'); 
         }
     }else if (segment1 == "status-order"){
         $(".stato").addClass("active");

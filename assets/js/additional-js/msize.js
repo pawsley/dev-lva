@@ -40,36 +40,6 @@ function getselect2() {
             cache: false,
         },
     });
-    $('#uselkat').select2({
-        language: 'id',
-        placeholder: 'Pilih Tipe',
-        dropdownParent: $("#EditDetailSize"),
-        allowClear: true,
-        ajax: {
-            url: function() {
-                let val = 'TPE';
-                return base_url + 'katalog/dafsb/' + val;
-            },
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term,
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            id: item.id,
-                            text: item.nama,
-                        };
-                    }),
-                };
-            },
-            cache: false,
-        },
-    });
 }
 function rowsize() {
     $('.addrow').on('click', function(e) {
@@ -241,8 +211,8 @@ function edsize() {
     $('#table-size tbody').on('click', '.edit-btn', function () {
         var data = tablesize.row($(this).closest('tr')).data();
 		var datsz = data.datasize.split('(')[0].trim();
-		console.log(data);
-		getselect2();
+		// console.log(data);
+		// getselect2();
         $('#EditDetailSize').find('#usize').val(data.ukuran);
         $('#EditDetailSize').find('#unmdtl').val(data.detail_size);
         $('#EditDetailSize').find('#uvaldtl').val(data.val_size);

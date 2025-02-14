@@ -136,4 +136,12 @@ $route['gudang/lva']='Gudang/gudanglva';
 $route['gudang/ldp']='Gudang/gudangldp';
 // produksi
 $route['produksi/produksi-baru']='ProdOrder';
+$route['produksi/add-prod']='ProdOrder/createprod';
 $route['produksi/get-data']='ProdOrder/loadpoid';
+$route['produksi/list-produksi']='ProdOrder/menulistprod';
+$route['produksi/finishing']='ProdOrder/menufinishing';
+$route['produksi/stok']='ProdOrder/menustok';
+$route['produksi/data-produksi']='ProdOrder/tableproduksi';
+// Tagihan
+$route['tagihan/baru']='Tagihan';
+$route['tagihan/list-tagihan']='Tagihan/menulist';

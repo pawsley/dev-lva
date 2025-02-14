@@ -1,9 +1,30 @@
 let datid = "";
+var tableProduksi;
 $(document).ready(function () {
-    $('#dateprod').val(updateDateNow(datid));
-    $('#duedateprod').val(updateDateFinish(14));
-    generateid();
-    getSelect2();
+    if (window.location.href === base_url+'produksi/produksi-baru') {
+        dateform();
+        generateid();
+        getSelect2();
+        addprod();
+    } else if (window.location.href === base_url+'produksi/list-produksi') {
+        tabkatalog();
+        // $('#table-produksi').DataTable({
+        //     responsive: true,
+        //     processing: true,
+        //     serverSide: true,
+        //     order: [],
+        //     ajax: {
+        //         url: base_url + 'produksi/data-produksi',
+        //         type: 'POST'
+        //     },
+        //     columnDefs: [
+        //         {
+        //             targets: [0, 1, 2, 3, 4, 5, 6],
+        //             className: 'text-center'
+        //         }
+        //     ]
+        // });
+    }
 });
 async function generateid() {
     try {
@@ -88,7 +109,7 @@ function getSelect2() {
                                 ).join("<br>");
                             }
                             $('#list-prodbaru').append(`
-                                <tr id="idkatdl" data-idkdl="${list.id_katalog_dtl}">
+                                <tr id="idkatdl" data-idkdl="${list.id_odtl}" data-qty="${list.qty_order}">
                                     <td><div class="light-product-box"><img class="img-50" src="${base_url+'assets/lvaimages/katalog/'+list.img_katalog}" alt="katalog"></div></td>
                                     <td>${list.id_katalog+' | '+list.nama_katalog}</td>
                                     <td>${list.detail_size}</td>
@@ -103,6 +124,173 @@ function getSelect2() {
             error: function(xhr) {
                 console.error(xhr.responseText);
             }
+        });
+    });
+}
+function dateform() {
+    $('#dateprod').val(updateDateNow(datid));
+    $('#duedateprod').val(updateDateFinish(14));
+}
+function addprod() {
+    $('#form-prodbaru').off('submit').on('submit', function (e) {
+        e.preventDefault();
+        $('#spinner_submit').removeClass('d-none');
+        $('#tx_submit').addClass('d-none');
+        $('#btn_submit').prop('disabled', true);
+        
+        let idord = $('#selord').val();
+        let idprd = $('#prdid').val();
+        let dateprd = $('#dateprod').val();
+        let duedateprd = $('#duedateprod').val();
+        let keteranganprd = $('#ketprod').val();
+        let listprod = [];
+        let totalQty = 0;
+    
+        $('#list-prodbaru tr').each(function() {
+            const qty = $(this).data('qty');
+            listprod.push({
+                id_odtl: $(this).data('idkdl'),
+                qty: $(this).data('qty')
+            });
+            totalQty += qty; 
+        });
+    
+        let data = {
+            noprod: idprd,
+            order_id: idord,
+            dateprod: dateprd,
+            dateprodfinish: duedateprd,
+            catatan: keteranganprd,
+            totalprod: totalQty,  // Use the totalQty here
+            listprod: JSON.stringify(listprod)
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'produksi/add-prod/',
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    swal("Produksi berhasil dibuat", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    });
+                } else {
+                    swal(response.message, {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                }
+            },
+            complete: function () {
+                // Reset form fields and visual indicators after completion
+                $('#form-prodbaru').find('select').val('0').trigger('change.select2');
+                $('#form-prodbaru').find('input, textarea').val('');
+                $('#list-prodbaru').empty();
+                $('#spinner_submit').addClass('d-none');
+                $('#tx_submit').removeClass('d-none');
+                $('#btn_submit').prop('disabled', false);
+                dateform();
+                generateid();
+            },
+            error: function(xhr) {
+                alert('An error occurred while saving data.');
+            }
+        });
+    });    
+}
+function tabkatalog() {  
+    $.getJSON(base_url + 'assets/json/datatable-id.json', function(json) {
+        json.processing = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Sedang memproses...</span></div></div>';
+        
+        if ($.fn.DataTable.isDataTable('#table-produksi')) {
+            tableProduksi.destroy();
+        }
+        
+        tableProduksi = $("#table-produksi").DataTable({
+            "language": json,
+            "processing": true,
+            "serverSide": true,
+            // "order": [
+            //     [0, 'asc']
+            // ],
+            "ajax": {
+                "url": base_url + 'produksi/data-produksi',
+                "type": "POST",
+            },
+            'rowsGroup': [0],
+            "columns": [
+                {
+                    "data": "id_order",
+                    "render": function(data, type, row) {
+                        return `Customer : ${row.nama_cst}<br>PO : ${data}<br><b>Produksi : ${row.no_produksi}</b>`;
+                    }
+                },
+                {
+                    "data": "nama_katalog",
+                    "render": function(data, type, row, full) {
+                        if (type === "display") {
+                            return `
+                                <div class="light-product-box"><img class="img-50" src="${base_url+'assets/lvaimages/katalog/'+row.img_katalog}" alt="katalog"></div>
+                                <ul class="list-group list-group-horizontal mt-2">
+                                    <li class="list-group-item">${row.nama_katalog}</li>
+                                    <li class="list-group-item">${row.detail_size}</li>
+                                </ul>
+                            `;
+                        }
+                        return data;
+                    }
+                },
+                {
+                    "data": "tgl_produksi",
+                    "render": function(data, type, row) {
+                        return '<span>'+ data + '<i class="icofont icofont-arrow-right"></i>' + row.tgl_produksi_selesai+'</span>';
+                    }
+                },
+                {
+                    "data": "id",
+                    "orderable": false,
+                    "render": function (data, type, full, meta) {
+                        if (type === "display") {
+                            return `
+                                    <ul class="action">
+                                        <div class="btn-group">
+                                            <button class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#" 
+                                            data-id="${data}"><i class="icofont icofont-ui-cut" style="color: #4a4646;"></i></button>
+                                            <button class="btn btn-primary" id="delete-data" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-baby-cloth" style="color: #4a4646;"></i></button>
+                                            <button class="btn btn-secondary" id="delete-data" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
+                                        </div>
+                                    </ul>
+                                `;
+                        }
+                        return data;
+                    }
+                }                
+            ],
+            "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                   "<'row'<'col-sm-12 col-md-2'B>>" +
+                   "<'row'<'col-sm-12'tr>>" +
+                   "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+            "buttons": [
+                {
+                    "text": 'Refresh',
+                    "className": 'custom-refresh-button',
+                    "attr": {
+                        "id": "refresh-button"
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh');
+                    },
+                    "action": function () {
+                        tableProduksi.ajax.reload(); // Refresh data
+                    }
+                }
+            ]
         });
     });
 }
