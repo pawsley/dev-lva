@@ -8,22 +8,6 @@ $(document).ready(function () {
         addprod();
     } else if (window.location.href === base_url+'produksi/list-produksi') {
         tabkatalog();
-        // $('#table-produksi').DataTable({
-        //     responsive: true,
-        //     processing: true,
-        //     serverSide: true,
-        //     order: [],
-        //     ajax: {
-        //         url: base_url + 'produksi/data-produksi',
-        //         type: 'POST'
-        //     },
-        //     columnDefs: [
-        //         {
-        //             targets: [0, 1, 2, 3, 4, 5, 6],
-        //             className: 'text-center'
-        //         }
-        //     ]
-        // });
     }
 });
 async function generateid() {

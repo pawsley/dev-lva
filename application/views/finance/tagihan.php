@@ -42,18 +42,10 @@
                                     <label class="form-label" for="duedateinv">TANGGAL TENGGAT WAKTU INVOICE</label>
                                     <input class="form-control digits" id="duedateinv" name="duedateinv" type="date">
                                 </div>
-                                <div class="col-md-6 position-relative">
-                                    <label class="form-label" for="selord">PILIH ORDER ID</label>
-                                    <select class="form-select" id="selord" name="selord" required>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 position-relative">
-                                    <label class="form-label">STATUS ORDER</label>
-                                    <button type="button" class="btn btn-light form-control disabled" id="info-stat">Belum Ada Status</button> 
-                                </div>
                                 <div class="col-md-3 position-relative">
-                                    <label class="form-label" for="cst">CUSTOMER</label>
-                                    <input class="form-control" id="cst" name="cst" type="text" placeholder="Terisi Otomatis" readonly>
+                                    <label class="form-label" for="selcst">PILIH CUSTOMER</label>
+                                    <select class="form-select" id="selcst" name="selcst" required>
+                                    </select>
                                 </div>
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="wa">WHATSAPP</label>
@@ -66,23 +58,42 @@
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="tcst">TIPE AGEN</label>
                                     <input class="form-control" id="tcst" name="tcst" type="text" placeholder="Terisi Otomatis" readonly>
+                                </div>
+                                <div class="col-md-6 position-relative">
+                                    <label class="form-label" for="selord">PILIH ORDER ID</label>
+                                    <select class="form-select" id="selord" name="selord" required>
                                     </select>
                                 </div>
+                                <div class="col-md-6 position-relative">
+                                    <label class="form-label" for="selprd">PILIH PRODUK</label>
+                                    <select class="form-select" id="selprd" name="selprd" required>
+                                    </select>
+                                </div>                                
                                 <!-- Table Tagihan -->
                                 <div class="order-history table-responsive wishlist">
                                     <table class="table table-bordered" id="table-invoice" width="100%">
                                     <thead>
                                         <tr>
-                                        <th style="width: 5%">#</th>
-                                        <th style="width: 30%">PRODUK</th>
-                                        <th style="width: 5%">SIZE</th>
-                                        <th style="width: 20%">DETAIL MATERIAL</th>
-                                        <th style="width: 10%">QUANTITY ORDER</th>
+                                            <th style="width: 5%">#</th>
+                                            <th style="width: 30%">PRODUK</th>
+                                            <th style="width: 20%">HARGA</th>
+                                            <th style="width: 10%">QUANTITY</th>
+                                            <th style="width: 20%">TOTAL</th>
                                         </tr>
                                     </thead>
                                     <tbody id="list-invoice">
                                     </tbody>
                                     </table>
+                                </div>
+                                <div class="col-md-12 position-relative">
+                                    <div class="checkout-details">
+                                        <div class="order-box">
+                                            <hr>
+                                            <ul class="sub-total mt-4">
+                                                <li>GRAND TOTAL <span id="grand" class="count text-success f-w-700"></span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Catatan -->
                                 <div class="col-md-12 position-relative">

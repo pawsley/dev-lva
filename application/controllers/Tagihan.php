@@ -46,6 +46,36 @@ class Tagihan extends Auth
     ';
     $this->load->view('layout/base', $data);
   }
+	public function generateid() {
+    $year = date('Y');
+    $month = date('m');
+    $expectedPrefix = "$year$month";
+
+    // Fetch last order number
+    $lastID = $this->Tagihan_model->getLastKode($year, $month) ?? '';
+
+    // Extract numeric part using regex
+    if (preg_match('/INV(\d{4})/', $lastID, $matches)) {
+        $numericPart = $matches[1];
+    } else {
+        $numericPart = '0000';
+    }
+
+    if (!empty($lastID) && strpos($lastID, $expectedPrefix) === false) {
+        $numericPart = '0000';
+    }
+
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    $idlog = $this->session->userdata('id_karyawan');
+
+    $data['newID'] = "INV{$incrementedNumericPart}/{$expectedPrefix}/{$idlog}";
+    $data['defID'] = "INV0001/{$expectedPrefix}/{$idlog}";
+
+    $data['currentDate'] = date('Y/m');
+
+
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}  
   public function menulist(){
     $data['content'] = $this->load->view('finance/listtagihan', '', true);
     $data['modal'] = '';
