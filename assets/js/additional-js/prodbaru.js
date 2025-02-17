@@ -8,6 +8,7 @@ $(document).ready(function () {
         addprod();
     } else if (window.location.href === base_url+'produksi/list-produksi') {
         tabkatalog();
+		onShown();
     }
 });
 async function generateid() {
@@ -198,9 +199,9 @@ function tabkatalog() {
             "language": json,
             "processing": true,
             "serverSide": true,
-            // "order": [
-            //     [0, 'asc']
-            // ],
+            "order": [
+                [2, 'desc']
+            ],
             "ajax": {
                 "url": base_url + 'produksi/data-produksi',
                 "type": "POST",
@@ -231,7 +232,9 @@ function tabkatalog() {
                 {
                     "data": "tgl_produksi",
                     "render": function(data, type, row) {
-                        return '<span>'+ data + '<i class="icofont icofont-arrow-right"></i>' + row.tgl_produksi_selesai+'</span>';
+						var dateSt = new Date(data);
+						var dateFn = new Date(row.tgl_produksi_selesai);
+                        return '<span>'+ formatDateForTable(dateSt) + ' <i class="icofont icofont-arrow-right"></i> ' + formatDateForTable(dateFn)+'</span>';
                     }
                 },
                 {
@@ -242,10 +245,9 @@ function tabkatalog() {
                             return `
                                     <ul class="action">
                                         <div class="btn-group">
-                                            <button class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#" 
-                                            data-id="${data}"><i class="icofont icofont-ui-cut" style="color: #4a4646;"></i></button>
-                                            <button class="btn btn-primary" id="delete-data" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-baby-cloth" style="color: #4a4646;"></i></button>
-                                            <button class="btn btn-secondary" id="delete-data" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
+                                            <button class="btn btn-warning cut-btn" data-bs-toggle="modal" data-bs-target="#cutModal" data-id="${data}"><i class="icofont icofont-ui-cut"></i></button>
+                                            <button class="btn btn-primary jahit-btn" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-baby-cloth"></i></button>
+                                            <button class="btn btn-secondary approve-btn" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
                                         </div>
                                     </ul>
                                 `;
@@ -260,7 +262,7 @@ function tabkatalog() {
                    "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
             "buttons": [
                 {
-                    "text": 'Refresh',
+                    "text": '<i class="icofont icofont-refresh"></i>',
                     "className": 'custom-refresh-button',
                     "attr": {
                         "id": "refresh-button"
@@ -273,8 +275,129 @@ function tabkatalog() {
                     "action": function () {
                         tableProduksi.ajax.reload(); // Refresh data
                     }
-                }
+                },
+				{
+					"text": '<i class="icofont icofont-ui-add"></i> ',
+					"className": 'custom-add-btn-cut',
+					"attr": {
+						"id": "add-btn-cut"
+					},
+					"init": function (api, node, config) {
+						$(node).removeClass('btn-default');
+						$(node).addClass('btn-secondary');
+						$(node).attr('title', 'Tambah Produksi Baru');
+					},
+					"action": function () {
+						window.location.href = base_url + 'produksi/produksi-baru';
+					}
+				}				
             ]
         });
     });
+}
+function rowptg() {
+    $('.addrow').on('click', function(e) {
+        e.preventDefault(); 
+		$('#addcutModal').modal('show');
+		$('#addcutModal').on('shown.bs.modal', function () {
+			setTimeout(function() {
+				$('#item').val('').focus();
+			}, 200);
+		});
+		$('#addmod').off('click').on('click', function () {
+            let item = $('#item').val().toUpperCase();
+            if (!item ) {
+                swal("Error", "Item tidak boleh kosong", "error").then(() => {
+                    $('#item').focus();  // Set focus back to the item input after the alert is closed
+                });
+                return;
+            } 
+            $.ajax({
+                type: "POST",
+                url: base_url+"produksi/newsb",
+                data: {
+                    namakat: item,
+                },
+                dataType: "json", 
+                success: function (response) {
+                    if (response.status === 'success') {
+                        swal("Data berhasil ditambahkan", {
+                            icon: "success",
+                            buttons: false,
+                            timer: 1000
+                        }).then(function() {
+                            $('#item').val('').focus();
+							$('#addcutModal').modal('hide');
+							fetchdtlptg();
+                        });
+                    }
+                },
+                error: function (error) {
+                    swal("Gagal menambahkan data", {
+                        icon: "error",
+                    });
+                }
+            });
+        });
+
+    });
+}
+function onShown() {
+	$('#cutModal').on('shown.bs.modal', function () {
+		setTimeout(function() {
+			fetchdtlptg();
+			rowptg();
+		}, 200);
+	});
+}
+function addptg() {
+	// $('#addptg').off('click').on('click', function () {
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: base_url+"produksi/newsb",
+	// 		data: {
+	// 			namakat: item,
+	// 		},
+	// 		dataType: "json", 
+	// 		success: function (response) {
+	// 			if (response.status === 'success') {
+	// 				swal("Data berhasil ditambahkan", {
+	// 					icon: "success",
+	// 					buttons: false,
+	// 					timer: 1000
+	// 				}).then(function() {
+	// 					$('#cutModal').modal('hide');
+	// 				});
+	// 			}
+	// 		},
+	// 		error: function (error) {
+	// 			swal("Gagal menambahkan data", {
+	// 				icon: "error",
+	// 			});
+	// 		}
+	// 	});
+	// });
+}
+
+function fetchdtlptg() {
+	$('.checkbox-wrapper').empty();
+	$.ajax({
+		type: 'GET',
+		url: base_url+'produksi/dafsb/',
+		dataType: 'json',
+		success: function(response) {
+			$.each(response, function(index, daf) {
+				var newRow = `
+					<li> 
+						<input class="form-check-input checkbox-shadow" id="checkbox-icon${daf.id}" type="checkbox">
+						<label class="form-check-label" for="checkbox-icon${daf.id}"><span>${daf.nama}</span></label>
+					</li>
+				`;
+				$('.checkbox-wrapper').append(newRow);
+			});
+		},
+		error: function(xhr, status, error) {
+			console.error(xhr.responseText);
+		}
+	}); 
 }

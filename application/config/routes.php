@@ -142,6 +142,8 @@ $route['produksi/list-produksi']='ProdOrder/menulistprod';
 $route['produksi/finishing']='ProdOrder/menufinishing';
 $route['produksi/stok']='ProdOrder/menustok';
 $route['produksi/data-produksi']='ProdOrder/tableproduksi';
+$route['produksi/dafsb']='ProdOrder/getsb';
+$route['produksi/newsb']='ProdOrder/addsb';
 // Tagihan
 $route['tagihan/baru']='Tagihan';
 $route['tagihan/list-tagihan']='Tagihan/menulist';

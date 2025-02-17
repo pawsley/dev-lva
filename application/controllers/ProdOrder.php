@@ -377,6 +377,24 @@ class ProdOrder extends Auth
     $this->datatables->where_in('proses_produksi',['Finishing']);
     return print_r($this->datatables->generate());
   }
+	public function getsb(){
+    $searchTerm = $this->input->get('q');
+    $id = $this->input->post('idprodtl');
+    $results = $this->ProdOrder_model->getsb($id, $searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+	public function addsb(){
+    if ($this->input->is_ajax_request()) {
+      $nk = $this->input->post('namakat');
+
+      $this->ProdOrder_model->addsb($nk);
+
+      echo json_encode(['status' => 'success']);
+    } else {
+        redirect('produksi');
+    }
+  }
 }
 
 

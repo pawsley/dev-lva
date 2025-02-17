@@ -72,12 +72,6 @@ class ProdOrder_model extends CI_Model {
 		} else {
 			return false; 
 		}
-		// $response = [
-		// 	'status' => $insert ? 'success' : 'error',
-		// 	'message' => $insert ? 'Berhasil' : 'Gagal',
-		// ];
-		
-		// return json_encode($response); 
     }
     public function addProdDtl($data){
         $insert = $this->db->insert('tb_produksi_dtl', $data);
@@ -86,12 +80,36 @@ class ProdOrder_model extends CI_Model {
 		} else {
 			return false; 
 		}
-		// $response = [
-		// 	'status' => $insert ? 'success' : 'error',
-		// 	'message' => $insert ? 'Berhasil' : 'Gagal',
-		// ];
-		
-		// return json_encode($response); 
+    }
+	public function getsb($id = null, $searchTerm = null) {
+		$this->db->select('*');
+		$this->db->from('tb_produksi_ptg_dtl tppd');
+		$this->db->join('tb_produksi_ptg tpp', 'tpp.id_produksi_ptg_dtl = tppd.id', 'left');
+		$this->db->where('tpp.id_produksi_dtl', $id);
+	
+		if ($searchTerm) {
+			$this->db->group_start();
+			$this->db->like('tppd.nama', $searchTerm);
+			$this->db->group_end();
+		}
+	
+		$this->db->order_by('tppd.id', 'asc');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	public function addsb($nk) {
+        $existingCategory = $this->db->where('nama', $nk)
+                            ->get('tb_produksi_ptg_dtl')
+                            ->row();
+        if (!$existingCategory) {
+            $data = array(
+                'nama' => $nk
+            );
+            $this->db->insert('tb_produksi_ptg_dtl', $data);
+            return true; 
+        } else {
+            return false; 
+        }
     }
     public function updPoId($id){
         $data = [
