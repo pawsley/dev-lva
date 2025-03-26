@@ -221,6 +221,7 @@ function tabkatalog() {
                             return `
                                 <div class="light-product-box"><img class="img-50" src="${base_url+'assets/lvaimages/katalog/'+row.img_katalog}" alt="katalog"></div>
                                 <ul class="list-group list-group-horizontal mt-2">
+                                    <li class="list-group-item"><b>${row.no_produksi_dtl}</b></li>
                                     <li class="list-group-item">${row.nama_katalog}</li>
                                     <li class="list-group-item">${row.detail_size}</li>
                                 </ul>
@@ -247,7 +248,7 @@ function tabkatalog() {
                                         <div class="btn-group">
                                             <button class="btn btn-warning cut-btn" data-bs-toggle="modal" data-bs-target="#cutModal" data-id="${data}"><i class="icofont icofont-ui-cut"></i></button>
                                             <button class="btn btn-primary jahit-btn" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-baby-cloth"></i></button>
-                                            <button class="btn btn-secondary approve-btn" data-bs-toggle="modal" data-bs-target="#" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
+                                            <button class="btn btn-secondary approve-btn" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
                                         </div>
                                     </ul>
                                 `;
