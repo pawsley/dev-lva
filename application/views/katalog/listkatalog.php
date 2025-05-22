@@ -43,7 +43,7 @@
                                         <thead> 
                                             <tr>
                                                 <th scope="col" style="min-width: 140px;"><span class="f-light f-w-600">KATALOG</span></th>
-                                                <th scope="col" style="min-width: 120px;"><span class="f-light f-w-600">DETAIL KATALOG</span></th>
+                                                <!-- <th scope="col" style="min-width: 120px;"><span class="f-light f-w-600">DETAIL KATALOG</span></th> -->
                                                 <th scope="col" style="min-width: 100px;"><span class="f-light f-w-600">TOTAL HPP BAHAN</span></th>
                                                 <th scope="col" style="min-width: 100px;"><span class="f-light f-w-600">HARGA JUAL</span></th>
                                                 <th scope="col" style="min-width: 20px;"><span class="f-light f-w-600">AKSI</span></th>
@@ -215,7 +215,7 @@
               <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content dark-sign-up">
                   <div class="modal-header social-profile text-start">
-                    <h3>Tambah Material | <span id="skudtl"></span></h3>
+                    <h3><span id="modtl"></span> | <span id="skudtl"></span></h3>
                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body social-profile text-start">

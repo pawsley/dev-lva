@@ -637,7 +637,7 @@ function createdata() {
         formData.append('kat', $("#katm").val());
         formData.append('warna', $("#wrnm").val());
         formData.append('sat', $("#satm").val());
-        formData.append('hrg', parseFloat($("#nhm").val()));
+        formData.append('hrg', parseFloat($("#nhm").val().replace(/\./g, '')));
         formData.append('tipe', $("#tipm").val());
         formData.append('tipk', $("#tipk").val());
         formData.append('img_material', fileInput.files[0]);
@@ -714,7 +714,7 @@ function updatedata() {
         formData.append('enmm', $('#enmm').val());
         formData.append('etipm', $('#etipm').val());
         formData.append('etipk', $('#etipk').val());
-        formData.append('ehrgm', $('#enhm').val());
+        formData.append('ehrgm', parseFloat($("#enhm").val().replace(/\./g, '')));
         formData.append('ekatm', $('#ekatm').val());
         formData.append('ewrnm', $('#ewrnm').val());
         formData.append('esatm', $('#esatm').val());

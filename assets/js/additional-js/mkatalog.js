@@ -21,7 +21,7 @@ $(document).ready(function() {
         // addsbcdm();
         // dafsbcdm();
         tabkatalog();
-        modalcdm();
+        // modalcdm();
         // aktivasikat();
     } else if (window.location.href === base_url+'katalog/daftar'){
 
@@ -630,28 +630,41 @@ function tabkatalog() {
                     "render": function(data, type, row, full) {
                         if (type === "display") {
                             return `
-                                <div class="light-product-box"><img class="img-50 me-2" src="${base_url+'assets/lvaimages/katalog/'+row.img_katalog}" alt="katalog"></div>
-                                <strong>${row.id_katalog} | ${row.nama_katalog}</strong>
+                                <div class="product-names">
+                                    <div class="light-product-box"><img class="img-fluid" src="${base_url+'assets/lvaimages/katalog/'+row.img_katalog}" alt=""></div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                        <strong>${row.id_katalog} | ${row.nama_katalog}</strong>
+                                        </div>
+                                        <div class="col-12">
+                                        <strong>
+                                            <span class="badge rounded-pill badge-dark">${row.nama}</span>
+                                            <span class="badge rounded-pill badge-dark">${row.warna_katalog}</span>
+                                            <span class="badge rounded-pill badge-dark">${row.size}</span>
+                                        </strong>
+                                        </div>
+                                    </div>
+                                </div>
                             `;
                         }
                         return data;
                     }
                 },
-                {
-                    "data": "detail",
-                    "render": function(data, type, row, full) {
-                        if (type === "display") {
-                            return `
-                                <ul class="list-group list-group-horizontal">
-                                    <li class="list-group-item">${row.nama}</li>
-                                    <li class="list-group-item">${row.warna_katalog}</li>
-                                    <li class="list-group-item">${row.size}</li>
-                                </ul>
-                            `;
-                        }
-                        return data;
-                    }
-                },
+                // {
+                //     "data": "detail",
+                //     "render": function(data, type, row, full) {
+                //         if (type === "display") {
+                //             return `
+                //                 <ul class="list-group list-group-horizontal">
+                //                     <li class="list-group-item">${row.nama}</li>
+                //                     <li class="list-group-item">${row.warna_katalog}</li>
+                //                     <li class="list-group-item">${row.size}</li>
+                //                 </ul>
+                //             `;
+                //         }
+                //         return data;
+                //     }
+                // },
                 {
                     "data":"total_hpp_bahan",
                     "render": function (data, type, row) {
@@ -664,20 +677,6 @@ function tabkatalog() {
                         return formatcur.format(data);
                     }
                 },
-                // {
-                //     "data": "status",
-                //     "render": function (data, type, full, meta) {
-                //         if (type === "display") {
-                //             if(data ==="Aktif"){
-                //                 return `<strong class="f-light text-success">Aktif</strong>`;
-                //             } else if(data==="Tidak"){
-                //                 return `<strong class="f-light text-warning">Tidak Aktif</strong>`;
-                //             }
-                //             return data; // return the original value for other cases
-                //         }
-                //         return data;
-                //     }
-                // },
                 {
                     "data": "id_katalog_dtl",
                     "orderable": false,
@@ -685,9 +684,10 @@ function tabkatalog() {
                         if (type === "display") {
                             return `
                                     <button class="btn btn-info-gradien dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu" style="z-index: 9999;">
                                         ${(full.status === "Aktif" || full.status === "Tidak" ) ? `
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id_dtl="${full.id_katalog_dtl}" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Tambah Material</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" id="addmtr" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id_dtl="${full.id_katalog_dtl}" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Tambah Material</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" id="dtlmtr" data-bs-toggle="modal" data-bs-target="#AddMaterial" data-id_dtl="${full.id_katalog_dtl}" data-id="${full.id_katalog}" data-nk="${full.nama_katalog}" data-size="${full.size}" >Detail Material</a>
                                         ` : ''}
                                     </div>
                                 `;
@@ -717,6 +717,20 @@ function tabkatalog() {
                     }
                 }
             ]
+        });
+        $('#table-katalog tbody').on('click', '#addmtr, #dtlmtr', function () {
+            let id = this.id === "addmtr" ? 1 : 2;
+            const $btn = $(this);
+            const idk = $btn.data('id');
+            const id_dtl = $btn.data('id_dtl');
+            const nmk = $btn.data('nk');
+            const size = $btn.data('size');
+
+            $('#AddMaterial').one('shown.bs.modal', function () {
+                $('#modtl').text(id === 1 ? 'Tambah Material' : 'Detail Material');
+                $('#skudtl').text(`${idk} ${nmk} (${size})`);
+                tabaddmtr(id, id_dtl);
+            });
         });
     });
 }
@@ -872,14 +886,24 @@ function formatNumber(value) {
     return parseFloat(value) % 1 === 0 ? parseInt(value) : parseFloat(value).toFixed(2);
 }
 function modalcdm() {
-    $('#AddMaterial').on('shown.bs.modal', function (e) {
-        var button = $(e.relatedTarget);
-        var idk = button.data('id');
-        var id_dtl = button.data('id_dtl');
-        var nmk = button.data('nk');
-        var size = button.data('size');
-        $('#skudtl').text(idk+' '+nmk+' ('+size+') ');
-        tabaddmtr(id_dtl);
+    $('#addmtr').on('click', function (e) {
+        $('#AddMaterial').on('shown.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idk = button.data('id');
+            var id_dtl = button.data('id_dtl');
+            var nmk = button.data('nk');
+            var size = button.data('size');
+            $('#skudtl').text(idk+' '+nmk+' ('+size+') ');
+            tabaddmtr(1, id_dtl);
+        });
+    });
+    $('#dtlmtr').on('click', function (e) {
+        $('#DetailMaterial').on('shown.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var id_dtl = button.data('id_dtl');
+            $('#skudtl').text(id_dtl);
+            tabaddmtr(2, id_dtl);
+        });
     });
 }
 function addcdm() {
@@ -922,37 +946,42 @@ function addcdm() {
         });
     });
 }
-function tabaddmtr(idtl) {
-    $.getJSON(base_url + 'assets/json/datatable-id.json', function(json) {
+function tabaddmtr(type, idtl) {
+    $.getJSON(base_url + 'assets/json/datatable-id.json', function (json) {
         if ($.fn.DataTable.isDataTable('#table-addmaterial')) {
             tableAddMtr.destroy();
         }
 
+        const ajaxUrl = type === 1
+            ? base_url + 'MasterKatalog/listmaterial/' + idtl
+            : base_url + 'MasterKatalog/detailmaterial/' + idtl;
+
         tableAddMtr = $("#table-addmaterial").DataTable({
-            "language": json,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": base_url + 'MasterKatalog/tableaddmaterial/' + idtl,
-                "type": "POST",
-                "data": function(d) {
+            language: json,
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: ajaxUrl,
+                type: "POST",
+                data: d => {
                     d.search = $('#AddMaterial').find('input[type="search"]').val();
                 }
             },
-            // 'rowsGroup': [0,1],
-            "columns": [
+            columns: [
                 {
-                    "data": "nama_material",
-                    "render": function(data, type, row, full) {
+                    data: "nama_material",
+                    render: function (data, type, row) {
                         if (type === "display") {
                             return `
                                 <div class="product-names">
-                                    <div class="light-product-box"><img class="img-fluid" src="${base_url+'assets/lvaimages/material/'+row.img_material}" alt="material"></div>
+                                    <div class="light-product-box">
+                                        <img class="img-fluid" src="${base_url}assets/lvaimages/material/${row.img_material}" alt="material">
+                                    </div>
                                     <strong data-idtl="${row.id_katalog_dtl}" data-kodem="${row.kode_material}">
                                         ${row.kode_material} | ${row.nama_material}<br>
-                                        <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.tipe_material}</span>
-                                        <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.kat_material}</span>
-                                        <span class="badge rounded-pill badge-dark tag-pills-sm-mb">${row.warna_material}</span>
+                                        <span class="badge rounded-pill badge-dark">${row.tipe_material}</span>
+                                        <span class="badge rounded-pill badge-dark">${row.kat_material}</span>
+                                        <span class="badge rounded-pill badge-dark">${row.warna_material}</span>
                                     </strong>
                                 </div>
                             `;
@@ -960,118 +989,106 @@ function tabaddmtr(idtl) {
                         return data;
                     }
                 },
-                { 
-                    "data": "qty",
-                    "render": function(data, type, row) {
+                {
+                    data: null,
+                    orderable: false,
+                    render: row => {
+                        const qty = type === 1 ? 0 : (row.qty_material || 0);
                         return `
-                            <div class="input-group has-validation">
-                                <input class="form-control" type="number" step="0.01" min="0" name="qty" id="qty" placeholder="0" value="${row.qty}" required>
+                            <div class="input-group">
+                                <input class="form-control qty-input" type="number" step="0.01" min="0" oninput="this.value = Math.abs(this.value)" name="qty" value="${qty}" required>
                                 <span class="input-group-text">${row.sat_material}</span>
                             </div>
                         `;
-                    },
-                    "orderable": false
-                },
-                { 
-                    "data": "harga_material",
-                    "render": function (data, type, row) {
-                        return `
-                            <div class="input-group has-validation">
-                                <span class="input-group-text">Rp</span>
-                                <input class="form-control" type="text" name="sharga" id="sharga" value="${formatcurdt.format(data)}" readonly>
-                            </div>
-                        `;
-                    },
-                    "orderable": false
-                },
-                { 
-                    "data": null,
-                    "render": function(data, type, row) {
-                        return `
-                            <div class="input-group has-validation">
-                                <span class="input-group-text">Rp</span>
-                                <input class="form-control" type="text" name="tharga" id="tharga" placeholder="0" readonly>
-                            </div>
-                        `;
-                    },
-                    "orderable": false
-                }
-            ],
-
-            "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                   "<'row'<'col-sm-12 col-md-2'B>>" +
-                   "<'row'<'col-sm-12'tr>>" +
-                   "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
-            "buttons": [
-                {
-                    "text": 'Refresh',
-                    "className": 'custom-refresh-button',
-                    "attr": {
-                        "id": "refresh-button"
-                    },
-                    "init": function(api, node) {
-                        $(node).removeClass('btn-default').addClass('btn-primary').attr('title', 'Refresh');
-                    },
-                    "action": function() {
-                        tableAddMtr.ajax.reload();
                     }
                 },
                 {
-                    "text": 'Tambah',
-                    "className": 'custom-tambah-button',
-                    "attr": {
-                        "id": "tambah-button"
-                    },
-                    "action": function() {
-                        var materialsData = [];
-                        
-                        $('#table-addmaterial tbody tr').each(function() {
-                            var $row = $(this);
-                            var materialData = {
-                                qty: parseFloat($row.find('input[name="qty"]').val()) || 0,
-                                tharga: parseFloat($row.find('input[name="tharga"]').val().replace(/\D/g, '')) || 0,
-                                idtl: $row.find('.product-names strong').data('idtl'),
-                                kodem: $row.find('.product-names strong').data('kodem')
-                            };
-                            materialsData.push(materialData);
+                    data: "harga_material",
+                    orderable: false,
+                    render: data => `
+                        <div class="input-group">
+                            <span class="input-group-text">Rp</span>
+                            <input class="form-control sharga-input" type="text" name="sharga" value="${formatcurdt.format(data)}" readonly>
+                        </div>
+                    `
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    render: row => {
+                        const total = type === 1 ? 0 : (row.hpp_bahan || 0);
+                        const removeBtn = type === 2 
+                            ? `<button type="button" class="btn btn-danger btn-sm remove-data" data-id="${row.id}" title="Hapus"><i class="fa fa-trash"></i></button>` 
+                            : '';
+                        return `
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input class="form-control tharga-input" type="text" name="tharga" value="${formatcurdt.format(total)}" readonly>
+                                ${removeBtn}
+                            </div>
+                        `;
+                    }
+                }
+            ],
+            dom: "<'row'<'col-md-6'l><'col-md-6'f>>" +
+                "<'row'<'col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-md-4'i><'col-md-8'p>>",
+            buttons: [
+                {
+                    text: 'Refresh',
+                    className: 'btn btn-primary',
+                    action: () => tableAddMtr.ajax.reload()
+                },
+                {
+                    text: type === 1 ? 'Tambah' : 'Edit',
+                    className: type === 1 ? 'btn btn-success' : 'btn btn-warning',
+                    action: () => {
+                        const materialsData = [];
+
+                        $('#table-addmaterial tbody tr').each(function () {
+                            const $row = $(this);
+                            const qty = parseFloat($row.find('.qty-input').val()) || 0;
+                            const tharga = parseFloat($row.find('.tharga-input').val().replace(/\D/g, '')) || 0;
+
+                            if (tharga > 0) {
+                                materialsData.push({
+                                    qty,
+                                    tharga,
+                                    idtl: $row.find('.product-names strong').data('idtl'),
+                                    kodem: $row.find('.product-names strong').data('kodem')
+                                });
+                            }
                         });
-                
-                        if (materialsData.length === 0) {
-                            swal("No materials to add", {
+
+                        if (!materialsData.length) {
+                            swal("Tidak ada material", {
                                 icon: "warning",
                                 buttons: false,
                                 timer: 1000
                             });
-                            return; // Exit if no materials to add
+                            return;
                         }
-                
+
                         $.ajax({
-                            url: base_url + 'MasterKatalog/addmtr',
+                            url: base_url + (type === 1 ? 'MasterKatalog/addmtr' : 'MasterKatalog/addmtr'),
                             type: 'POST',
                             data: { materials: materialsData },
                             dataType: 'json',
-                            success: function(response) {
-                                if (response.status === 'success') {
-                                    swal("Berhasil ditambahkan", {
-                                        icon: "success",
-                                        buttons: false,
-                                        timer: 1000
-                                    });
-                                } else {
-                                    swal("Gagal ditambahkan", {
-                                        icon: "error",
-                                        buttons: false,
-                                        timer: 1000
-                                    });
-                                }
+                            success: function (response) {
+                                swal(response.status === 'success' ? "Berhasil disimpan" : "Gagal disimpan", {
+                                    icon: response.status === 'success' ? "success" : "error",
+                                    buttons: false,
+                                    timer: 1000
+                                });
                             },
                             complete: function () {
                                 tableAddMtr.ajax.reload();
                                 $('#AddMaterial').modal('hide');
                                 tableLog.ajax.reload();
                             },
-                            error: function(xhr, status, error) {
-                                swal("Gagal ditambahkan", {
+                            error: () => {
+                                swal("Gagal disimpan", {
                                     icon: "error",
                                     buttons: false,
                                     timer: 1000
@@ -1080,18 +1097,80 @@ function tabaddmtr(idtl) {
                         });
                     }
                 }
-                               
             ]
         });
-        $('#table-addmaterial tbody').on('input', '#qty', function() {
-            var $row = $(this).closest('tr'); 
-            var qty = $(this).val() || 0;
-            var sharga = parseFloat($row.find('#sharga').val().replace(/\D/g, '')) || 0;
-            var totalharga = qty * sharga;
-            $row.find('#tharga').val(formatcurdt.format(totalharga));
+
+        // Live update total harga
+        $('#table-addmaterial tbody').on('input', '.qty-input', function () {
+            const $row = $(this).closest('tr');
+            const qty = parseFloat($(this).val()) || 0;
+            const sharga = parseFloat($row.find('.sharga-input').val().replace(/\D/g, '')) || 0;
+            const total = qty * sharga;
+            $row.find('.tharga-input').val(formatcurdt.format(total));
         });
+        $('#table-addmaterial tbody').on('click', '.remove-data', function () {
+            const $row = $(this).closest('tr');
+            const id = $(this).data('id');
+
+            swal({
+                title: 'Apa anda yakin?',
+                text: 'Data yang sudah terhapus hilang permanen!',
+                icon: 'warning',
+                buttons: {
+                    cancel: {
+                        text: 'Cancel',
+                        value: null,
+                        visible: true,
+                        className: 'btn-secondary',
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: 'Delete',
+                        value: true,
+                        visible: true,
+                        className: 'btn-danger',
+                        closeModal: true
+                    }
+                }
+            }).then((result) => {
+                if (result) {
+                    var idtl = $row.find('.product-names strong').data('idtl')
+                    $.ajax({
+                        type: 'POST',
+                        url: base_url + 'MasterKatalog/delmtr/' + id,
+                        data: {
+                            idtl: idtl
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                swal("Deleted!", {
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 1500
+                                }).then(function() {
+                                    tableAddMtr.ajax.reload();
+                                    tableLog.ajax.reload();
+                                });
+                            } else {
+                                swal("Fail!", {
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
+                        error: function (error) {
+                            swal('Error!', 'An error occurred while processing the request.', 'error');
+                        }
+                    });
+                }
+            });
+        }
+        );
     });
 }
+
 function aktivasikat() {
     $(document).on('click', '#aktivasi', function (e) {
         e.preventDefault();

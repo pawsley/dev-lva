@@ -186,7 +186,13 @@ class Mkatalog_model extends CI_Model {
                 'message' => 'Gagal aktivasi'
             );
         }
-      }       
+    }      
+    public function delmtr($id){
+        $success = $this->db->delete('tb_katalog_material', array("id" => $id));
+        $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+        return array('status' => 'success', 'message' => $message);
+    }
+
 }
 
 /* End of file Mkatalog_model.php */

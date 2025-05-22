@@ -137,7 +137,8 @@ class MasterKatalog extends Auth
           'catatan'  => $this->input->post('notes')
       ];
       if (!empty($_FILES['img_katalog']['name'])) {
-        $file_path = realpath(APPPATH . '../assets/lvaimages/katalog');
+        // $file_path = realpath(APPPATH . '../assets/lvaimages/katalog');
+        $file_path = realpath(FCPATH . 'assets/lvaimages/katalog');
         $config['upload_path'] = $file_path;
         $config['allowed_types'] = 'jpg|jpeg|png';
         $config['overwrite'] = true;
@@ -225,11 +226,29 @@ class MasterKatalog extends Auth
     $this->datatables->from('vkatalog');
     return print_r($this->datatables->generate());
   }
-  public function tableaddmaterial($iddtl)  {
-    $this->load->library('datatables');
+  public function listmaterial($iddtl) {
     $search = $this->input->post('search');
-    $this->datatables->select('kode_material, id_katalog_dtl, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material, qty');
-    $this->datatables->from('vkatalog_bahan');
+    $this->load->library('datatables');
+    $this->datatables->select('kode_material, id_katalog_dtl, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material');
+    $this->datatables->from('vmaterial_add');
+    if (!empty($search)) {
+      $searchTerms = explode(' ', $search);
+      $likeClauses = [];
+      
+      foreach ($searchTerms as $term) {
+          $likeClauses[] = 'concat(nama_material, " ", tipe_material, " ", kat_material, " ", warna_material) LIKE \'%' . $this->db->escape_like_str($term) . '%\'';
+      }
+
+      $this->datatables->where(implode(' AND ', $likeClauses));
+    }
+    $this->datatables->where('id_katalog_dtl',$iddtl);
+    return print_r($this->datatables->generate());
+  }
+  public function detailmaterial($iddtl) {
+    $search = $this->input->post('search');
+    $this->load->library('datatables');
+    $this->datatables->select('kode_material, id, id_katalog_dtl, qty_material, hpp_bahan, nama_material, CONCAT(tipe_material, " ", kat_material, " ", warna_material) as dtl_mtr, tipe_material, kat_material, warna_material, sat_material, harga_material, img_material');
+    $this->datatables->from('vmaterial_list');
     if (!empty($search)) {
       $searchTerms = explode(' ', $search);
       $likeClauses = [];
@@ -274,12 +293,32 @@ class MasterKatalog extends Auth
         }
 
         $idtl = $materials[0]['idtl'];
-        $this->Mkatalog_model->updlogdtl($idtl, ['total_hpp_bahan' => $totalHarga]);
+        $qdata = $this->db->query(
+          'SELECT SUM(hpp_bahan) as total_hpp_bahan 
+           FROM tb_katalog_material 
+           WHERE id_katalog_dtl = ?', 
+          [$idtl]
+        )->row();
+        $this->Mkatalog_model->updlogdtl($idtl, ['total_hpp_bahan' => $qdata->total_hpp_bahan]);
 
         echo json_encode(['status' => 'success']);
     } else {
         echo json_encode(['status' => 'error']);
     }
+  }
+  public function delmtr($id) {
+    $result = $this->Mkatalog_model->delmtr($id);
+    if($result['status'] == 'success') {
+        $idtl = $this->input->post('idtl');
+        $qdata = $this->db->query(
+          'SELECT SUM(hpp_bahan) as total_hpp_bahan 
+            FROM tb_katalog_material 
+            WHERE id_katalog_dtl = ?', 
+          [$idtl]
+        )->row();
+        $this->Mkatalog_model->updlogdtl($idtl, ['total_hpp_bahan' => $qdata->total_hpp_bahan]);
+    }
+    echo json_encode($result);
   }
   // Menu Condiment Katalog
   public function condiments(){
