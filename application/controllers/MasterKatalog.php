@@ -113,7 +113,7 @@ class MasterKatalog extends Auth
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
     $data['js'] = '
     <script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.3') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -191,7 +191,7 @@ class MasterKatalog extends Auth
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.3') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -347,7 +347,7 @@ class MasterKatalog extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v=1.3') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/mkatalog.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.1') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
