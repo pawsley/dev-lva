@@ -1,4 +1,6 @@
 let datid = "";
+var discval = 0;
+let rowIdCounter = 0;
 $(document).ready(function () {
     generateid();
     $('#duedate').val(updateDateNow(datid));
@@ -25,6 +27,7 @@ async function generateid() {
     }
 }
 function getselect2() {
+    let lastSelected = null;
     $('#seltipe').select2({
         language: 'id',
         placeholder: 'Pilih Tipe Agen',
@@ -52,73 +55,6 @@ function getselect2() {
         }
     }).on('change', function(){
         calculateFinal();
-    });
-    $('#selkat').select2({
-        language: 'id',
-        placeholder: 'Produk Katalog',
-        allowClear: true,
-        ajax: {
-            url: function() {
-                return base_url + 'penjualan/data-katalog/';
-            },
-            dataType: 'json',
-            delay: 250,
-            data: function(params) {
-                return { q: params.term };
-            },
-            processResults: function(data) {
-                let groups = {};
-                let results = [];
-
-                data.forEach(function(item) {
-                    let groupName = item.nama_katalog + ' - ' + item.tipe;
-                    if (!groups[groupName]) {
-                        groups[groupName] = [];
-                    }
-                    groups[groupName].push({
-                        id: item.id_katalog_dtl,
-                        text: item.nama_katalog + ' - (' + item.size + ')'
-                    });
-                });
-
-                Object.keys(groups).forEach(function(groupName) {
-                    results.push({
-                        text: groupName,
-                        children: groups[groupName]
-                    });
-                });
-
-                return { results: results };
-            },
-            cache: false,
-        },
-    }).on('change', function() {
-        let selectedValue = $(this).val();
-        $.ajax({
-            type: 'GET',
-            url: base_url + 'PenKasir/loadkatalog/' + selectedValue,
-            dataType: 'json',
-            success: function(response) {
-                response.forEach(function(daf) {
-                    if ($('#list-order').find(`#${daf.id_katalog_dtl}`).length === 0) {
-                        $('#list-order').append(`
-                            <tr id="order-detail" data-idkdl="${daf.id_katalog_dtl}" data-idkat="${daf.id_katalog}">
-                                <td><div class="light-product-box"><img class="img-50" src="${base_url+'assets/lvaimages/katalog/'+daf.img_katalog}" alt="katalog"></div></td>
-                                <td>${daf.nama_katalog}</td>
-                                <td id="dsize">${daf.size}</td>
-                                <td>${formatcurrency.format(daf.harga_jual)}</td>
-                                <td><input class="form-control qty-input" type="number" min="1" name="qty[]" placeholder="0" required oninput="calculateTotal(this, ${daf.harga_jual}, '${daf.id_katalog_dtl}')"/></td>
-                                <td id="total-${daf.id_katalog_dtl}">Rp 0</td>
-                                <td><i class="icon-trash"></i></td>
-                            </tr>
-                        `);
-                    }
-                });
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-            }
-        });
     });
     $('#selcst').select2({
         language: 'id',
@@ -176,7 +112,62 @@ function getselect2() {
         $('#wa').val(data.wa && data.wa !== '' ? data.wa : " - ");
         $('#email').val(data.email && data.email !== '' ? data.email : " - ");
         $("#seltipe").empty().append('<option data-id="'+data.id+'" value="' +data.diskon+ '">' +data.nama_sbc+ '</option>').trigger('change.select2');
+        discval = data.diskon;
     });    
+    $('#selkat').select2({
+        language: 'id',
+        placeholder: 'Produk Katalog',
+        allowClear: true,
+        ajax: {
+            url: function() {
+                return base_url + 'penjualan/data-katalog/';
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return { q: params.term };
+            },
+            processResults: function(data) {
+                let groups = {}, results = [];
+
+                data.forEach(item => {
+                    let groupName = item.nama_katalog + ' - ' + item.tipe;
+                    if (!groups[groupName]) groups[groupName] = [];
+                    groups[groupName].push({
+                        id: item.id_katalog_dtl,
+                        text: item.nama_katalog + ' - (' + item.size + ')'
+                    });
+                });
+
+                Object.keys(groups).forEach(groupName => {
+                    results.push({
+                        text: groupName,
+                        children: groups[groupName]
+                    });
+                });
+
+                return { results };
+            },
+            cache: false,
+        }
+    })
+    .on('select2:select', function(e) {
+        let selectedValue = e.params.data.id;
+        loadKatalogData(selectedValue);
+        $(this).val(null).trigger('change');
+    })
+    .on('select2:close', function() {
+        let currentVal = $('#selkat').val();
+        if (currentVal && currentVal === lastSelected) {
+            loadKatalogData(currentVal); // manually re-load if same selected
+        }
+    });
+
+    $('#list-order').on('click', 'i.icon-trash', function() {
+        $(this).closest('tr').remove();
+        // calculateFinal();
+    });
+
 }
 function getSelect2Data(data) {
     var $option = $('<span></span>');
@@ -188,27 +179,100 @@ function getSelect2Data(data) {
     $option.attr('data-diskon', data.diskon);
     return $option;
 }
-function calculateTotal(input, harga_jual, id) {
-    let qty = parseInt($(input).val()) || 0;
-    let subTotal = qty * harga_jual;
-    $('#total-' + id).text(formatcurrency.format(subTotal));
+function loadKatalogData(selectedValue) {
+    $.ajax({
+        type: 'GET',
+        url: base_url + 'PenKasir/loadkatalog/' + selectedValue,
+        dataType: 'json',
+        success: function(response) {
+            response.forEach(function(daf) {
+                let uniqueId = ++rowIdCounter;
+                $('#list-order').append(`
+                    <tr data-idkdl="${daf.id_katalog_dtl}" data-idkat="${daf.id_katalog}" data-harga="${daf.harga_jual}" data-uid="${uniqueId}">
+                        <td>
+                            <div class="product-names">
+                                <div class="light-product-box">
+                                    <img class="img-fluid" src="${base_url + 'assets/lvaimages/katalog/' + daf.img_katalog}" alt="katalog">
+                                </div>
+                                <div class="row">
+                                    <div class="col-12"><strong>${daf.id_katalog} | ${daf.nama_katalog} | ${formatcurrency.format(daf.harga_jual)}</strong></div>
+                                    <div class="col-12">
+                                        <strong>
+                                            <span class="badge rounded-pill badge-dark">${daf.warna_katalog}</span>
+                                            <span class="badge rounded-pill badge-dark">${daf.size}</span>
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><input class="form-control qty-input" type="number" min="1" name="qty[]" value="1" oninput="recalculateRow(this)" required /></td>
+                        <td><input class="form-control diskon-input" type="number" step="0.01" min="0" max="100" name="diskon[]" value="${discval}" oninput="recalculateRow(this)" required /></td>
+                        <td><input class="form-control nominal-input" type="text" name="nominal[]" value="0" oninput="recalculateRow(this)" onblur="formatNominalAfterTyping(this)" required /></td>
+                        <td><input class="form-control keterangan-input" type="text" name="keterangan[]" placeholder="keterangan" required /></td>
+                        <td class="total-cell" id="total-${uniqueId}">Rp 0</td>
+                        <td><i class="icon-trash" style="cursor:pointer;" onclick="$(this).closest('tr').remove();"></i></td>
+                    </tr>
+                `);
+                recalculateRow($('#list-order').find(`tr[data-uid="${uniqueId}"] input.qty-input`)[0]);
+            });
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+function recalculateRow(input) {
+    let row = $(input).closest('tr');
+    let harga = parseFloat(row.data('harga')) || 0;
+    let qty = parseInt(row.find('.qty-input').val()) || 0;
+    let diskon = parseFloat(row.find('.diskon-input').val()) || 0;
+    diskon = Math.min(Math.abs(diskon), 100);
+
+    let subtotal = qty * harga;
+    let nominal = (subtotal * diskon) / 100;
+
+    // Cap nominal if user edited it manually
+    let nominalInput = row.find('.nominal-input');
+    let currentNominal = parseFloat(nominalInput.val().replace(/[^0-9]/g, '')) || 0;
+    if (input.classList.contains('nominal-input')) {
+        // If user is changing nominal, recalc discount
+        if (currentNominal > subtotal) currentNominal = subtotal;
+        nominalInput.val(formatdecimal.format(currentNominal));
+        diskon = Math.round((currentNominal / subtotal) * 100);
+        row.find('.diskon-input').val(diskon);
+        nominal = currentNominal;
+    } else {
+        // If user is changing qty or diskon, recalc nominal
+        nominalInput.val(formatdecimal.format(nominal));
+    }
+
+    let finalTotal = subtotal - nominal;
+    if (finalTotal < 0) finalTotal = 0;
+
+    let uid = row.data('uid');
+    $('#total-' + uid).text(formatcurrency.format(finalTotal));
     calculateFinal();
+}
+function formatNominalAfterTyping(input) {
+    let raw = parseFloat(input.value.replace(/[^0-9]/g, '')) || 0;
+    input.value = formatdecimal.format(raw);
 }
 function calculateFinal() {
     let subtotal = 0;
+    let disctotal = 0;
 
     $('#list-order tr').each(function() {
-        let totalText = $(this).find('td').eq(5).text().replace('Rp', '').replace(/\./g, '').trim();
-        let total = parseFloat(totalText) || 0;
-        subtotal += total;
+        let row = $(this);
+        let qty = parseInt(row.find('.qty-input').val()) || 0;
+        let harga = parseFloat(row.data('harga')) || 0;
+        let diskon = parseFloat(row.find('.nominal-input').val().replace(/[^0-9]/g, '')) || 0;
+        let subtotalRow = qty * harga;
+        subtotal += subtotalRow;
+        disctotal += diskon;
     });
-
     $('#subtotal').text(formatcurrency.format(subtotal));
-    var disdata = $('#seltipe').val();
-    let discount = disdata !==null ? parseFloat(disdata) : 0;
-    let discountAmount = (subtotal * discount) / 100;
-    let grandTotal = subtotal - discountAmount;
-    $('#diskon').text(' - '+formatcurrency.format(discountAmount));
+    $('#diskon').text(' - '+formatcurrency.format(disctotal));
+    let grandTotal = subtotal - disctotal;
     $('#grand').text(formatcurrency.format(grandTotal));
 }
 function createOrder() {
@@ -247,7 +311,7 @@ function createOrder() {
         // details
         formData.append('table_data', JSON.stringify(tableData));
         for (var pair of formData.entries()) {
-            console.log(pair[0]+ ': ' + pair[1]);
+            // console.log(pair[0]+ ': ' + pair[1]);
         }
         $.ajax({
             url: base_url + 'PenKasir/createorder',

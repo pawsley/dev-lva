@@ -8,7 +8,7 @@ $(document).ready(function () {
         addprod();
     } else if (window.location.href === base_url+'produksi/list-produksi') {
         tabkatalog();
-		onShown();
+		// onShown();
     }
 });
 async function generateid() {

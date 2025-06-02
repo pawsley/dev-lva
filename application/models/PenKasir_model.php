@@ -2,15 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PenKasir_model extends CI_Model {
-  public function getLastKode($year, $month,$day) {
-    $this->db->select('id_order');
-    $this->db->from('tb_order');
-    $this->db->like('id_order', "$year/$month/$day", 'after');
-    $this->db->order_by('id_order', 'desc');
-    $this->db->limit(1);
-    $query = $this->db->get();
-    return $query->result_array();
-  }
+  public function getLastKode($year, $month) {
+		$this->db->select('id_order');
+		$this->db->from('tb_order');
+		$this->db->like('id_order', "$year$month");
+		$this->db->order_by('id_order', 'DESC');
+		$this->db->limit(1);
+	
+		$query = $this->db->get();
+		$result = $query->row_array();
+	
+		return $result ? $result['no_produksi'] : null;
+	}
   public function getsbkat($searchTerm = null) {
     $this->db->select(['id_condiment', 'nama_condiment','kode_condiment']);
     $this->db->from('tb_katalog');

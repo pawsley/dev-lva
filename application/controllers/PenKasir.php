@@ -40,7 +40,7 @@ class PenKasir extends Auth
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
-    <script src="' . base_url('assets/js/additional-js/penkasir.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/penkasir.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.2') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
@@ -52,31 +52,33 @@ class PenKasir extends Auth
   public function generateid() {
     $year = date('Y');
     $month = date('m');
-    $day = date('d');
+    $expectedPrefix = "$year$month";
 
-    $data['lastID'] = $this->PenKasir_model->getLastKode($year, $month, $day);
-    $lastID = isset($data['lastID'][0]['id_order']) ? $data['lastID'][0]['id_order'] : '';
-    
-    if (preg_match('/PO-(\d{4})$/', $lastID, $matches)) {
+    // Fetch last order number
+    $lastID = $this->PenKasir_model->getLastKode($year, $month) ?? '';
+
+    // Extract numeric part using regex
+    if (preg_match('/PO(\d{4})/', $lastID, $matches)) {
         $numericPart = $matches[1];
     } else {
         $numericPart = '0000';
     }
-    $expectedPrefix = "$year/$month/$day";
-    if (strpos($lastID, $expectedPrefix) !== 0) {
+
+    if (!empty($lastID) && strpos($lastID, $expectedPrefix) === false) {
         $numericPart = '0000';
     }
 
     $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-    $idlog = $this->session->userdata('id_karyawan');
-    $data['newID'] = $expectedPrefix .'/'. $idlog . '/' . 'PO-' . $incrementedNumericPart;
-    $data['defID'] = $expectedPrefix .'/'. $idlog . '/' . 'PO-0001';
+    // $idlog = $this->session->userdata('id_karyawan');
 
-    $currentDate = date('Y/m/d');
-    $data['currentDate'] = $currentDate;
+    $data['newID'] = "PO{$incrementedNumericPart}/{$expectedPrefix}";
+    $data['defID'] = "P00001/{$expectedPrefix}";
+
+    $data['currentDate'] = date('Y/m');
+
 
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
-  }
+	}
   public function loadkatalog($id_ktdl=null) {
     $searchTerm = $this->input->get('q');
     $results = $this->PenKasir_model->getDataKatalog($searchTerm, $id_ktdl);
@@ -103,7 +105,7 @@ class PenKasir extends Auth
         'id_karyawan' => $this->session->userdata('id_karyawan'),
         'tanggal_order' => $this->input->post('orderdate'),
         'catatan_order' => $this->input->post('catatan'),
-        'presentase_diskon' => $this->input->post('predis'),
+        'presentase_diskon' => 0,
         'nominal_diskon' => $this->input->post('nomdis'),
         'sub_total' => $this->input->post('sub'),
         'grand_total'=> $this->input->post('grand')

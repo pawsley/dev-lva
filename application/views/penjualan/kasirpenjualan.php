@@ -80,13 +80,13 @@
                                       <table class="table table-bordered" id="table-order" width="100%">
                                         <thead>
                                           <tr>
-                                            <th style="width: 5%">#</th>
-                                            <th style="width: 30%">PRODUK</th>
-                                            <th style="width: 5%">SIZE</th>
-                                            <th style="width: 20%">HARGA</th>
-                                            <th style="width: 10%">QUANTITY</th>
-                                            <th style="width: 20%">TOTAL</th>
-                                            <th style="width: 10%">AKSI</th>
+                                            <th style="width: 20%">PRODUK</th>
+                                            <th style="width: 5%">QTY</th>
+                                            <th style="width: 5%">DISC</th>
+                                            <th style="width: 10%">NOMINAL</th>
+                                            <th style="width: 15%">KETERANGAN</th>
+                                            <th style="width: 10%">TOTAL</th>
+                                            <th style="width: 2%">AKSI</th>
                                           </tr>
                                         </thead>
                                         <tbody id="list-order">
@@ -111,7 +111,7 @@
                                     <div class="col-md-12 position-relative">
                                       <div class="form-floating">
                                         <textarea class="form-control" id="txtcatatan" name="txtcatatan" placeholder="Buat Catatan Disini"></textarea>
-                                        <label for="floatingTextarea">Catatan (Opsional)</label>
+                                        <label for="txtcatatan">Catatan (Opsional)</label>
                                       </div>
                                     </div>                                    
                                     <!-- Submit Pesanan -->
