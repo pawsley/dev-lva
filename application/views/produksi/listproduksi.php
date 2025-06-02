@@ -45,6 +45,12 @@
                                         <th style="width: 40%;"><span class="f-light f-w-600">TANGGAL PRODUKSI</span></th>
                                         <th style="width: 10%;"><span class="f-light f-w-600">AKSI</span></th>
                                     </tr>
+									<tr>
+										<th><input type="text" placeholder="Filter DETAIL PO" class="form-control form-control-sm" /></th>
+										<th><input type="text" placeholder="Filter PRODUK" class="form-control form-control-sm" /></th>
+										<th><input type="text" placeholder="dd/mm/yyyy" class="form-control form-control-sm" /></th>
+										<th></th>
+									</tr>
                                 </thead>
                                 <tbody id="list-body">
                                 </tbody>

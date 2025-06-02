@@ -207,6 +207,8 @@ function tabkatalog() {
                 "type": "POST",
             },
             'rowsGroup': [0],
+			orderCellsTop: true,
+			fixedHeader: true,
             "columns": [
                 {
                     "data": "id_order",
@@ -291,8 +293,18 @@ function tabkatalog() {
 					"action": function () {
 						window.location.href = base_url + 'produksi/produksi-baru';
 					}
-				}				
-            ]
+				},			
+            ],
+			initComplete: function () {
+				this.api().columns().every(function () {
+					var column = this;
+					$('input', column.header()).on('keyup change', function () {
+						if (column.search() !== this.value) {
+							column.search(this.value).draw();
+						}
+					});
+				});
+			}
         });
     });
 }
