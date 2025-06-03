@@ -208,7 +208,7 @@ function loadKatalogData(selectedValue) {
                         <td><input class="form-control qty-input" type="number" min="1" name="qty[]" value="1" oninput="recalculateRow(this)" required /></td>
                         <td><input class="form-control diskon-input" type="number" step="0.01" min="0" max="100" name="diskon[]" value="${discval}" oninput="recalculateRow(this)" required /></td>
                         <td><input class="form-control nominal-input" type="text" name="nominal[]" value="0" oninput="recalculateRow(this)" onblur="formatNominalAfterTyping(this)" required /></td>
-                        <td><input class="form-control keterangan-input" type="text" name="keterangan[]" placeholder="keterangan" required /></td>
+                        <td><input class="form-control keterangan-input" type="text" name="keterangan[]" placeholder="keterangan" /></td>
                         <td class="total-cell" id="total-${uniqueId}">Rp 0</td>
                         <td><i class="icon-trash" style="cursor:pointer;" onclick="$(this).closest('tr').remove();"></i></td>
                     </tr>
@@ -289,13 +289,15 @@ function createOrder() {
             let size = $(this).find('#dsize').text();
             let qty = $(this).find('.qty-input').val();
             let total = $(this).find('#total-'+id_katalog_dtl).text().replace(/[-Rp\s.]/g, '');
-            tableData.push({
-                id_katalog: id_katalog,
-                id_katalog_dtl: id_katalog_dtl,
-                detail_size: size,
-                qty_order: qty,
-                harga_jual_order: total
-            });
+			for (let index = 0; index < qty; index++) {
+				tableData.push({
+					id_katalog: id_katalog,
+					id_katalog_dtl: id_katalog_dtl,
+					detail_size: size,
+					qty_order: 1,
+					harga_jual_order: total
+				});
+			}
         });
         
         

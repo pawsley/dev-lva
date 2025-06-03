@@ -60,7 +60,7 @@
                                     <!-- Select Produk -->
                                     <div class="col-md-8 position-relative">
                                         <label class="form-label" for="selkat">PILIH KATALOG PRODUK</label>
-                                        <select class="form-select" id="selkat" name="selkat" required>
+                                        <select class="form-select" id="selkat" name="selkat">
                                         </select>
                                     </div>
                                     <div class="col-md-3 position-relative">
