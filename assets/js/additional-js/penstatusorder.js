@@ -1,6 +1,6 @@
 var tabstato;
 $(document).ready(function () {
-    tablestato()
+    // tablestato()
     approve();
     cancel()
 });
@@ -17,14 +17,44 @@ function tablestato() {
             "language": json,
             "processing": true,
             "serverSide": true,
+            orderCellsTop: true,
+			fixedHeader: true,
             "order": [
-                [0, 'asc']
+                [0, 'desc']
             ],
             "ajax": {
                 "url": base_url + 'status-order/list',
                 "type": "POST",
             },
             "columns": [
+                {
+                    "data": "id_order",
+                    "orderable": false,
+                    "render": function (data, type, full, meta) {
+                        if (type === "display") {
+                            if (full.status === "Order Baru") {
+                                return `
+                                    <ul class="action">
+                                        <div class="btn-group">
+                                            <button class="btn btn-success" id="data-approve" data-id="${data}"><i class="icon-check"></i></button>
+                                            <button class="btn btn-danger" id="data-batal" data-id="${data}"><i class="icon-close"></i></button>
+                                        </div>
+                                    </ul>
+                                `;
+                            }else if(full.status === "Batal" || full.status === "Produksi" || full.status === "Selesai" || full.status === "Approve"){
+                                return `
+                                    <ul class="action">
+                                        <div class="btn-group">
+                                            <button class="btn btn-success" disabled id="data-approve" data-id="${data}"><i class="icon-check"></i></button>
+                                            <button class="btn btn-danger" disabled id="data-batal" data-id="${data}"><i class="icon-close"></i></button>
+                                        </div>
+                                    </ul>
+                                `;
+                            }
+                        }
+                        return data;
+                    }
+                },
                 {
                     "data": "id_order",
                 },
@@ -54,35 +84,7 @@ function tablestato() {
                         }
                         return data;
                     }
-                },  
-                {
-                    "data": "id_order",
-                    "orderable": false,
-                    "render": function (data, type, full, meta) {
-                        if (type === "display") {
-                            if (full.status === "Order Baru") {
-                                return `
-                                    <ul class="action">
-                                        <div class="btn-group">
-                                            <button class="btn btn-success" id="data-approve" data-id="${data}"><i class="icon-check"></i></button>
-                                            <button class="btn btn-danger" id="data-batal" data-id="${data}"><i class="icon-close"></i></button>
-                                        </div>
-                                    </ul>
-                                `;
-                            }else if(full.status === "Batal" || full.status === "Produksi" || full.status === "Selesai" || full.status === "Approve"){
-                                return `
-                                    <ul class="action">
-                                        <div class="btn-group">
-                                            <button class="btn btn-success" disabled id="data-approve" data-id="${data}"><i class="icon-check"></i></button>
-                                            <button class="btn btn-danger" disabled id="data-batal" data-id="${data}"><i class="icon-close"></i></button>
-                                        </div>
-                                    </ul>
-                                `;
-                            }
-                        }
-                        return data;
-                    }
-                }           
+                },             
             ],
             "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                    "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -106,67 +108,66 @@ function tablestato() {
                 }
             ]
         });
-        $('#table-order tbody').on('click', 'tr', function () {
-            var row = tabstato.row(this);
+        // $('#table-order tbody').on('click', 'tr', function () {
+        //     var row = tabstato.row(this);
             
-            // Toggle color for expanded row
-            $(this).toggleClass("selected");
+        //     // Toggle color for expanded row
+        //     $(this).toggleClass("selected");
         
-            if (row.child.isShown()) {
-                row.child.hide();
-                $(this).removeClass('selected');
-            } else {
-                var rowData = row.data();
-                $.ajax({
-                    url: base_url + 'status-order/detail',
-                    type: 'POST',
-                    data: {
-                        ido: rowData.id_order
-                    },
-                    success: function (response) {
-                        // row.child(`<div>${details}</div>`).show();
-                        if (typeof response === "string") {
-                            response = JSON.parse(response);
-                        }
+        //     if (row.child.isShown()) {
+        //         row.child.hide();
+        //         $(this).removeClass('selected');
+        //     } else {
+        //         var rowData = row.data();
+        //         $.ajax({
+        //             url: base_url + 'status-order/detail',
+        //             type: 'POST',
+        //             data: {
+        //                 ido: rowData.id_order
+        //             },
+        //             success: function (response) {
+        //                 // row.child(`<div>${details}</div>`).show();
+        //                 if (typeof response === "string") {
+        //                     response = JSON.parse(response);
+        //                 }
                         
-                        var detailTable = `
-                        <table class="table table-bordered table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Katalog</th>
-                                    <th>Detail</th>
-                                    <th>Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                        `;
+        //                 var detailTable = `
+        //                 <table class="table table-bordered table-sm">
+        //                     <thead>
+        //                         <tr>
+        //                             <th>Katalog</th>
+        //                             <th>Detail</th>
+        //                             <th>Quantity</th>
+        //                         </tr>
+        //                     </thead>
+        //                     <tbody>
+        //                 `;
         
-                        // Loop through each item in the `data` array to add rows
-                        response.data.forEach(function(item) {
-                            detailTable += `
-                                <tr>
-                                    <td><div class="light-product-box"><img class="img-100" src="${base_url+'assets/lvaimages/katalog/'+item.img_katalog}" alt="katalog"></div></td>
-                                    <td>${item.nama_katalog+' <b>('+item.detail_size+')</b> '}</td>
-                                    <td>${item.qty_order}</td>
-                                </tr>
-                            `;
-                        });
+        //                 // Loop through each item in the `data` array to add rows
+        //                 response.data.forEach(function(item) {
+        //                     detailTable += `
+        //                         <tr>
+        //                             <td><div class="light-product-box"><img class="img-100" src="${base_url+'assets/lvaimages/katalog/'+item.img_katalog}" alt="katalog"></div></td>
+        //                             <td>${item.nama_katalog+' <b>('+item.detail_size+')</b> '}</td>
+        //                             <td>${item.qty_order}</td>
+        //                         </tr>
+        //                     `;
+        //                 });
         
-                        detailTable += `
-                                </tbody>
-                            </table>
-                        `;
-                        row.child(detailTable).show();
-                    },
-                    error: function () {
-                        row.child(`<div class="alert alert-danger">Failed to load details.</div>`).show();
-                    }
-                });
-            }
-        });        
+        //                 detailTable += `
+        //                         </tbody>
+        //                     </table>
+        //                 `;
+        //                 row.child(detailTable).show();
+        //             },
+        //             error: function () {
+        //                 row.child(`<div class="alert alert-danger">Failed to load details.</div>`).show();
+        //             }
+        //         });
+        //     }
+        // });        
     });
 }
-
 function approve() {
     $(document).on('click', '#data-approve', function () {
         var id = $(this).data('id');
