@@ -12,7 +12,7 @@ class PenKasir_model extends CI_Model {
 		$query = $this->db->get();
 		$result = $query->row_array();
 	
-		return $result ? $result['no_produksi'] : null;
+		return $result ? $result['id_order'] : null;
 	}
   public function getsbkat($searchTerm = null) {
     $this->db->select(['id_condiment', 'nama_condiment','kode_condiment']);

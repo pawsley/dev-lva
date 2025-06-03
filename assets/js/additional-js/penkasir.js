@@ -199,7 +199,7 @@ function loadKatalogData(selectedValue) {
                                     <div class="col-12">
                                         <strong>
                                             <span class="badge rounded-pill badge-dark">${daf.warna_katalog}</span>
-                                            <span class="badge rounded-pill badge-dark">${daf.size}</span>
+                                            <span class="badge rounded-pill badge-dark" id="dsize">${daf.size}</span>
                                         </strong>
                                     </div>
                                 </div>
@@ -284,18 +284,22 @@ function createOrder() {
 
         var tableData = [];
         $('#list-order tr').each(function () {
+            let uid = $(this).data('uid');
             let id_katalog = $(this).data('idkat');
             let id_katalog_dtl = $(this).data('idkdl');
             let size = $(this).find('#dsize').text();
             let qty = $(this).find('.qty-input').val();
-            let total = $(this).find('#total-'+id_katalog_dtl).text().replace(/[-Rp\s.]/g, '');
+            let total = $(this).find('#total-'+uid).text().replace(/[-Rp\s.]/g, '') / qty;
+            let diskon = $(this).find('.nominal-input').val().replace(/[^0-9]/g, '') / qty;
 			for (let index = 0; index < qty; index++) {
 				tableData.push({
 					id_katalog: id_katalog,
 					id_katalog_dtl: id_katalog_dtl,
 					detail_size: size,
 					qty_order: 1,
-					harga_jual_order: total
+					harga_jual_order: total,
+                    ket: $(this).find('.keterangan-input').val() ?? '',
+                    dis: diskon ?? 0
 				});
 			}
         });
@@ -347,7 +351,7 @@ function createOrder() {
                 $('#btn_submit').prop('disabled', false);
                 $('#duedate').val(updateDateNow(datid));
                 generateid();
-                calculateTotal();
+                // calculateTotal();
                 calculateFinal();
             },
             error: function (xhr, status, error) {

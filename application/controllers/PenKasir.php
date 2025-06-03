@@ -121,13 +121,15 @@ class PenKasir extends Auth
               'detail_size' => $item['detail_size'],
               'qty_order' => $item['qty_order'],
               'harga_jual_order' => $item['harga_jual_order'],
+              'keterangan_item' => $item['ket'],
+              'dis_item' => $item['dis'],
           ];
           $this->PenKasir_model->addOrderDetail($orderDetails);
         }
 
-        $qrdata = str_replace('/', '_', $this->input->post('order_id'));
-        $customDir = './assets/lvaimages/qrcode_order/';
-        $this->qrcodegenerator->generate($qrdata, $customDir);
+        // $qrdata = str_replace('/', '_', $this->input->post('order_id'));
+        // $customDir = './assets/lvaimages/qrcode_order/';
+        // $this->qrcodegenerator->generate($qrdata, $customDir);
 
         $response = [
             'status' => 'success',
