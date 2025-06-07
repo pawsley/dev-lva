@@ -47,9 +47,8 @@ class StatusOrder extends Auth
   }
   public function tablestatorder() {
     $this->load->library('datatables');
-    $this->datatables->select('id_order,nama_cst,tanggal_order,grand_total,status');
+    $this->datatables->select('id_order,nama_cst,tanggal_order,grand_total,status_item,id_katalog,id_katalog_dtl, nama_katalog,detail_size,qty_order,img_katalog');
     $this->datatables->from('vorder');
-    $this->datatables->group_by('id_order');
     return print_r($this->datatables->generate());
   }
   public function tabledetailorder() {

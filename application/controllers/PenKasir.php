@@ -71,8 +71,8 @@ class PenKasir extends Auth
     $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
     // $idlog = $this->session->userdata('id_karyawan');
 
-    $data['newID'] = "PO{$incrementedNumericPart}/{$expectedPrefix}";
-    $data['defID'] = "P00001/{$expectedPrefix}";
+    $data['newID'] = "PO/{$expectedPrefix}/{$incrementedNumericPart}";
+    $data['defID'] = "PO/{$expectedPrefix}/0001";
 
     $data['currentDate'] = date('Y/m');
 
