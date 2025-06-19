@@ -21,6 +21,10 @@ $(document).ready(function () {
     approvedpmb();
     approvedgd();
     approvedgdlva();
+    if (window.location.href === base_url+'status-order') {
+        generateid();
+        tabmat();
+    }
 });
 function selectTipe() {
     $('#seltipe').select2({

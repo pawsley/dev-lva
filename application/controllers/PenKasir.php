@@ -50,35 +50,26 @@ class PenKasir extends Auth
     $this->load->view('layout/base', $data);    
   }
   public function generateid() {
-    $year = date('Y');
-    $month = date('m');
-    $expectedPrefix = "$year$month";
+      $year = date('Y');
+      $month = date('m');
+      $expectedPrefix = "$year$month";
 
-    // Fetch last order number
-    $lastID = $this->PenKasir_model->getLastKode($year, $month) ?? '';
+      $lastID = $this->PenKasir_model->getLastKode($year, $month) ?? '';
 
-    // Extract numeric part using regex
-    if (preg_match('/PO(\d{4})/', $lastID, $matches)) {
-        $numericPart = $matches[1];
-    } else {
-        $numericPart = '0000';
-    }
+      if (preg_match("/PO\/{$expectedPrefix}\/(\d{4})/", $lastID, $matches)) {
+          $numericPart = $matches[1];
+      } else {
+          $numericPart = '0000';
+      }
 
-    if (!empty($lastID) && strpos($lastID, $expectedPrefix) === false) {
-        $numericPart = '0000';
-    }
+      $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
 
-    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-    // $idlog = $this->session->userdata('id_karyawan');
+      $data['newID'] = "PO/{$expectedPrefix}/{$incrementedNumericPart}";
+      $data['defID'] = "PO/{$expectedPrefix}/0001";
+      $data['currentDate'] = date('Y/m');
 
-    $data['newID'] = "PO/{$expectedPrefix}/{$incrementedNumericPart}";
-    $data['defID'] = "PO/{$expectedPrefix}/0001";
-
-    $data['currentDate'] = date('Y/m');
-
-
-    $this->output->set_content_type('application/json')->set_output(json_encode($data));
-	}
+      $this->output->set_content_type('application/json')->set_output(json_encode($data));
+  }
   public function loadkatalog($id_ktdl=null) {
     $searchTerm = $this->input->get('q');
     $results = $this->PenKasir_model->getDataKatalog($searchTerm, $id_ktdl);

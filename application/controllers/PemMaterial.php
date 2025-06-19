@@ -41,8 +41,8 @@ class PemMaterial extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/pmbmaterial.js?v=1.2') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pmbmaterial.js?v='.time().'') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
@@ -71,27 +71,21 @@ class PemMaterial extends Auth
   public function generateid() {
     $year = date('Y');
     $month = date('m');
-    $day = date('d');
+    $expectedPrefix = "$year$month";
 
-    $data['lastID'] = $this->PemMaterial_model->getLastKode($year, $month, $day);
-    $lastID = isset($data['lastID'][0]['id_pembelian']) ? $data['lastID'][0]['id_pembelian'] : '';
-    
-    if (preg_match('/IVPB-(\d{4})$/', $lastID, $matches)) {
+    $lastID = $this->PemMaterial_model->getLastKode($year, $month) ?? '';
+
+    if (preg_match("/PMB\/{$expectedPrefix}\/(\d{4})/", $lastID, $matches)) {
         $numericPart = $matches[1];
     } else {
         $numericPart = '0000';
     }
-    $expectedPrefix = "$year/$month/$day";
-    if (strpos($lastID, $expectedPrefix) !== 0) {
-        $numericPart = '0000';
-    }
 
     $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-    $data['newID'] = $expectedPrefix . '/' . 'IVPB-' . $incrementedNumericPart;
-    $data['defID'] = $expectedPrefix . '/' . 'IVPB-0001';
 
-    $currentDate = date('Y/m/d');
-    $data['currentDate'] = $currentDate;
+    $data['newID'] = "PMB/{$expectedPrefix}/{$incrementedNumericPart}";
+    $data['defID'] = "PMB/{$expectedPrefix}/0001";
+    $data['currentDate'] = date('Y/m');
 
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
   }

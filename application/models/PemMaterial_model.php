@@ -2,14 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PemMaterial_model extends CI_Model {
-  public function getLastKode($year, $month,$day) {
+  public function getLastKode($year, $month) {
     $this->db->select('id_pembelian');
-    $this->db->from('tb_pembelian');
-    $this->db->like('id_pembelian', "$year/$month/$day", 'after');
-    $this->db->order_by('id_pembelian', 'desc');
-    $this->db->limit(1);
-    $query = $this->db->get();
-    return $query->result_array();
+		$this->db->from('tb_pembelian');
+		$this->db->like('id_pembelian', "$year$month");
+		$this->db->order_by('id_pembelian', 'DESC');
+		$this->db->limit(1);
+	
+		$query = $this->db->get();
+		$result = $query->row_array();
+	
+		return $result ? $result['id_pembelian'] : null;
   }
   public function getDataSupplier($searchTerm = null) {
     $this->db->select(['id_supplier', 'nama_supplier','bank_acc','norek']);

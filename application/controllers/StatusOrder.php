@@ -17,15 +17,30 @@ class StatusOrder extends Auth
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/custom.css') . '">
     <style>
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            font-size: 10px;
+        }
+
+        /* Font size for the dropdown options */
+        .select2-container--default .select2-results__option {
+            font-size: 10px;
+        }
+
+        /* Font size for the search input inside Select2 */
+        .select2-container--default .select2-search--inline .select2-search__field {
+            font-size: 10px;
+        }
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/penstatusorder.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v=1.3') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/penstatusorder.js?v='.time().'') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pmbmaterial.js?v='.time().'') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/custom-scripts.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
@@ -47,8 +62,8 @@ class StatusOrder extends Auth
   }
   public function tablestatorder() {
     $this->load->library('datatables');
-    $this->datatables->select('id_order,nama_cst,tanggal_order,grand_total,status_item,id_katalog,id_katalog_dtl, nama_katalog,detail_size,qty_order,img_katalog');
-    $this->datatables->from('vorder');
+    $this->datatables->select('id_order,id_odtl,nama_cst,id_katalog,nama_katalog,img_katalog,detail_size,jenis,warna_katalog,tanggal_order,status_item,bahan');
+    $this->datatables->from('vlistorder');
     return print_r($this->datatables->generate());
   }
   public function tabledetailorder() {
