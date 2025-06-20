@@ -99,7 +99,7 @@ class PemMaterial_model extends CI_Model {
   }
   public function approvedgdlva($id) {
     $this->db->where('id_pembelian', $id);
-    $this->db->set('status', 'Barang Diterima Gudang LVA');
+    $this->db->set('status', 'Barang Diterima LVA');
     $success = $this->db->update('tb_pembelian');
     
     if ($success) {

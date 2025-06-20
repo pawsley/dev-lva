@@ -22,7 +22,11 @@ $(document).ready(function () {
     approvedgd();
     approvedgdlva();
     if (window.location.href === base_url+'status-order') {
+        checkboxStates = {}; // Clear the checkboxStates object
+    
+        selectTipe();
         generateid();
+        addpmbm();
         tabmat();
     }
 });
@@ -796,11 +800,17 @@ function tabmat() {
                     "data": "kode_material",
                     "render": function(data, type, row, meta) {
                         var inputId = 'checkbox-' + row.kode_material + '-qty';
+
+                        // ✅ Use global map from window
+                        let newQty = window.materialNeedsMap?.[row.kode_material]?.material_need ?? row.material_need;
+                        let satuan = window.materialNeedsMap?.[row.kode_material]?.sat_material ?? row.sat_material;
+
                         let disabled = checkboxStates[row.kode_material] ? '' : 'disabled';
+
                         return `
                             <div class="input-group has-validation">
-                                <input class="form-control input-qty" required id="${inputId}" value="${row.material_need}" type="number" ${disabled}>
-                                <span class="input-group-text">${row.sat_material}</span>
+                                <input class="form-control input-qty" required id="${inputId}" value="${newQty}" type="number" ${disabled}>
+                                <span class="input-group-text">${satuan}</span>
                             </div>
                         `;
                     },

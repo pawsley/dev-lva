@@ -1,4 +1,5 @@
 var tabstato;
+var tableMat;
 $(document).ready(function () {
     tablestato()
     approve();
@@ -197,16 +198,68 @@ function tablestato() {
                     attr: { id: 'pmb-button', title: 'Pembelian Bahan' },
                     action: function () {
                         var selectedIds = [];
-                        $('.checkbox-class:checked').each(function () {
-                            selectedIds.push($(this).val());
-                        });
+                        var allGrouped = {};
+                        var $checked = $('#table-order .checkbox-class:checked'); // ✅ Only from tabstato
 
-                        if (selectedIds.length === 0) {
+                        if ($checked.length === 0) {
                             alert("Pilih minimal satu item.");
                             return;
                         }
+
+                        $checked.each(function () {
+                            var checkboxVal = $(this).val();
+                            var $tr = $(this).closest('tr');
+                            var dtRow = tabstato.row($tr);
+
+                            // ✅ Ensure the row is valid
+                            if (!dtRow || !dtRow.data()) {
+                                console.warn("Skipping checkbox with no valid DataTable row:", checkboxVal);
+                                return;
+                            }
+
+                            selectedIds.push(checkboxVal);
+
+                            var rowData = dtRow.data();
+                            var bahanArray = typeof rowData.bahan === 'string'
+                                ? JSON.parse(rowData.bahan)
+                                : rowData.bahan;
+
+                            if (Array.isArray(bahanArray)) {
+                                bahanArray.forEach(item => {
+                                    if (parseFloat(item.qty_bahan) < 0) {
+                                        const key = `${item.kode_material}_${item.satuan_material}`;
+                                        if (!allGrouped[key]) {
+                                            allGrouped[key] = {
+                                                kode_material: item.kode_material,
+                                                nama_material: item.nama_material,
+                                                qty_total: 0,
+                                                satuan: item.satuan_material
+                                            };
+                                        }
+
+                                        allGrouped[key].qty_total += Math.abs(parseFloat(item.qty_bahan));
+                                    }
+                                });
+                            }
+                        });
+
+                        if (selectedIds.length === 0) {
+                            alert("Tidak ada data valid yang dipilih.");
+                            return;
+                        }
+
+                        window.materialNeedsMap = {};
+
+                        Object.values(allGrouped).forEach(group => {
+                            window.materialNeedsMap[group.kode_material] = {
+                                material_need: group.qty_total,
+                                sat_material: group.satuan
+                            };
+                        });
+
                         modalsView('pembelian-bahan', selectedIds);
                     }
+
                 },
                 {
                     text: '<i class="icofont icofont-database-add"></i>',
@@ -278,7 +331,7 @@ function cancel() {
     });
 }
 function modalsView(action = '', selectedIds = []) {
-    const $modal = $('#modalsView');
+    const $modal = $('#PmbModal');
     const $title = $modal.find('#titleMod');
     const $body = $modal.find('.modal-body');
     const $footer = $modal.find('.modal-footer');
@@ -288,9 +341,12 @@ function modalsView(action = '', selectedIds = []) {
 
     switch (action) {
         case 'pembelian-bahan':
+            selectTipe();
+            generateid();
+            addpmbm();
+            tabmat();
             $title.text('Pembelian Bahan');
             $body.html(`
-                <p>Data dipilih: ${selectedIds.join(', ')}</p>
                 <form class="row g-3" id="form-pmb" method="post">
                     <!-- Tanggal -->
                     <div class="col-md-4 position-relative"> 
@@ -356,9 +412,6 @@ function modalsView(action = '', selectedIds = []) {
                         </button>
                     </div>
                 </form>
-            `);
-            $footer.html(`
-                <button type="submit" class="btn btn-primary">Simpan</button>
             `);
             break;
         case 'servis':

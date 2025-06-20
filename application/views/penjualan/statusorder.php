@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade bd-example-modal-xl" id="modalsView" tabindex="-1" role="dialog" aria-labelledby="modalsView" aria-hidden="true">
+            <div class="modal fade bd-example-modal-xl" id="PmbModal" tabindex="-1" role="dialog" aria-labelledby="PmbModal" aria-hidden="true">
               <div class="modal-dialog modal-fullscreen" role="document">
                 <div class="modal-content dark-sign-up">
                     <div class="modal-header social-profile text-start">
