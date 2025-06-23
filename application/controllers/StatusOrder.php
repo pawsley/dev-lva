@@ -134,6 +134,64 @@ class StatusOrder extends Auth
         show_404();
     }
   }
+  public function updateStatus($mode) {
+    if ($this->input->is_ajax_request()) {
+        $id = $this->input->post('id');
+        switch ($mode) {
+            case 'bahan':
+                $this->StatusOrder_model->bahanOrder($id);
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Status updated to Bahan!'
+                ];
+                break;
+            case 'produksi':
+                $this->StatusOrder_model->produksiOrder($id);
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Status updated to Produksi!'
+                ];
+                break;
+            case 'qc':
+                $this->StatusOrder_model->qcOrder($id);
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Status updated to QC!'
+                ];
+                break;
+            case 'selesai':
+                $this->StatusOrder_model->selesaiOrder($id);
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Status updated to Selesai!'
+                ];
+                break;
+            case 'batal':
+                $this->StatusOrder_model->cancelOrder($id);
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Status updated to Batal!'
+                ];
+                break;
+            case 'approve':
+                $this->StatusOrder_model->approveOrder($id);
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Status updated to Approve!'
+                ];
+                break;
+            default:
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Invalid mode specified.'
+                ];
+                break;
+        }
+        echo json_encode($response);
+    } else {
+        show_404();
+    }
+  }
 }
 
 
